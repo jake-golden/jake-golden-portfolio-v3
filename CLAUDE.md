@@ -61,7 +61,7 @@ Full plan: `/Users/jakegolden/.claude/plans/i-d-always-like-to-adaptive-lake.md`
 | `projects-data.js` | Single source of truth for project metadata |
 | `project-banner.js` | Renders each page's banner from `projects-data.js` |
 | `engineering-grid.js` | Renders the engineering.html project grid from `projects-data.js` |
-| `lightbox.js` | One shared image+video lightbox (was copy-pasted into 5 pages). Black background (photo-viewer convention). Triggers: `.clickable-lightbox` elements (any tag, incl. `<a>` — click is `preventDefault`ed), images inside `.media-carousel`, and `[data-lightbox-video]` elements |
+| `lightbox.js` | One shared image+video lightbox (was copy-pasted into 5 pages). White background (many engineering-page images are transparent PNGs — schematics/diagrams — that read as illegible on black). Triggers: `.clickable-lightbox` elements (any tag, incl. `<a>` — click is `preventDefault`ed), images inside `.media-carousel`, and `[data-lightbox-video]` elements |
 | `media-carousel.js` | Behavior layer for `.media-carousel` — Bootstrap-carousel-based single-slide tiles (schematics, photos in expandable cards, the homepage About Me carousel). Adds description-sync and video-pause-on-slide-change. **Deliberately kept separate from the gallery strip below — see "Two carousel components" note.** |
 | `gallery-strip.js` | The lightweight 3-photo-visible browsing strip (Stryker's gallery section only). A genuinely different component, not a `.media-carousel` variant |
 | `gallery-thumbs.js`, `gallery-thumbs-check.js` | Carried over as-is (photography page only) |

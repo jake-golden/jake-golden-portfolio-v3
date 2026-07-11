@@ -570,7 +570,7 @@ html {
   object-fit: contain;
   border-radius: 0;
   box-shadow: 0 4px 18px rgba(0,0,0,0.25);
-  background: #000; /* standard photo-viewer letterbox; also reads fine behind transparent SVG/PNG */
+  background: #fff; /* white so transparent PNGs (schematics, diagrams) don't render invisible/illegible against black */
 }
 .lightbox-caption { color: #fff; font-size: 0.95rem; opacity: 0.9; text-align: center; }
 .lightbox-close {
