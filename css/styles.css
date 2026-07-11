@@ -472,22 +472,48 @@ html {
    Media Carousel (shared: single-slide Bootstrap carousel used in tiles)
    Behavior in js/media-carousel.js. Renamed from the old page-specific
    ".stryker-carousel" — one component, used across every project page.
+
+   Arrows live in a dedicated gutter beside the image (not overlaid on
+   top of it) so they never depend on how much padding a parent happens
+   to provide — a self-contained light-grey circular button that reads
+   fine against any background, so no separate "light" variant is
+   needed for carousels sitting on dark/video content.
    ========================================== */
+.media-carousel {
+  padding-left: 44px;
+  padding-right: 44px;
+  position: relative;
+}
 .media-carousel .carousel-control-prev,
 .media-carousel .carousel-control-next {
-  width: 32px;
-  height: 32px;
-  top: 45%;
+  width: 36px;
+  height: 36px;
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: #f1f3f5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.14);
+  opacity: 1;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
-.media-carousel .carousel-control-prev-icon {
+.media-carousel .carousel-control-prev { left: 0; }
+.media-carousel .carousel-control-next { right: 0; }
+.media-carousel .carousel-control-prev:hover,
+.media-carousel .carousel-control-next:hover {
+  background-color: #e9ecef;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+.media-carousel .carousel-control-prev-icon,
+.media-carousel .carousel-control-next-icon {
+  width: 16px;
+  height: 16px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23373d47' stroke-width='3.5' viewBox='0 0 24 24'%3E%3Cpath d='M15 19l-7-7 7-7'/%3E%3C/svg%3E");
-  background-size: 24px 24px;
+  background-size: 16px 16px;
   filter: none;
 }
 .media-carousel .carousel-control-next-icon {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23373d47' stroke-width='3.5' viewBox='0 0 24 24'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E");
-  background-size: 24px 24px;
-  filter: none;
 }
 /* Prevent slide content (esp. images) from clipping oddly on resize */
 .media-carousel .carousel-inner {
@@ -507,34 +533,10 @@ html {
   object-fit: contain;
   cursor: zoom-in;
 }
-/* Light-arrow variant for carousels sitting on dark/video backgrounds */
-.media-carousel.theme-light-arrows .carousel-control-prev-icon,
-.media-carousel.theme-light-arrows .carousel-control-next-icon {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f5f5f5' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
-  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
-  background-repeat: no-repeat;
-}
-.media-carousel.theme-light-arrows .carousel-control-next-icon {
-  transform: rotate(180deg);
-}
-/* When nested in the wider text-padding wrapper, inset the arrows to match */
-.media-wide-1 .media-carousel.theme-light-arrows .carousel-control-prev,
-.media-wide-2 .media-carousel.theme-light-arrows .carousel-control-prev {
-  left: clamp(0.5rem, 5vw, 8rem);
-}
-.media-wide-1 .media-carousel.theme-light-arrows .carousel-control-next,
-.media-wide-2 .media-carousel.theme-light-arrows .carousel-control-next {
-  right: clamp(0.5rem, 5vw, 8rem);
-}
-@media (max-width: 991px) {
-  .media-wide-1 .media-carousel.theme-light-arrows .carousel-control-prev,
-  .media-wide-2 .media-carousel.theme-light-arrows .carousel-control-prev {
-    left: 0.5rem;
-  }
-  .media-wide-1 .media-carousel.theme-light-arrows .carousel-control-next,
-  .media-wide-2 .media-carousel.theme-light-arrows .carousel-control-next {
-    right: 0.5rem;
-  }
+@media (max-width: 480px) {
+  .media-carousel { padding-left: 34px; padding-right: 34px; }
+  .media-carousel .carousel-control-prev,
+  .media-carousel .carousel-control-next { width: 30px; height: 30px; }
 }
 
 /* ==========================================
