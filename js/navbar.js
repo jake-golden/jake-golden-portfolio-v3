@@ -27,16 +27,12 @@
     placeholder.outerHTML = navbarHTML;
   }
 
-  // Pages that live under the Engineering section
-  var engineeringSubPages = [
-    'pulse-oximeter.html',
-    'stryker.html',
-    'steel-ball-dispenser.html',
-    'self-balancing-robot.html',
-    'sims-pump.html',
-    'stevens.html',
-    'bsel-projects.html'
-  ];
+  // Pages that live under the Engineering section — derived from the single
+  // source of truth in projects-data.js, not hand-maintained here. This is
+  // what structurally fixes the old sync bug (nav forgetting new project pages).
+  var engineeringSubPages = (typeof PROJECTS !== 'undefined')
+    ? PROJECTS.map(function (p) { return p.href; })
+    : [];
 
   function setActiveNav() {
     var filename = window.location.pathname.split('/').pop() || 'index.html';

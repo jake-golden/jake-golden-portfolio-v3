@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Engineering projects and professional experiences by Jake Golden" />
+    <meta name="author" content="Jake Golden" />
+    <title>Engineering - Jake Golden</title>
+    <script src="js/head.js"></script>
+    <style>
+      body { font-family: "Plus Jakarta Sans", sans-serif; }
+      h1, h2, h3, h4, h5, h6 { font-family: "Arial Black", Arial, sans-serif; }
+      .text-gradient { background: linear-gradient(135deg, #3C7E8B, #7B6AAF); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+      @media (max-width: 991.98px) {
+        section .container .row.gx-5.gy-5.justify-content-center { --bs-gutter-y: 0; }
+        .project-card { margin-bottom: 1.5rem !important; }
+        section .container .row.gx-5.gy-5.justify-content-center + .row.gx-5.gy-5.justify-content-center { margin-top: 0 !important; }
+      }
+      .project-card .card-tags {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+        display: flex;
+        gap: 6px;
+      }
+      .project-card .card-tags .card-tag { position: static; }
+      .engineering-item { will-change: transform, opacity; }
+      .eng-appear { opacity: 0; transform: scale(0.96); }
+      .eng-appear-active { opacity: 1; transform: scale(1); transition: opacity 220ms ease; }
+      .project-card .project-overlay p {
+        transition: opacity 0.15s ease, transform 0.15s ease, max-height 0.15s ease, margin 0.15s ease;
+        max-height: 200px;
+        overflow: hidden;
+      }
+      .project-card:hover .project-overlay p {
+        opacity: 0;
+        transform: translateY(-6px);
+        max-height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      .project-card:hover .project-overlay { justify-content: flex-end; }
+      .project-card .project-overlay h2 { transition: transform 0.15s ease; }
+      .project-card:hover .project-overlay h2 { transform: translateY(4px); }
+      .project-card .card-tag { transition: opacity 0.15s ease, transform 0.15s ease; }
+      .project-overlay h2,
+      .text-white h2 { color: #fff; }
+      .filter-btn.active {
+        background: #373d47;
+        color: #fff;
+        border-color: #373d47;
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column h-100 bg-light">
+    <main class="flex-shrink-0">
+      <div id="navbar-placeholder"></div>
+      <script src="js/projects-data.js"></script>
+      <script src="js/navbar.js"></script>
+
+      <section class="py-5">
+        <div class="container px-5 mb-5">
+          <div class="text-center mb-5">
+            <h1 class="display-4 fw-bolder"><span class="text-gradient d-inline">Engineering Experience</span></h1>
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+            <button type="button" class="btn btn-sm btn-outline-dark filter-btn active" data-filter="all">All</button>
+            <button type="button" class="btn btn-sm btn-outline-dark filter-btn" data-filter="project">Projects</button>
+            <button type="button" class="btn btn-sm btn-outline-dark filter-btn" data-filter="internship">Internships</button>
+          </div>
+
+          <div id="engineering-grid" class="row g-3 justify-content-center"></div>
+          <script src="js/engineering-grid.js"></script>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/footer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
