@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Photography by Jake Golden" />
+    <meta name="author" content="Jake Golden" />
+    <title>Photography - Jake Golden</title>
+    <script src="js/head.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      /* Justified rows gallery (row-aligned; stagger only by columns) */
+      .gallery-wrap {
+        max-width: min(1600px, 95vw);
+        margin: 0 auto;
+      }
+      .gallery-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+        justify-content: space-between;
+        content-visibility: auto;
+        contain-intrinsic-size: 320px;
+        contain: layout paint style;
+      }
+      .gallery-row.is-last { justify-content: center; }
+      .gallery-item {
+        position: relative;
+        display: block;
+        margin: 0;
+        overflow: hidden;
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
+      }
+      .gallery-item .frame {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        line-height: 0;
+      }
+      .gallery-item .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 240ms ease;
+        display: block;
+      }
+      .gallery-item:hover .frame img { transform: scale(1.015); }
+
+      .gallery-item .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        transition: background-color 240ms ease, opacity 240ms ease;
+        opacity: 0;
+        text-align: center;
+      }
+      .gallery-item:hover .overlay { background: rgba(0,0,0,0.35); opacity: 1; }
+      .overlay .caption {
+        font-family: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        line-height: 1.25;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+      }
+
+      @media (max-width: 991.98px) {
+        .gallery-row { gap: 6px; margin-bottom: 6px; }
+      }
+      @media (max-width: 575.98px) {
+        .gallery-row { gap: 4px; margin-bottom: 4px; }
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column h-100 bg-light">
+    <main class="flex-shrink-0">
+      <div id="navbar-placeholder"></div>
+      <script src="js/projects-data.js"></script>
+      <script src="js/navbar.js"></script>
+
+      <header class="py-5 text-center">
+        <div class="container px-5">
+          <h1 class="display-4 fw-bolder"><span class="text-gradient d-inline">Photography</span></h1>
+        </div>
+      </header>
+
+      <section class="py-3">
+        <div class="container-fluid px-4">
+          <div class="gallery-wrap">
+            <div id="gallery" class="gallery-justified">
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0001.jpg" data-caption="07.03.2025 | Boats on Marshall Brook, ME.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0001.jpg" alt="0001" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Tides of Stillness</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0002.jpg" data-caption="09.06.2025 | Sunset in Cádiz, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0002.jpg" alt="0002" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Where the Day Rests</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0003.jpg" data-caption="08.30.25 | Madrid de los Austrias.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0003.jpg" alt="0003" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Por Las Calles de Madrid</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0004.jpg" data-caption="07.26.2025 | Morewood Lake, MA.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0004.jpg" alt="0004" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">A Walk Through the Berkshires</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0005.jpg" data-caption="09.04.2025 | Las Setas de Sevilla.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0005.jpg" alt="0005" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Las Setas de Sevilla</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0006.jpg" data-caption="10.17.2025 | Arch in Segovia, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0006.jpg" alt="0006" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Sunlit Arch in Segovia</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0007.jpg" data-caption="07.04.2025 | Fourth of July fireworks in Bar Harbor, ME.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0007.jpg" alt="0007" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Fireworks in Bar Harbor</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0008.jpg" data-caption="10.10.2025 | Street leading to the Jindřišský Obvod in Prague 1.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0008.jpg" alt="0008" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Jindřišský Obvod in Prague</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox r-3x2" data-full="assets/photography/0009.jpg" data-caption="07.01.2025 | Somesville Bridge in Southwest Harbor, ME.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0009.jpg" alt="0009" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Somesville Bridge</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0039.jpg" data-caption="12.07.2025 | Városliget Freeze Festival, Budapest.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0039.jpg" alt="0039" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Evening in Városliget</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0010.jpg" data-caption="09.16.2025 | Sunset near Templo de Debod, Madrid.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0010.jpg" alt="0010" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Sunset near Templo de Debod</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0011.jpg" data-caption="10.17.2025 | La Mujer Muerta, Segovia, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0011.jpg" alt="DSC 0016" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">La Mujer Muerta</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0012.jpg" data-caption="09.06.2025 | Catedral de Cádiz, Cádiz, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0012.jpg" alt="0012" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Catedral de Cádiz</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0013.jpg" data-caption="07.01.2025 | Long Pond Trailhead, Acadia National Park, ME.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0013.jpg" alt="0013" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Long Pond Trailhead</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0029.jpg" data-caption="11.15.2025 | Sunset in the Sahara Desert, Morocco.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0029.jpg" alt="0029" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Sunset over the Sahara</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0014.jpg" data-caption="07.01.2025 | Boats on Bar Harbor, ME.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0014.jpg" alt="0014" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Boats on Bar Harbor</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0015.jpg" data-caption="10.10.2025 | Na Kampě, Prague, Czech Republic.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0015.jpg" alt="0015" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Na Kampě, Prague</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0016.jpg" data-caption="10.31.2025 | Port Velle, Barcelona, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0016.jpg" alt="0016" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Port Velle, Barcelona</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0017.jpg" data-caption="11.01.2025 | Sunset in Las Ramblas, Barcelona, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0017.jpg" alt="0017" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Sunset in Las Ramblas</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0018.jpg" data-caption="10.11.2025 | Prague Castle, Prague, Czech Republic.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0018.jpg" alt="0018" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Prague Castle</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0035.jpg" data-caption="11.28.2025 | Cat Portrait, Granada, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0035.jpg" alt="0035" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Cat Portrait</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0019.jpg" data-caption="10.17.2025 | Sunbaked plains of Segovia, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0019.jpg" alt="0019" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Sunbaked plains of Segovia</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0020.jpg" data-caption="09.19.2025 | Coast of A Coruña, Galicia, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0020.jpg" alt="0020" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Coast of A Coruña</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0021.jpg" data-caption="10.17.2025 | Aqueduct of Segovia, Segovia, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0021.jpg" alt="0021" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Aqueduct of Segovia</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0022.jpg" data-caption="08.04.2025 | Oak Bluffs Harbor, Martha's Vineyard, MA.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0022.jpg" alt="0022" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Oak Bluffs Harbor</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0023.jpg" data-caption="10.11.2025 | Nighttime view from the Czech Bridge, Prague, Czech Republic.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0023.jpg" alt="0023" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Reflections of Prague</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0033.jpg" data-caption="11.28.2025 | Fountain in el Jardín Generalife, Granada, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0033.jpg" alt="0033" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Por el Jardín Generalife</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0024.jpg" data-caption="11.02.2025 | Sunrise in Barcelona, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0024.jpg" alt="0024" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Sunrise in Barcelona</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0025.jpg" data-caption="09.26.2025 | View of Old Town Hall from Marienplatz, Munich, Germany.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0025.jpg" alt="0025" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Marienplatz</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0026.jpg" data-caption="10.17.2025 | Jardines del Palacio Real de La Granja, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0026.jpg" alt="0026" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Jardines del Palacio Real de La Granja</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0027.jpg" data-caption="08.09.2025 | Sunset in Oak Bluffs, Martha's Vineyard, MA.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0027.jpg" alt="0027" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Golden Hour in Oak Bluffs</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0028.jpg" data-caption="11.07.2025 | Wieliczka Salt Mines, Poland.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0028.jpg" alt="0028" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Wieliczka Salt Mines</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0030.jpg" data-caption="11.08.2025 | Through the Mountains of Zakopane, Poland.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0030.jpg" alt="0030" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Through the Mountains of Zakopane</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0034.jpg" data-caption="11.28.2025 | El Patio de los Arrayanes, Granada, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0034.jpg" alt="0034" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">El Patio de los Arrayanes</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0031.jpg" data-caption="11.16.2025 | Dunes of the Sahara, Morocco.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0031.jpg" alt="0031" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Dunes of the Sahara</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0032.jpg" data-caption="11.07.2025 | Rynek Główny Plaza, Kraków, Poland.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0032.jpg" alt="0032" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Rynek Główny Plaza</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0036.jpg" data-caption="11.28.2025 | Los Palacios Nazaries, Granada, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0036.jpg" alt="0036" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Los Palacios Nazaries</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0038.jpg" data-caption="12.07.2025 | Hot Air Balloon over Városliget, Budapest.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0038.jpg" alt="0038" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Hot Air Balloon</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0037.jpg" data-caption="12.05.2025 | Shönbrunn Palace Christmas Market, Vienna, Austria.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0037.jpg" alt="0037" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Christkindlmarkt in Vienna</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0040.jpg" data-caption="11.28.2025 | Patio de los Leones, La Alhambra, Granada, Spain.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0040.jpg" alt="0040" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Patio de los Leones</div></div>
+                </div>
+              </a>
+              <a href="#" class="gallery-item clickable-lightbox" data-full="assets/photography/0041.jpg" data-caption="03.14.2026 | South of Broad Street, Charleston, SC.">
+                <div class="frame">
+                  <img class="auto-thumb" src="assets/photography/0041.jpg" alt="0041" loading="lazy" decoding="async" />
+                  <div class="overlay"><div class="caption">Charleston - South of Broad</div></div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/footer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/gallery-thumbs.js"></script>
+    <script src="js/gallery-thumbs-check.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script>
+      // Justified row layout engine — unique to this page, drives the
+      // masonry-like gallery grid. Lightbox behavior itself comes from
+      // the shared js/lightbox.js via the clickable-lightbox class above.
+      (function() {
+        function initGallery() {
+          const valid = new Set(['r-2x3','r-1x1','r-4x3','r-5x3','r-3x2']);
+          const allItems = Array.from(document.querySelectorAll('.gallery-item'));
+
+          function chooseLandscapeClass(r) {
+            if (r >= 1.6) return 'r-5x3';
+            if (r >= 1.4) return 'r-3x2';
+            return 'r-4x3';
+          }
+
+          const gallery = document.getElementById('gallery');
+          const GAP = 8;
+
+          let scheduled = false;
+          function scheduleLayout() {
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(() => { scheduled = false; layoutJustified(); });
+          }
+
+          function itemRatio(item) {
+            if (item.classList.contains('r-2x3')) return 2/3;
+            if (item.classList.contains('r-1x1')) return 1;
+            if (item.classList.contains('r-4x3')) return 4/3;
+            if (item.classList.contains('r-5x3')) return 5/3;
+            if (item.classList.contains('r-3x2')) return 3/2;
+            return 1;
+          }
+
+          function targetRowHeightByWidth(w) {
+            if (w >= 1400) return 320;
+            if (w >= 992) return 280;
+            if (w >= 576) return 240;
+            return 200;
+          }
+
+          function clearRows() {
+            const rows = Array.from(gallery.querySelectorAll('.gallery-row'));
+            rows.forEach(row => {
+              while (row.firstChild) {
+                gallery.appendChild(row.firstChild);
+              }
+              row.remove();
+            });
+          }
+
+          function layoutJustified() {
+            const containerWidth = gallery.clientWidth;
+            if (!containerWidth) return;
+            const targetH = targetRowHeightByWidth(containerWidth);
+
+            clearRows();
+
+            const items = Array.from(gallery.querySelectorAll('.gallery-item'))
+              .filter(el => el.style.display !== 'none');
+
+            let rowItems = [];
+            let rowRatioSum = 0;
+
+            function flushRow(isLast) {
+              if (!rowItems.length) return;
+              const gaps = GAP * Math.max(0, rowItems.length - 1);
+              let rowH = targetH;
+              if (!isLast) {
+                rowH = (containerWidth - gaps) / rowRatioSum;
+              }
+              rowH = Math.max(120, Math.min(380, rowH));
+
+              const row = document.createElement('div');
+              row.className = 'gallery-row' + (isLast ? ' is-last' : '');
+
+              rowItems.forEach((item) => {
+                const r = itemRatio(item);
+                const w = Math.round(r * rowH);
+                item.style.width = w + 'px';
+                item.style.height = Math.round(rowH) + 'px';
+                const frame = item.querySelector('.frame');
+                if (frame) {
+                  frame.style.width = '100%';
+                  frame.style.height = '100%';
+                }
+                row.appendChild(item);
+              });
+              gallery.appendChild(row);
+              rowItems = [];
+              rowRatioSum = 0;
+            }
+
+            items.forEach((item) => {
+              const r = itemRatio(item);
+              rowItems.push(item);
+              rowRatioSum += r;
+              const currentGaps = GAP * Math.max(0, rowItems.length - 1);
+              const projectedWidth = rowRatioSum * targetH + currentGaps;
+              if (projectedWidth >= containerWidth) {
+                flushRow(false);
+              }
+            });
+            flushRow(true);
+          }
+
+          function ensureRatioTag(item) {
+            const data = (item.getAttribute('data-ratio') || '').toLowerCase();
+            if (data) {
+              const cls = `r-${data.replace(':','x')}`;
+              if (valid.has(cls)) item.classList.add(cls);
+            }
+            const hasTag = [...item.classList].some(c => valid.has(c));
+            if (hasTag) return;
+
+            const img = item.querySelector('img');
+            if (!img) return;
+
+            function classify() {
+              const w = img.naturalWidth || 1;
+              const h = img.naturalHeight || 1;
+              const r = w / h;
+              let cls;
+              if (r > 1.05) cls = chooseLandscapeClass(r);
+              else if (r < 0.95) cls = 'r-2x3';
+              else cls = 'r-1x1';
+              if (valid.has(cls)) item.classList.add(cls);
+              scheduleLayout();
+            }
+
+            if (img.complete && img.naturalWidth > 0) {
+              classify();
+            } else {
+              img.addEventListener('load', classify, { once: true });
+              img.addEventListener('error', () => { item.classList.add('r-1x1'); layoutJustified(); }, { once: true });
+            }
+          }
+
+          allItems.forEach(ensureRatioTag);
+
+          let lastW = 0;
+          let resizeTimer;
+          window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+              const w = gallery.clientWidth;
+              if (Math.abs(w - lastW) > 24) {
+                lastW = w;
+                scheduleLayout();
+              }
+            }, 180);
+          }, { passive: true });
+
+          window.addEventListener('load', () => { lastW = gallery.clientWidth; scheduleLayout(); });
+          setTimeout(() => { lastW = gallery.clientWidth; scheduleLayout(); }, 0);
+        }
+        // Defer until after DOMContentLoaded so the auto-thumb upgrade (gallery-thumbs.js)
+        // has replaced <img> elements before we read/measure them.
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initGallery);
+        } else {
+          initGallery();
+        }
+      })();
+    </script>
+  </body>
+</html>

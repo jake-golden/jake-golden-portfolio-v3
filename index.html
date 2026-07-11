@@ -1,27 +1,695 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jake Golden — Engineering Portfolio</title>
-  <meta name="description" content="Jake Golden's engineering portfolio — projects, resume, and photography.">
-  <meta name="author" content="Jake Golden">
-  <script src="js/head.js"></script>
-</head>
-<body class="d-flex flex-column h-100">
-  <main class="flex-shrink-0">
-    <div id="navbar-placeholder"></div>
-    <script src="js/projects-data.js"></script>
-    <script src="js/navbar.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Engineering Portfolio of Jake Golden" />
+    <meta name="author" content="Jake Golden" />
+    <title>Jake Golden - Engineering Portfolio</title>
+    <script src="js/head.js"></script>
+    <style>
+      body { overflow-x: hidden; }
 
-    <div class="container px-5 py-5">
-      <h1>jake-golden-portfolio-v3 scaffold</h1>
-      <p>Bare shell — validating shared head/navbar/footer injection before building out the rest of the site.</p>
-    </div>
-  </main>
+      /* Scroll progress indicator */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(90deg, #3c7e8b, #7b6aaf);
+        z-index: 9999;
+        transition: width 0.1s ease;
+      }
 
-  <div id="footer-placeholder"></div>
-  <script src="js/footer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-</body>
+      /* Animated gradient background for hero */
+      .hero-gradient-bg {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(-45deg, #e3f2fd, #e3f2fd, #e3f2fd, #e3f2fd);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        opacity: 0.3;
+        z-index: 0;
+      }
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Network visualization background */
+      .geometric-bg {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        overflow: hidden;
+        z-index: 0;
+      }
+      .network-canvas {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Typing animation (JS-driven) */
+      .typing-text {
+        white-space: nowrap;
+        display: inline-block;
+        min-height: 1.5em;
+      }
+      .typing-caret {
+        display: inline-block;
+        width: 0;
+        height: 1em;
+        border-right: 3px solid #3c7e8b;
+        margin-left: 2px;
+        animation: blink 0.75s step-end infinite;
+        vertical-align: -0.2em;
+      }
+      @keyframes blink {
+        50% { border-right-color: transparent; }
+      }
+
+      .profile-img {
+        transition: none !important;
+        cursor: pointer;
+      }
+      .profile-img:hover {
+        transform: none;
+        filter: none;
+        box-shadow: none !important;
+      }
+
+      /* Skills section */
+      .skill-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        height: 100%;
+        perspective: 1000px;
+      }
+      .skill-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      }
+      .skill-card i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #3c7e8b, #7b6aaf);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .skill-card img {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 1rem;
+        display: inline-block;
+      }
+      .skill-card h5 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        word-break: break-word;
+        hyphens: show;
+      }
+      .skill-progress {
+        width: 100%;
+        height: 8px;
+        background: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 1rem;
+      }
+      .skill-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #3c7e8b, #7b6aaf);
+        border-radius: 10px;
+        transition: width 1s ease;
+        width: 0%;
+      }
+
+      /* Enhanced About section */
+      .about-box {
+        background-color: #F7F9FB;
+        padding: 2rem;
+        border-radius: 12px;
+      }
+      .school-box {
+        margin-right: 0.7rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+        position: relative;
+      }
+      .school-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+      }
+      .school-box-tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-10px);
+        background: #373d47;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 10;
+      }
+      .school-box:hover .school-box-tooltip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-5px);
+      }
+
+      /* Featured projects */
+      .project-preview-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .project-preview-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      }
+      .project-preview-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+      }
+      .project-preview-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .tech-badge {
+        display: inline-block;
+        background: #e9eef3;
+        color: #373d47;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        margin-right: 0.4rem;
+        margin-bottom: 0.4rem;
+        font-weight: 600;
+      }
+
+      /* Section dividers */
+      .section-divider {
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, #3c7e8b, #7b6aaf);
+        margin: 3rem auto;
+        border-radius: 2px;
+      }
+
+      /* Scroll animations */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .fade-in-up.reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .typing-text { font-size: 1.5rem !important; }
+        .school-box {
+          display: flex !important;
+          align-items: center !important;
+          margin-bottom: 0.75rem;
+        }
+        .school-box i {
+          flex-shrink: 0;
+          min-width: 1.5em;
+        }
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column h-100 bg-light">
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <main class="flex-shrink-0">
+      <div id="navbar-placeholder"></div>
+      <script src="js/projects-data.js"></script>
+      <script src="js/navbar.js"></script>
+
+      <header class="py-5" style="position: relative; overflow: hidden;">
+        <div class="hero-gradient-bg"></div>
+        <div class="geometric-bg" id="geometricBg"></div>
+        <div class="container px-5 pb-5" style="position: relative; z-index: 1;">
+          <div class="row gx-5 align-items-center">
+            <div class="col-xxl-5">
+              <div class="text-center text-xxl-start">
+                <div class="fs-3 fw-light text-muted typing-text" data-text="Welcome to my portfolio!"></div>
+                <h1 class="display-3 fw-bolder mb-5 mt-3">
+                  <span class="text-gradient d-inline">Jake Golden</span>
+                </h1>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
+                  <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder btn-float" href="engineering.html">Experience</a>
+                  <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder btn-float" href="resume.html">Resume</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl-7">
+              <div class="d-flex justify-content-center mt-5 mt-xxl-0" style="position: relative;">
+                <picture>
+                  <source srcset="assets/profile.webp" type="image/webp">
+                  <img class="profile-img img-fluid" src="assets/profile.jpg" alt="Profile photo" style="max-width: 450px; background: transparent; box-shadow: none; border-radius: 0;" />
+                </picture>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- About Me Section -->
+      <section class="py-5 fade-in-up">
+        <div class="container px-5">
+          <div class="row align-items-center">
+            <div class="col-lg-6 text-center mb-4 mb-lg-0">
+              <!-- max-width widened from the original 350px so the shared .media-carousel
+                   arrow gutters don't visibly shrink the photo -->
+              <div id="aboutCarousel" class="carousel slide media-carousel" data-bs-ride="none" style="max-width: 430px; margin: 0 auto;">
+                <div class="carousel-inner rounded shadow" style="aspect-ratio:3/4; width:100%; max-width:350px; background:#f7f9fb;">
+                  <div class="carousel-item active">
+                    <picture>
+                      <source srcset="assets/aboutme/hiking.webp" type="image/webp">
+                      <img src="assets/aboutme/hiking.jpg" class="d-block mx-auto" alt="Hiking" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </picture>
+                  </div>
+                  <div class="carousel-item">
+                    <picture>
+                      <source srcset="assets/aboutme/knicks.webp" type="image/webp">
+                      <img src="assets/aboutme/knicks.jpg" class="d-block mx-auto" alt="Knicks Game" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </picture>
+                  </div>
+                  <div class="carousel-item">
+                    <picture>
+                      <source srcset="assets/aboutme/photography.webp" type="image/webp">
+                      <img src="assets/aboutme/photography.jpg" class="d-block mx-auto" alt="Photography" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </picture>
+                  </div>
+                  <div class="carousel-item">
+                    <picture>
+                      <source srcset="assets/aboutme/brother.webp" type="image/webp">
+                      <img src="assets/aboutme/brother.jpg" class="d-block mx-auto" alt="Family" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </picture>
+                  </div>
+                  <div class="carousel-item">
+                    <picture>
+                      <source srcset="assets/aboutme/skiing.webp" type="image/webp">
+                      <img src="assets/aboutme/skiing.jpg" class="d-block mx-auto" alt="Skiing" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </picture>
+                  </div>
+                  <div class="carousel-item">
+                    <picture>
+                      <source srcset="assets/aboutme/danieljones.webp" type="image/webp">
+                      <img src="assets/aboutme/danieljones.jpg" class="d-block mx-auto" alt="Giants Game" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </picture>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="about-box text-center text-lg-start">
+                <h2 class="fw-bolder mb-4" style="color:#373D47;">About Me</h2>
+                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                  <i class="bi bi-mortarboard-fill me-2" style="font-size:1.2em; color:#6a70af;"></i>
+                  Duke University &nbsp·&nbsp Class of 2027
+                  <span class="school-box-tooltip">Pratt School of Engineering</span>
+                </div>
+                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                  <i class="bi bi-lightning-fill me-2" style="font-size:1.2em; color:#3c7e8b;"></i>
+                  Electrical Engineering
+                  <span class="school-box-tooltip">Focus: Solid-State Devices and ICs</span>
+                </div>
+                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                  <i class="bi bi-heart-pulse-fill me-2" style="font-size:1.2em; color:#e76f51;"></i>
+                  Biomedical Engineering
+                  <span class="school-box-tooltip">Focus: Imaging and Measurement Systems</span>
+                </div>
+                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                  <i class="bi bi-lightbulb-fill me-2" style="font-size:1.2em; color:#FFB500;"></i>
+                  Interest: signal processing for medical device design
+                </div>
+                <p class="lead">
+                  Thanks for checking out my portfolio! My name is Jake and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard Knicks and Giants fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
+                </p>
+                <div class="d-flex justify-content-center justify-content-lg-start fs-2 gap-4 mt-4">
+                  <a class="text-gradient" href="https://www.linkedin.com/in/jakegolden22/" target="_blank"><i class="bi bi-linkedin"></i></a>
+                  <a class="text-gradient" href="mailto:jakegolden9001@gmail.com" target="_blank"><i class="bi bi-envelope-fill"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Skills & Expertise Section -->
+      <section class="py-5 fade-in-up">
+        <div class="container px-5">
+          <div class="text-center mb-5">
+            <h2 class="display-5 fw-bolder"><span class="text-gradient d-inline">Skills & Expertise</span></h2>
+          </div>
+          <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/code-slash.svg" alt="Programming icon" style="width:3rem;height:3rem;margin-bottom:1rem;" />
+                <h5>Programming</h5>
+                <p class="text-muted mb-2 small">MATLAB, Python, Java, C, Bash, LabVIEW</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="95"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/lightning.svg" alt="Circuit & PCB Design icon" />
+                <h5>Circuit & PCB Design</h5>
+                <p class="text-muted mb-2 small">Analog/digital circuit analysis, KiCAD, EasyEDA</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="90"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/graph-up.svg" alt="Signal Processing icon" />
+                <h5>Signal Processing</h5>
+                <p class="text-muted mb-2 small">Analog/digital filtering, FFT, sampling, feature extraction</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="75"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/motherboard.svg" alt="Embedded Systems icon" />
+                <h5>Embedded Systems</h5>
+                <p class="text-muted mb-2 small">Arduino, MCU integration, I2C, serial communication</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="75"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/diagram-3.svg" alt="Control Systems icon" />
+                <h5>Control Systems</h5>
+                <p class="text-muted mb-2 small">Controller design, stability, system characterization</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="85"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/gear-wide-connected.svg" alt="CAD & Prototyping icon" />
+                <h5>CAD & Prototyping</h5>
+                <p class="text-muted mb-2 small">SOLIDWORKS, Creo, 3D printing, breadboarding</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="95"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/activity.svg" alt="Measurement Tools icon" />
+                <h5>Measurement Tools</h5>
+                <p class="text-muted mb-2 small">Oscilloscopes, multimeters, logic analyzers, spectrum analyzers</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="80"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="skill-card">
+                <img src="assets/icons/broadcast.svg" alt="Electromagnetics icon" />
+                <h5>Electro&shy;magnetics</h5>
+                <p class="text-muted mb-2 small">EM waves, RF principles, telecommunication systems</p>
+                <div class="skill-progress">
+                  <div class="skill-progress-bar" data-progress="50"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Featured Projects Section -->
+      <section class="py-5 fade-in-up">
+        <div class="container px-5">
+          <div class="text-center mb-5">
+            <h2 class="display-5 fw-bolder"><span class="text-gradient d-inline">Featured Projects</span></h2>
+            <p class="lead text-muted mb-0">Check out my experience page for more!</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+              <div class="project-preview-card">
+                <img src="assets/engineering/pulse-oximeter/pulse_ox_ambient.gif" alt="Pulse Oximeter" class="project-preview-img">
+                <div class="project-preview-body">
+                  <h5 class="fw-bolder mb-2">MATLAB Pulse Oximeter</h5>
+                  <p class="text-muted small mb-3">Real-time SpO₂ monitoring system with custom hardware and DSP pipeline</p>
+                  <div class="mb-3">
+                    <span class="tech-badge">Embedded Firmware</span>
+                    <span class="tech-badge">DSP</span>
+                    <span class="tech-badge">GUI Design</span>
+                  </div>
+                  <a href="pulse-oximeter.html" class="btn btn-sm btn-outline-primary">View Details →</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="project-preview-card">
+                <img src="assets/engineering/self-balancing-robot/self_balancing_robot_demo.gif" alt="Self Balancing Robot" class="project-preview-img">
+                <div class="project-preview-body">
+                  <h5 class="fw-bolder mb-2">Self-Balancing Robot</h5>
+                  <p class="text-muted small mb-3">PID-controlled two-wheel balancing robot with IMU feedback</p>
+                  <div class="mb-3">
+                    <span class="tech-badge">PCB Design</span>
+                    <span class="tech-badge">PID Control</span>
+                    <span class="tech-badge">I2C</span>
+                  </div>
+                  <a href="self-balancing-robot.html" class="btn btn-sm btn-outline-primary">View Details →</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="project-preview-card">
+                <img src="assets/engineering/steel-ball-dispenser/steel-ball-dispenser-demo.gif" alt="Steel Ball Dispenser" class="project-preview-img">
+                <div class="project-preview-body">
+                  <h5 class="fw-bolder mb-2">Steel Ball Dispenser</h5>
+                  <p class="text-muted small mb-3">Automated dispensing system with precision control</p>
+                  <div class="mb-3">
+                    <span class="tech-badge">Arduino</span>
+                    <span class="tech-badge">Product Development</span>
+                    <span class="tech-badge">V&V</span>
+                  </div>
+                  <a href="steel-ball-dispenser.html" class="btn btn-sm btn-outline-primary">View Details →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <a href="engineering.html" class="btn btn-primary btn-lg btn-float">View All Projects →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/footer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/media-carousel.js"></script>
+
+    <script>
+      // Scroll progress indicator (index-only)
+      window.addEventListener('scroll', function() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('scrollProgress').style.width = scrolled + '%';
+      });
+
+      // Intersection Observer for scroll-reveal animations
+      const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' };
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal');
+            if (entry.target.querySelector('.skill-progress-bar')) {
+              entry.target.querySelectorAll('.skill-progress-bar').forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                setTimeout(() => { bar.style.width = progress + '%'; }, 100);
+              });
+            }
+          }
+        });
+      }, observerOptions);
+
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+      });
+
+      // JS-driven typing animation to avoid variable-width clipping
+      document.addEventListener('DOMContentLoaded', function() {
+        const el = document.querySelector('.typing-text');
+        if (!el) return;
+        const text = el.getAttribute('data-text') || el.textContent.trim();
+        el.textContent = '';
+        const caret = document.createElement('span');
+        caret.className = 'typing-caret';
+        el.appendChild(caret);
+        let i = 0;
+        const perChar = 60;
+        const startDelay = 800;
+        function typeNext() {
+          if (i < text.length) {
+            el.insertBefore(document.createTextNode(text[i]), caret);
+            i++;
+            setTimeout(typeNext, perChar);
+          } else {
+            setTimeout(() => { caret.style.borderRightColor = 'transparent'; }, 1200);
+          }
+        }
+        setTimeout(typeNext, startDelay);
+      });
+
+      // Freeze About carousel until visible, then start cycling
+      document.addEventListener('DOMContentLoaded', function() {
+        const carouselEl = document.getElementById('aboutCarousel');
+        if (!carouselEl || !window.bootstrap) return;
+        const bsCarousel = new bootstrap.Carousel(carouselEl, {
+          interval: 4000,
+          ride: false,
+          pause: false,
+          wrap: true
+        });
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              bsCarousel.to(0);
+              bsCarousel.cycle();
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.5 });
+        io.observe(carouselEl);
+      });
+
+      // Network visualization for header background
+      document.addEventListener('DOMContentLoaded', function() {
+        const geometricBg = document.getElementById('geometricBg');
+        if (!geometricBg) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'network-canvas';
+        geometricBg.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+          width = canvas.width = geometricBg.offsetWidth;
+          height = canvas.height = geometricBg.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const nodes = [];
+        const nodeCount = 55;
+        const maxDistance = 150;
+        const nodeColor = '#9e9e9e';
+        const lineColor = '#b0b0b0';
+
+        class Node {
+          constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 0.5;
+            this.vy = (Math.random() - 0.5) * 0.5;
+            this.radius = 3;
+          }
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+            this.x = Math.max(0, Math.min(width, this.x));
+            this.y = Math.max(0, Math.min(height, this.y));
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = nodeColor;
+            ctx.globalAlpha = 0.15;
+            ctx.fill();
+          }
+        }
+
+        for (let i = 0; i < nodeCount; i++) {
+          nodes.push(new Node());
+        }
+
+        function drawConnections() {
+          for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+              const dx = nodes[i].x - nodes[j].x;
+              const dy = nodes[i].y - nodes[j].y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < maxDistance) {
+                ctx.beginPath();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(nodes[j].x, nodes[j].y);
+                ctx.strokeStyle = lineColor;
+                ctx.globalAlpha = 0.25 * (1 - distance / maxDistance);
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+          }
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, width, height);
+          drawConnections();
+          nodes.forEach(node => { node.update(); node.draw(); });
+          requestAnimationFrame(animate);
+        }
+        animate();
+      });
+    </script>
+  </body>
 </html>

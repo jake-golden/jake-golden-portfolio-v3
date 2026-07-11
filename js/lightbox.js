@@ -77,6 +77,7 @@
     document.addEventListener('click', function (e) {
       var img = e.target.closest && e.target.closest('.clickable-lightbox');
       if (!img || img.closest('.media-carousel')) return; // carousel images handled below
+      e.preventDefault(); // no-op for <img>, stops <a href="#"> from jumping/scrolling
       e.stopPropagation();
       openImage(img.getAttribute('data-full') || img.src, img.getAttribute('data-caption') || img.alt, img.alt);
     }, true);
