@@ -1,22 +1,4 @@
 // ==========================
-// Section Toggles (slide open/close)
-// ==========================
-document.querySelectorAll(".banner").forEach(banner => {
-  banner.addEventListener("click", () => {
-    const target = document.getElementById(banner.dataset.target);
-    if (target) {
-      const willOpen = !target.classList.contains("open");
-      target.classList.toggle("open");
-      if (willOpen) {
-        banner.classList.add("expanded");
-      } else {
-        banner.classList.remove("expanded");
-      }
-    }
-  });
-});
-
-// ==========================
 // Expandable Cards (click to reveal more content)
 // ==========================
 document.querySelectorAll(".expandable-card").forEach(card => {

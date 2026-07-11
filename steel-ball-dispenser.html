@@ -159,6 +159,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
     <script src="js/media-carousel.js"></script>
+    <script src="js/lightbox.js"></script>
     <style>
       /* Logo size override at desktop only — responsive breakpoints in styles.css handle smaller screens */
       @media (min-width: 1200px) { .banner-logo { min-width: 140px; max-width: 180px; } }
@@ -236,25 +237,25 @@
         .video-crop-container video {
           max-height: 462px;
         }
-        @media (max-width: 991px) {
-          .video-crop-container {
-            max-height: 280px !important;
-            height: 220px !important;
-          }
-          .video-crop-container video {
-            max-height: 220px !important;
-            min-height: 120px !important;
-          }
+      }
+      @media (max-width: 991px) {
+        .video-crop-container {
+          max-height: 280px !important;
+          height: 220px !important;
         }
-        @media (max-width: 600px) {
-          .video-crop-container {
-            max-height: 180px !important;
-            height: 140px !important;
-          }
-          .video-crop-container video {
-            max-height: 140px !important;
-            min-height: 80px !important;
-          }
+        .video-crop-container video {
+          max-height: 220px !important;
+          min-height: 120px !important;
+        }
+      }
+      @media (max-width: 600px) {
+        .video-crop-container {
+          max-height: 180px !important;
+          height: 140px !important;
+        }
+        .video-crop-container video {
+          max-height: 140px !important;
+          min-height: 80px !important;
         }
       }
       @media (min-width: 992px) {
