@@ -14,6 +14,7 @@
   function bannerHTML(project) {
     var b = project.banner;
     var titleHTML = (b.title || '').split('\n').join('<br>');
+    var subheadingHTML = b.subheading ? '<h2>' + b.subheading + '</h2>' : '';
     var logoHTML = b.logo
       ? '<img src="' + b.logo + '" alt="' + project.title + ' Logo" class="banner-logo">'
       : '';
@@ -23,6 +24,7 @@
         '<div class="project-banner-overlay"></div>' +
         '<div class="project-banner-content">' +
           '<h1>' + titleHTML + '</h1>' +
+          subheadingHTML +
           '<p>' + b.subtitle + '</p>' +
         '</div>' +
         logoHTML +

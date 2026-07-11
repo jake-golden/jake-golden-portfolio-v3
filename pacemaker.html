@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Benchtop VVI cardiac pacemaker designed, built, and tested on a live frog heart — BME 354, Duke University" />
+    <meta name="author" content="Jake Golden" />
+    <title>VVI Cardiac Pacemaker - Jake Golden</title>
+    <script src="js/head.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  </head>
+  <body class="d-flex flex-column h-100 bg-light" data-project="pacemaker">
+    <main class="flex-shrink-0">
+      <div id="navbar-placeholder"></div>
+      <script src="js/projects-data.js"></script>
+      <script src="js/navbar.js"></script>
+
+      <div id="banner-placeholder"></div>
+      <script src="js/project-banner.js"></script>
+
+      <section class="container px-5 mt-5 mb-5">
+        <div class="content-box">
+          <h3 class="fw-bolder mb-3">Project Overview</h3>
+          <ul>
+            <li><strong>Goal: build a benchtop VVI cardiac pacemaker circuit capable of sensing cardiac electrograms and pacing a live frog heart</strong></li>
+            <li>Analog front-end (AFE) senses and conditions the frog electrogram and detects QRS complexes in real time</li>
+            <li>Arduino VVI algorithm tracks BPM and delivers a stimulus if no native beat is detected within the lower rate interval</li>
+            <li>Verified pacemaker on a live <em>Rana pipiens</em> heart</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="container px-5 mb-5">
+        <div class="content-box my-4">
+          <h3 class="fw-bolder mb-3">Final Product</h3>
+          <div class="row mt-4">
+            <div class="col-12" style="padding-left: clamp(2rem, 10vw, 8rem); padding-right: clamp(2rem, 10vw, 8rem)">
+              <video controls autoplay muted loop playsinline loading="lazy"
+                    class="d-block w-100 h-100"
+                    style="object-fit:contain; background:#000; border-radius: 0.375rem;">
+              <source src="assets/engineering/pacemaker/live_pacing_demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p class="text-center text-muted small mt-2">Pacemaker in pacing mode (no input connected), target heart rate 60 bpm.</p>
+            </div>
+          </div>
+          <div class="row mt-3 g-2">
+            <div class="col-12">
+              <h5 class="fw-bolder mb-3" style="padding-left: clamp(0rem, 5vw, 2rem); padding-right: clamp(0rem, 5vw, 5rem);">Design Features</h5>
+              <ul style="padding-left: clamp(1.5rem, 5vw, 5rem); padding-right: clamp(0rem, 5vw, 5rem);">
+                <li>Differential electrogram sensing via instrumentation amplifier on bipolar frog-ventricle electrodes.</li>
+                <li>Full analog condition chain (filtering + gain) to deliver clean electrogram waveform and detect QRS complexes.</li>
+                <li>Potentiometer for adjustable QRS detection threshold.</li>
+                <li>Arduino VVI algorithm: tracks R-R interval, inhibits pacing on native beats, delivers calibrated stimulus pulses.</li>
+                <li>SSD1306 OLED displays live HR, target HR, and pacing status; red LED illuminates on every pacing event.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container px-5 mb-5">
+        <div class="content-box">
+          <h3 class="fw-bolder mb-3">System-Level Block Diagram</h3>
+          <div class="d-flex flex-row align-items-start mt-4" style="width:100%; justify-content: center;">
+            <picture>
+              <source srcset="assets/engineering/pacemaker/pacemaker-block-diagram.webp" type="image/webp">
+              <img src="assets/engineering/pacemaker/pacemaker-block-diagram.png" alt="Pacemaker Block Diagram"
+                   class="img-fluid clickable-lightbox"
+                   data-full="assets/engineering/pacemaker/pacemaker-block-diagram-lightbox.png"
+                   data-caption="System-level block diagram of the benchtop VVI cardiac pacemaker."
+                   style="max-width:900px; width:100%; height:auto; display:block;">
+            </picture>
+          </div>
+          <p class="text-center text-muted mt-4 mb-0" style="font-size: 0.95rem;">
+            <strong>Click on the expandable tiles below</strong> for detailed technical information on each component of the system.
+          </p>
+        </div>
+      </section>
+
+      <section class="container px-5 mb-5">
+        <div class="row g-4">
+          <div class="col-12">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">Hardware Front-End</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <div class="row mt-3 mb-2">
+                    <div class="col-12">
+                      <div id="carouselTile1" class="carousel slide media-carousel mb-1" data-bs-ride="false">
+                        <div class="carousel-inner" style="max-height:500px">
+                          <div class="carousel-item active">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/pacemaker/afe_schematic.webp" type="image/webp">
+                                <img src="assets/engineering/pacemaker/afe_schematic.png" class="rounded"
+                                     alt="Full AFE schematic: InAmp, bandpass filter, gain amplifier, comparator"
+                                     data-full="assets/engineering/pacemaker/afe_schematic.png"
+                                     data-caption="Full AFE schematic: InAmp, bandpass filter, gain amplifier, comparator."
+                                     style="max-height:460px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/pacemaker/afe_voltage_supply.webp" type="image/webp">
+                                <img src="assets/engineering/pacemaker/afe_voltage_supply.png" class="rounded"
+                                     alt="VREF and VTHRESH voltage supply circuitry schematic"
+                                     data-full="assets/engineering/pacemaker/afe_voltage_supply.png"
+                                     data-caption="VREF and VTHRESH voltage supply circuitry schematic."
+                                     style="max-height:460px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselTile1" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselTile1" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                      <div class="carousel-descriptions mb-4" id="desc-carouselTile1">
+                        <ul class="desc-slide desc-slide-0">
+                          <li><strong>Sensing</strong>: AD623 instrumentation amplifier (unity gain, R<sub>g</sub> open) senses the differential electrogram across bipolar electrodes</li>
+                          <li><strong>Filtering</strong>: High-pass RC (470 k&Omega;, 1 &mu;F) removes baseline wander; low-pass RC (3 k&Omega;, 1 &mu;F) attenuates high-frequency noise</li>
+                          <li><strong>Amplification</strong>: 1001&times; non-inverting gain stage to fill the dynamic range of Arduino ADC</li>
+                          <li><strong>QRS Detection</strong>: Comparator thresholds against VTHRESH to produce a digital QRS pulse</li>
+                        </ul>
+                        <ul class="desc-slide desc-slide-1 d-none">
+                          <li>Single 5 V rail powers all active components</li>
+                          <li><strong>VREF = +2.5 V:</strong> 1 k&Omega;/1 k&Omega; voltage divider + follower; sets AD623 reference pin and mid-rail bias</li>
+                          <li>VREF acts as virtual ground that centers the EGM at +2.5 V</li>
+                          <li><strong>VTHRESH:</strong> 1 k&Omega;/10 k&Omega; potentiometer voltage divider + follower; tunable QRS detection threshold</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row g-4 align-items-start">
+                    <div class="col-12 col-md-7">
+                      <h5 class="fw-bolder mb-2">Transfer Functions</h5>
+                      <p>The AD623 instrumentation amplifier (unity gain, R<sub>g</sub> open) senses the differential electrogram, followed by cascaded RC filter stages and a 1001&times; non-inverting amplifier:</p>
+                      <div style="overflow-x: auto;"><div class="text-center my-3">
+                        $$H_{LPF}(j\omega) = \frac{1}{0.003j\omega + 1} \qquad (f_c = 53.1\,\text{Hz})$$
+                      </div></div>
+                      <div style="overflow-x: auto;"><div class="text-center my-3">
+                        $$H_{HPF}(j\omega) = \frac{0.47j\omega}{0.47j\omega + 1} \qquad (f_c = 0.34\,\text{Hz})$$
+                      </div></div>
+                      <p>With the 1001&times; non-inverting gain stage (R<sub>f</sub> = 1 M&Omega;, R<sub>1</sub> = 1 k&Omega;), the full AFE transfer function is:</p>
+                      <div style="overflow-x: auto;"><div class="text-center my-3">
+                        $$H_{AFE}(j\omega) = \frac{470.47j\omega}{(0.003j\omega + 1)(0.47j\omega + 1)}$$
+                      </div></div>
+                      <p>The MCP6002 comparator thresholds the amplified signal against VTHRESH: output goes HIGH (+5 V) during each QRS complex and LOW (0 V) otherwise, providing a clean digital event marker to the Arduino.</p>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <figure class="figure w-100 mb-0">
+                        <picture>
+                          <source srcset="assets/engineering/pacemaker/afe_bode_plot.webp" type="image/webp">
+                          <img src="assets/engineering/pacemaker/afe_bode_plot.png"
+                               alt="Bode magnitude plot: measured AFE response"
+                               class="img-fluid rounded clickable-lightbox"
+                               data-full="assets/engineering/pacemaker/afe_bode_plot.png"
+                               data-caption="Bode magnitude plot: measured passband 0.31&ndash;58.52 Hz, gain ~60 dB."
+                               style="width:100%; height:auto; display:block;">
+                        </picture>
+                        <figcaption class="figure-caption text-center text-muted small mt-2">Bode magnitude plot used for empirical validation of the AFE response. Passband 0.31&ndash;58.52 Hz, gain ~60 dB.</figcaption>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div class="row mt-4">
+                    <div class="col-12 video-inset">
+                      <div class="ratio ratio-16x9">
+                        <video controls autoplay muted loop playsinline loading="lazy"
+                               class="d-block w-100 h-100"
+                               style="object-fit:contain; background:#000; border-radius:0.375rem;">
+                          <source src="assets/engineering/pacemaker/afe_result.mp4" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                      <p class="text-center text-muted small mt-2">Oscilloscope capture showing the conditioned EGM waveform (yellow) and QRS-detection comparator output (blue).</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">VVI Algorithm</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <div class="row g-4 mt-3 mb-4">
+                    <div class="col-12 col-md-6">
+                      <figure class="figure w-100 mb-0">
+                        <picture>
+                          <source srcset="assets/engineering/pacemaker/vvi_block_diagram.webp" type="image/webp">
+                          <img src="assets/engineering/pacemaker/vvi_block_diagram.png"
+                               alt="VVI algorithm block diagram"
+                               class="img-fluid rounded clickable-lightbox"
+                               data-full="assets/engineering/pacemaker/vvi_block_diagram.png"
+                               data-caption="VVI algorithm block diagram."
+                               style="width:100%; height:auto; display:block;">
+                        </picture>
+                        <figcaption class="figure-caption text-muted small mt-2">
+                          <ul class="mb-0 ps-3">
+                            <li>Lower Rate Interval (LRI) derived from the user-defined target heart rate</li>
+                            <li><strong>Pace:</strong> if time since last beat &gt; LRI, output HIGH for 166 ms (= 2&times; chronaxie)</li>
+                            <li><strong>Inhibit:</strong> native beat detected within LRI — suppress pulse, reset timer</li>
+                          </ul>
+                        </figcaption>
+                      </figure>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <figure class="figure w-100 mb-0">
+                        <picture>
+                          <source srcset="assets/engineering/pacemaker/vvi_pacing_pulse.webp" type="image/webp">
+                          <img src="assets/engineering/pacemaker/vvi_pacing_pulse.png"
+                               alt="Arduino pacing pulse output with LRI and pulse width annotated"
+                               class="img-fluid rounded clickable-lightbox"
+                               data-full="assets/engineering/pacemaker/vvi_pacing_pulse.png"
+                               data-caption="Arduino pacing pulse output: LRI and 166 ms pulse width annotated."
+                               style="width:100%; height:auto; display:block;">
+                        </picture>
+                        <figcaption class="figure-caption text-muted small mt-2">
+                          <ul class="mb-0 ps-3">
+                            <li>EGM and comparator sampled at \(f_s = 200\,\text{Hz}\) (5 ms resolution)</li>
+                            <li>Time between consecutive rising edges of comparator define R-R interval</li>
+                            <li>Instantaneous HR computed from each R-R interval in real time</li>
+                          </ul>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">Stimulation Circuitry</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <div class="row g-4 mt-3 mb-4">
+                    <div class="col-12 col-md-6">
+                      <figure class="figure w-100 mb-0">
+                        <picture>
+                          <source srcset="assets/engineering/pacemaker/stim_circuit.webp" type="image/webp">
+                          <img src="assets/engineering/pacemaker/stim_circuit.png"
+                               alt="MOSFET stimulation circuit schematic: capacitive discharge via 2N7000"
+                               class="img-fluid rounded clickable-lightbox"
+                               data-full="assets/engineering/pacemaker/stim_circuit.png"
+                               data-caption="2N7000 MOSFET low-side switch; capacitor charges to 9 V and discharges through the tissue load on each pace event."
+                               style="width:100%; height:auto; display:block;">
+                        </picture>
+                      </figure>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <figure class="figure w-100 mb-0">
+                        <picture>
+                          <source srcset="assets/engineering/pacemaker/stim_pulse.webp" type="image/webp">
+                          <img src="assets/engineering/pacemaker/stim_pulse.png"
+                               alt="Capacitive discharge stimulus pulse waveform across tissue load"
+                               class="img-fluid rounded clickable-lightbox"
+                               data-full="assets/engineering/pacemaker/stim_pulse.png"
+                               data-caption="Measured stimulus pulse across RL (assumed 1 k&Omega;): exponentially-decaying discharge with peak &minus;4.5 V, 166 ms duration."
+                               style="width:100%; height:auto; display:block;">
+                        </picture>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div class="media-wide-1">
+                    <ul>
+                      <li><strong>Topology</strong>: 2N7000 n-channel enhancement MOSFET in a low-side switch configuration. Capacitor charges to V<sub>dd</sub> = 9 V during the interpulse interval via R<sub>c</sub> = 82 k&Omega;.</li>
+                      <li><strong>Capacitive Discharge</strong>: When the Arduino drives the gate HIGH, the MOSFET conducts, discharging C through the series R = 3.5 k&Omega; and load R<sub>L</sub> (assumed 1 k&Omega;).</li>
+                    </ul>
+                  </div>
+
+                  <h5 class="fw-bolder mt-4 mb-3">Strength-Duration Design</h5>
+                  <div class="row g-4 align-items-start">
+                    <div class="col-12 col-lg-6">
+                      <p>Stimulus parameters were derived from the Lapicque strength-duration model. The operating point was chosen at 2&times; chronaxie and 2&times; rheobase to ensure reliable myocardial capture with margin above threshold.</p>
+                      <div style="overflow-x: auto;"><div class="text-center my-3">
+                        $$I_{stim,\,peak} = \frac{V_{dd}}{R_s + R_L} = \frac{9\,\text{V}}{3.5\,\text{k}\Omega + 1\,\text{k}\Omega} = 2\,\text{mA}$$
+                      </div></div>
+                      <p class="mb-0" style="font-size:0.9rem;">
+                        Two RC time constants govern circuit behaviour. The <strong>discharge time constant</strong>
+                        $\tau_d = (R_s + R_L)C = \mathbf{45\,\text{ms}}$
+                        sets how quickly the capacitor empties through the tissue during a stimulus — the 166&nbsp;ms pulse
+                        spans ${\approx}\,3.7\tau_d$, delivering nearly all stored charge. The <strong>recharge time constant</strong>
+                        $\tau_r = R_cC = \mathbf{820\,\text{ms}}$
+                        determines how fully the capacitor recovers between pulses; a longer interpulse interval allows more
+                        complete recharge and a stronger subsequent stimulus.
+                      </p>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <figure class="figure w-100 mb-0">
+                        <picture>
+                          <source srcset="assets/engineering/pacemaker/stim_sd_curve.webp" type="image/webp">
+                          <img src="assets/engineering/pacemaker/stim_sd_curve.png"
+                               alt="Strength-duration curve for myocardial capture threshold"
+                               class="img-fluid rounded clickable-lightbox"
+                               data-full="assets/engineering/pacemaker/stim_sd_curve.png"
+                               data-caption="Strength-duration (SD) curve: rheobase 0.5 mA, chronaxie 83 ms."
+                               style="width:100%; height:auto; display:block;">
+                        </picture>
+                        <figcaption class="figure-caption text-center text-muted small mt-2">Strength-duration curve obtained during tissue characterization. <br> Measured rheobase: 0.5 mA &nbsp;&middot;&nbsp; Measured chronaxie: 83 ms<br></figcaption>
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container px-5 mb-5">
+        <div class="row row-cols-1 row-cols-md-3 g-3 py-2">
+          <div class="col"><div class="skill-item">Bioelectrical Sensing</div></div>
+          <div class="col"><div class="skill-item">Real-Time Signal Processing</div></div>
+          <div class="col"><div class="skill-item">Embedded Arduino Firmware</div></div>
+          <div class="col"><div class="skill-item">I&sup2;C Peripheral Integration</div></div>
+          <div class="col"><div class="skill-item">Technical Communication</div></div>
+          <div class="col"><div class="skill-item">Analog Signal Debugging</div></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/footer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/media-carousel.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\[', right: '\\]', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          throwOnError: false
+        });
+      });
+    </script>
+    <style>
+      .video-inset {
+        padding-left: clamp(0rem, 10vw, 8rem);
+        padding-right: clamp(0rem, 10vw, 8rem);
+      }
+      @media (max-width: 768px) {
+        .video-inset { padding-left: 0; padding-right: 0; }
+      }
+    </style>
+  </body>
+</html>

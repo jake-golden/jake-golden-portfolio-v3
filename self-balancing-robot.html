@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Arduino self-balancing robot: PID control tuning for a two-wheeled inverted-pendulum senior capstone project." />
+    <meta name="author" content="Jake Golden" />
+    <title>Self-Balancing Robot - Jake Golden</title>
+    <script src="js/head.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  </head>
+  <body class="d-flex flex-column h-100 bg-light" data-project="self-balancing-robot">
+    <main class="flex-shrink-0">
+      <div id="navbar-placeholder"></div>
+      <script src="js/projects-data.js"></script>
+      <script src="js/navbar.js"></script>
+
+      <div id="banner-placeholder"></div>
+      <script src="js/project-banner.js"></script>
+
+      <section class="container px-5 mt-5 mb-5">
+        <div class="content-box">
+          <h3 class="fw-bolder mb-3">Project Overview</h3>
+          <ul>
+            <li><strong>Goal: build a self-balancing robot that maintains stability on two wheels</strong></li>
+            <li>Arduino continuously reads data from an accelerometer and gyroscope to determine robot's tilt angle</li>
+            <li>Using a PID feedback loop, the Arduino determines how quickly to drive the motors to restore balance</li>
+          </ul>
+          <div class="d-flex flex-row align-items-start mt-10 working-principle-row" style="width:100%; justify-content: space-around;">
+            <picture>
+              <source srcset="assets/engineering/self-balancing-robot/working_principle_1.webp" type="image/webp">
+              <img src="assets/engineering/self-balancing-robot/working_principle_1.png" alt="Working Principle Image 1" class="img-fluid rounded working-principle-img" style="max-width:240px; width:100%; height:auto; display:block;">
+            </picture>
+            <picture>
+              <source srcset="assets/engineering/self-balancing-robot/working_principle_2.webp" type="image/webp">
+              <img src="assets/engineering/self-balancing-robot/working_principle_2.png" alt="Working Principle Image 2" class="img-fluid rounded working-principle-img" style="max-width:240px; width:100%; height:auto; display:block;">
+            </picture>
+            <picture>
+              <source srcset="assets/engineering/self-balancing-robot/working_principle_3.webp" type="image/webp">
+              <img src="assets/engineering/self-balancing-robot/working_principle_3.png" alt="Working Principle Image 3" class="img-fluid rounded working-principle-img" style="max-width:240px; width:100%; height:auto; display:block;">
+            </picture>
+          </div>
+          <div id="workingPrincipleCarousel" class="carousel slide media-carousel d-none" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <picture>
+                  <source srcset="assets/engineering/self-balancing-robot/working_principle_1.webp" type="image/webp">
+                  <img src="assets/engineering/self-balancing-robot/working_principle_1.png" class="d-block w-100 rounded" alt="Working Principle Image 1" style="max-width:340px; margin:auto;">
+                </picture>
+              </div>
+              <div class="carousel-item">
+                <picture>
+                  <source srcset="assets/engineering/self-balancing-robot/working_principle_2.webp" type="image/webp">
+                  <img src="assets/engineering/self-balancing-robot/working_principle_2.png" class="d-block w-100 rounded" alt="Working Principle Image 2" style="max-width:340px; margin:auto;">
+                </picture>
+              </div>
+              <div class="carousel-item">
+                <picture>
+                  <source srcset="assets/engineering/self-balancing-robot/working_principle_3.webp" type="image/webp">
+                  <img src="assets/engineering/self-balancing-robot/working_principle_3.png" class="d-block w-100 rounded" alt="Working Principle Image 3" style="max-width:340px; margin:auto;">
+                </picture>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#workingPrincipleCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#workingPrincipleCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <!-- Design Process -->
+        <div class="d-flex hardware-controller-row" style="gap:2rem; width:100%;">
+          <div class="hardware-left d-flex flex-column flex-fill" style="width:35%; min-width:380px; max-width:420px;">
+            <div class="content-box h-100 d-flex flex-column">
+              <h4 class="fw-bold mb-2">Hardware</h4>
+              <div class="parts-list-table mt-4 mb-2">
+                <table style="width:100%; border-collapse:separate; border-spacing:12px 8px;">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/arduino_nano.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/arduino_nano.png" alt="Arduino Nano" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">Arduino Nano</div>
+                      </td>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/gy-521.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/gy-521.png" alt="IMU Sensor" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">GY-521 (MPU-6050), accelerometer and gyroscope</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/hc-sr04.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/hc-sr04.png" alt="Ultrasonic Sensor" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">HC-SR04 ultrasonic sensor</div>
+                      </td>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/dxbt-16.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/dxbt-16.png" alt="Bluetooth Module" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">DXBT-16 bluetooth module</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/tb6612fng.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/tb6612fng.png" alt="Motor Driver" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">TB6612FNG motor drivers</div>
+                      </td>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/dc_motor.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/dc_motor.png" alt="DC Motor" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">DC Motors</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/lithium_ion_battery.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/lithium_ion_battery.png" alt="Lithium Ion Battery" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">Lithium ion battery</div>
+                      </td>
+                      <td style="text-align:center; vertical-align:top;">
+                        <div class="parts-img-container">
+                          <picture>
+                            <source srcset="assets/engineering/self-balancing-robot/components/wheel.webp" type="image/webp">
+                            <img src="assets/engineering/self-balancing-robot/components/wheel.png" alt="Wheel" class="parts-img">
+                          </picture>
+                        </div>
+                        <div style="margin-top:8px; font-size:1rem;">Wheels</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="hardware-right d-flex flex-column flex-fill" style="width:65%; min-width:320px; max-width:100%;">
+            <div class="content-box h-100 d-flex flex-column align-items-start" style="overflow:hidden; min-height:200px; max-height:100%;">
+              <h4 class="fw-bold mb-2">PID Controller</h4>
+              <p>The controller is responsible for processing sensor data and adjusting the motor outputs to maintain balance. It uses PID control, which aims to minimize the error between the desired and actual positions of the robot based on proportional, integral, and derivative terms.</p>
+              <picture>
+                <source srcset="assets/engineering/self-balancing-robot/PID_block_diagram.webp" type="image/webp">
+                <img src="assets/engineering/self-balancing-robot/PID_block_diagram.png" alt="PID Control Diagram" class="img-fluid rounded mb-3" style="max-width:100%; height:auto; display:block;">
+              </picture>
+              <p>A large part of the project was dedicated to <strong>tuning PID constants</strong>. Tuning PID constants precisely is critical for a self-balancing robot because the system behaves like an inverted pendulum: <strong>inherently unstable</strong> and <strong>highly sensitive</strong> to small control errors. The robot is always on the edge of tipping over; even a tiny deviation grows quickly if not corrected immediately. Slightly off PID constants can mean the robot either reacts too slowly (falls) or too aggressively (oscillates and falls).</p>
+              <ul>
+                <li><strong>Proportional (P)</strong>: Reacts to the current tilt angle; provides an immediate correcting force proportional to how far the robot is leaning.</li>
+                <li><strong>Integral (I)</strong>: Corrects long-term bias or small steady-state errors by accumulating past error. I was actually able to set this term to (essentially) 0 because the system's fast dynamics and sensor noise made integration unnecessary and potentially destabilizing.</li>
+                <li><strong>Derivative (D)</strong>: Predicts motion by responding to the rate of change of tilt — effectively adds damping, preventing overshoot and helping smooth out rapid corrections.</li>
+              </ul>
+
+              <!-- PID Photo/Video Carousel -->
+              <div id="pidCarousel" class="carousel slide media-carousel mt-4 mb-2" data-bs-ride="false" style="max-width:600px; width:100%; margin:auto;">
+                <div style="position:relative; width:100%;">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <div class="ratio ratio-16x9">
+                        <video class="d-block w-100 rounded" controls muted style="max-height:340px; object-fit:contain; background:#000;">
+                          <source src="assets/engineering/self-balancing-robot/PID_unstable.MOV" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <picture>
+                        <source srcset="assets/engineering/self-balancing-robot/PID_arduino.webp" type="image/webp">
+                        <img src="assets/engineering/self-balancing-robot/PID_arduino.png" class="d-block w-100 rounded" alt="PID implemented in Arduino" style="max-height:340px; object-fit:contain;">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center w-100" style="width:100%; margin-top:0.5rem;">
+                  <button class="carousel-control-prev" type="button" data-bs-target="#pidCarousel" data-bs-slide="prev" style="position:static;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <div id="desc-pidCarousel" class="carousel-descriptions w-100 text-center mt-2" style="max-width:480px; margin:auto;">
+                    <div class="desc-slide desc-slide-0" style="background:rgba(24,26,27,0.07); border-radius:8px; padding:0.5rem 1rem;">
+                      <small>Poorly-tuned PID constants. Notice the rapid oscillations - this is due to a large $K_p$ relative to $K_d$!</small>
+                    </div>
+                    <div class="desc-slide desc-slide-1 d-none" style="background:rgba(24,26,27,0.07); border-radius:8px; padding:0.5rem 1rem;">
+                      <small>PID implemented in Arduino.</small>
+                    </div>
+                  </div>
+                  <button class="carousel-control-next" type="button" data-bs-target="#pidCarousel" data-bs-slide="next" style="position:static;">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Final Product & Video -->
+        <div class="d-flex final-row" style="gap:2rem;">
+          <div class="final-left d-flex flex-column flex-fill" style="width:60%; min-width:0">
+            <div class="content-box h-100 d-flex flex-column">
+              <h3 class="fw-bolder mb-3">Final Product</h3>
+              <div class="final-product-grid d-flex" style="display:flex; flex-wrap:wrap; width:100%; gap:1.5rem;">
+                <div class="d-flex flex-column" style="flex:1 1 0; min-width:220px; max-height:650px; justify-content:center;">
+                    <div class="video-crop-container" style="height:660px; overflow:hidden; border-radius:8px; background:#000; display:flex; align-items:center; justify-content:center;">
+                      <video src="assets/engineering/self-balancing-robot/self_balancing_robot_demo.MOV" autoplay muted loop controls style="height:100%; width:100%; object-fit:cover; border-radius:0; display:block; aspect-ratio:9/16;">
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                </div>
+                <div class="d-flex flex-column" style="flex:1 1 0; min-width:220px; max-height:650px; gap:1.5rem;">
+                    <div style="height:320px; overflow:hidden; border-radius:8px; background:#f8f9fa; display:flex; align-items:center; justify-content:center;">
+                      <picture>
+                        <source srcset="assets/engineering/self-balancing-robot/self_balancing_robot_front.webp" type="image/webp">
+                        <img src="assets/engineering/self-balancing-robot/self_balancing_robot_front.JPG" alt="Gallery 1" class="img-fluid rounded shadow" style="height:100%; width:100%; object-fit:cover;">
+                      </picture>
+                    </div>
+                    <div style="height:320px; overflow:hidden; border-radius:8px; background:#f8f9fa; display:flex; align-items:center; justify-content:center;">
+                      <picture>
+                        <source srcset="assets/engineering/self-balancing-robot/self_balancing_robot_side.webp" type="image/webp">
+                        <img src="assets/engineering/self-balancing-robot/self_balancing_robot_side.JPG" alt="Gallery 2" class="img-fluid rounded shadow" style="height:100%; width:100%; object-fit:cover;">
+                      </picture>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Skills -->
+          <div class="row row-cols-1 row-cols-md-3 g-3 py-2">
+            <div class="col"><div class="skill-item">PID Control</div></div>
+            <div class="col"><div class="skill-item">Arduino</div></div>
+            <div class="col"><div class="skill-item">PCB Design</div></div>
+            <div class="col"><div class="skill-item">I&sup2;C Communication</div></div>
+            <div class="col"><div class="skill-item">BLE Communication</div></div>
+            <div class="col"><div class="skill-item">Signal Processing</div></div>
+          </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/footer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/media-carousel.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\[', right: '\\]', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          throwOnError: false
+        });
+      });
+    </script>
+    <style>
+      @media (min-width: 1200px) {
+        .final-product-grid {
+          padding-left: 2.5rem;
+          padding-right: 2.5rem;
+        }
+      }
+      /* Responsive stacking for working principle images: carousel below 1000px, row above */
+      @media (max-width: 1000px) {
+        .working-principle-row {
+          display: none !important;
+        }
+        #workingPrincipleCarousel {
+          display: block !important;
+          margin-top: 2.5rem;
+        }
+      }
+      @media (min-width: 1001px) {
+        #workingPrincipleCarousel {
+          display: none !important;
+        }
+        .working-principle-row {
+          display: flex !important;
+        }
+      }
+      @media (max-width: 991px) {
+        .hardware-controller-row {
+          flex-direction: column !important;
+        }
+        .hardware-left, .hardware-right {
+          width: 100% !important;
+          min-width: 0 !important;
+          max-width: 100% !important;
+        }
+      }
+      .parts-img-container {
+        width: 140px;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+      }
+      .parts-img {
+        max-width: 120px;
+        max-height: 120px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+      }
+      @media (max-width: 991px) {
+        .parts-img-container { width: 90px; height: 90px; }
+        .parts-img { max-width: 70px; max-height: 70px; }
+      }
+      @media (max-width: 600px) {
+        .parts-img-container { width: 60px; height: 60px; }
+        .parts-img { max-width: 44px; max-height: 44px; }
+      }
+      /* Logo hidden on mobile for this page */
+      @media (max-width: 768px) { .banner-logo { display: none; } }
+      @media (max-width: 991px) {
+        .final-row { flex-direction: column; }
+        .final-left, .final-right { width: 100% !important; margin-bottom: 2rem; }
+      }
+    </style>
+  </body>
+</html>
