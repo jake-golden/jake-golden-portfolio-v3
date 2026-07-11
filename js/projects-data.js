@@ -10,7 +10,13 @@ const PROJECTS = [
     categories: ['project'],
     keywords: ['matlab', 'sensors'],
     thumbnail: { webp: 'assets/engineering/pulse-oximeter/thumbnail.webp', fallback: 'assets/engineering/pulse-oximeter/thumbnail.png' },
-    hoverPreview: { type: 'video', src: 'assets/engineering/pulse-oximeter/thumbnail.mp4' }
+    hoverPreview: { type: 'video', src: 'assets/engineering/pulse-oximeter/thumbnail.mp4' },
+    banner: {
+      title: 'MATLAB Pulse Oximeter',
+      subtitle: 'Laboratory project for Medical Instrumentation and Devices course.',
+      backgroundImage: { webp: 'assets/engineering/pulse-oximeter/banner.webp', fallback: 'assets/engineering/pulse-oximeter/banner.png' },
+      logo: null
+    }
   },
   {
     slug: 'stryker',
@@ -20,7 +26,13 @@ const PROJECTS = [
     categories: ['internship'],
     keywords: ['medical', 'automation'],
     thumbnail: { webp: 'assets/engineering/stryker/thumbnail.webp', fallback: 'assets/engineering/stryker/thumbnail.png' },
-    hoverPreview: { type: 'gif', src: 'assets/engineering/stryker/thumbnail.gif' }
+    hoverPreview: { type: 'gif', src: 'assets/engineering/stryker/thumbnail.gif' },
+    banner: {
+      title: 'Product Development,\nStryker Corporation',
+      subtitle: 'Hands-on experience in medical device design, testing, and automation.',
+      backgroundImage: { webp: 'assets/engineering/stryker/stryker_banner.webp', fallback: 'assets/engineering/stryker/stryker_banner.png' },
+      logo: 'assets/engineering/stryker/logo.png'
+    }
   },
   {
     slug: 'self-balancing-robot',
