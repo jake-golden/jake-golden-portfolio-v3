@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Engineering Portfolio of Jake Golden" />
+    <meta name="author" content="Jake Golden" />
+    <title>Jake Golden - Engineering Portfolio (Concept 1: Refined Dark)</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <script>
+      // Apply saved theme before first paint to avoid a flash of the wrong theme
+      (function () {
+        if (localStorage.getItem("theme") === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --bg-elevated: #151821;
+        --surface: #1a1e29;
+        --surface-hover: #202533;
+        --border: rgba(255, 255, 255, 0.08);
+        --text: #e8eaf0;
+        --text-muted: #9aa1b1;
+        --teal: #4da3b3;
+        --purple: #9c8cd4;
+        --gradient: linear-gradient(135deg, #4da3b3, #9c8cd4);
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        --chip-bg: #232837;
+        --glow-teal: rgba(77, 163, 179, 0.3);
+        --glow-purple: rgba(156, 140, 212, 0.32);
+        --carousel-btn-bg: #232837;
+        --carousel-btn-bg-hover: #2b3143;
+        --carousel-btn-icon: #e8eaf0;
+      }
+      [data-theme="light"] {
+        --bg: #ffffff;
+        --bg-elevated: #f7f9fb;
+        --surface: #ffffff;
+        --surface-hover: #f1f4f8;
+        --border: rgba(20, 30, 50, 0.1);
+        --text: #212529;
+        --text-muted: #6a7181;
+        --teal: #3c7e8b;
+        --purple: #7b6aaf;
+        --gradient: linear-gradient(135deg, #3c7e8b, #7b6aaf);
+        --shadow: 0 10px 30px rgba(20, 30, 50, 0.12);
+        --chip-bg: #e9eef3;
+        --glow-teal: rgba(60, 126, 139, 0.2);
+        --glow-purple: rgba(123, 106, 175, 0.24);
+        --carousel-btn-bg: #ffffff;
+        --carousel-btn-bg-hover: #f1f3f5;
+        --carousel-btn-icon: #373d47;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        transition: background 0.35s ease, color 0.35s ease;
+      }
+      h1, h2, h3, h4, h5 { font-family: inherit; color: var(--text); }
+      a { color: var(--teal); text-decoration: none; }
+      img { max-width: 100%; }
+
+      .text-gradient {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+
+      /* Full-page constellation canvas */
+      #constellation {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .page { position: relative; z-index: 1; }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Scroll progress */
+      .scroll-progress {
+        position: fixed;
+        top: 0; left: 0;
+        width: 0%;
+        height: 3px;
+        background: var(--gradient);
+        z-index: 1001;
+      }
+
+      /* ---------- Navbar ---------- */
+      .nav-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .nav-brand {
+        font-weight: 800;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.75rem;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+      .nav-links a:hover { color: var(--text); transform: translateY(-2px); }
+      .nav-links a.active { color: var(--text); }
+      .theme-toggle {
+        background: var(--chip-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        width: 38px; height: 38px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+      .theme-toggle:hover { transform: rotate(15deg) scale(1.08); }
+      .nav-burger {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        position: relative;
+        padding: 5rem 0 6rem;
+      }
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      .typing-text {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: var(--text-muted);
+        min-height: 1.6em;
+        white-space: nowrap;
+      }
+      .typing-caret {
+        display: inline-block;
+        width: 0;
+        height: 1em;
+        border-right: 3px solid var(--teal);
+        margin-left: 2px;
+        animation: blink 0.75s step-end infinite;
+        vertical-align: -0.15em;
+      }
+      @keyframes blink { 50% { border-right-color: transparent; } }
+      .hero h1 {
+        font-size: clamp(3rem, 6vw, 4.75rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin: 0.75rem 0 2.25rem;
+        line-height: 1.05;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-block;
+        padding: 0.9rem 2.4rem;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        border: none;
+        cursor: pointer;
+      }
+      .btn:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+      .btn-gradient {
+        background: var(--gradient);
+        color: #fff;
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--text);
+        border: 2px solid var(--border);
+      }
+      .btn-outline:hover { border-color: var(--teal); }
+      .hero-photo {
+        display: flex;
+        justify-content: center;
+      }
+      .hero-photo-frame {
+        display: inline-block;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        line-height: 0;
+      }
+      .hero-photo img {
+        display: block;
+        max-width: 430px;
+        width: 100%;
+      }
+
+      /* ---------- Sections ---------- */
+      section { padding: 4.5rem 0; }
+      /* Left-aligned section header with divider line (index2 style, index1 type) */
+      .sec-head {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .sec-head h2 {
+        font-size: clamp(2rem, 4vw, 2.75rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin: 0;
+        white-space: nowrap;
+      }
+      .sec-head .line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .section-sub {
+        color: var(--text-muted);
+        margin: 0 0 3rem;
+        font-size: 1.1rem;
+      }
+      .section-divider {
+        width: 100px;
+        height: 4px;
+        background: var(--gradient);
+        margin: 0 auto;
+        border-radius: 2px;
+      }
+
+      /* Shared glow-hover treatment for content boxes */
+      .glow-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      }
+      .glow-hover:hover {
+        transform: translateY(-7px);
+        border-color: color-mix(in srgb, var(--purple) 55%, transparent);
+        box-shadow: 0 14px 44px var(--glow-purple);
+      }
+
+      /* ---------- About ---------- */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      /* Carousel: sliding track, with the site-standard arrow buttons in
+         dedicated gutters beside the photo (not overlapping it) */
+      .about-carousel-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        max-width: 448px; /* 360px viewport + two 44px arrow gutters */
+        margin: 0 auto;
+        width: 100%;
+      }
+      .about-carousel {
+        position: relative;
+        flex: 0 1 360px;
+        min-width: 0;
+        aspect-ratio: 3 / 4;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+      .carousel-track {
+        display: flex;
+        height: 100%;
+        transition: transform 0.6s ease;
+      }
+      .carousel-track img {
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .carousel-btn {
+        flex: 0 0 36px;
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        background: var(--carousel-btn-bg);
+        color: var(--carousel-btn-icon);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .carousel-btn:hover { background: var(--carousel-btn-bg-hover); transform: scale(1.08); }
+      .carousel-dots {
+        position: absolute;
+        bottom: 12px;
+        left: 0; right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        z-index: 2;
+      }
+      .carousel-dots span {
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45);
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .carousel-dots span.active { background: #fff; transform: scale(1.25); }
+
+      .about-box {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2.25rem;
+      }
+      .about-box h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0 0 1.5rem;
+      }
+      .school-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--chip-bg);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.35rem 0.9rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        margin: 0 0.6rem 0.8rem 0;
+        position: relative;
+        cursor: default;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .school-box:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+      .school-box i { font-size: 1.15em; }
+      .school-box-tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-8px);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0.45rem 0.9rem;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        z-index: 10;
+        box-shadow: var(--shadow);
+      }
+      .school-box:hover .school-box-tooltip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-4px);
+      }
+      .about-box p.lead {
+        font-size: 1.08rem;
+        line-height: 1.7;
+        color: var(--text-muted);
+        margin: 0.75rem 0 0;
+      }
+      .about-social {
+        display: flex;
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+        font-size: 1.75rem;
+      }
+
+      /* ---------- Skills ---------- */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+      .skill-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+      .skill-card img {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 1rem;
+      }
+      .skill-card h5 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem;
+      }
+      .skill-card p {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin: 0 0 1rem;
+        line-height: 1.5;
+      }
+      .skill-progress {
+        width: 100%;
+        height: 7px;
+        background: var(--chip-bg);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .skill-progress-bar {
+        height: 100%;
+        background: var(--gradient);
+        border-radius: 10px;
+        width: 0%;
+        transition: width 1s ease;
+      }
+
+      /* ---------- Projects ---------- */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.75rem;
+      }
+      .project-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .project-card img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+      }
+      .project-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .project-body h5 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem;
+      }
+      .project-body p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin: 0 0 1rem;
+        line-height: 1.55;
+      }
+      .tech-badge {
+        display: inline-block;
+        background: var(--chip-bg);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.28rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        margin: 0 0.35rem 0.4rem 0;
+      }
+      .project-link {
+        margin-top: auto;
+        align-self: flex-start;
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 0.5rem 1.1rem;
+        border-radius: 8px;
+        border: 1.5px solid var(--teal);
+        color: var(--teal);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      .project-link:hover { background: var(--teal); color: #fff; }
+      .projects-footer { text-align: center; margin-top: 3rem; }
+
+      /* ---------- Footer ---------- */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 0;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        background: var(--bg-elevated);
+      }
+
+      /* Scroll reveal */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .fade-in-up.reveal { opacity: 1; transform: translateY(0); }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 991px) {
+        .hero-inner { grid-template-columns: 1fr; text-align: center; }
+        .hero-cta { justify-content: center; }
+        .skills-grid { grid-template-columns: repeat(2, 1fr); }
+        .projects-grid { grid-template-columns: 1fr; }
+        .about-grid { grid-template-columns: 1fr; }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0; right: 0;
+          flex-direction: column;
+          background: var(--bg-elevated);
+          border-bottom: 1px solid var(--border);
+          padding: 1.25rem 2rem;
+          gap: 1.1rem;
+          align-items: flex-start;
+        }
+        .nav-links.open { display: flex; }
+        .nav-burger { display: block; }
+      }
+      @media (max-width: 600px) {
+        .skills-grid { grid-template-columns: 1fr; }
+        .typing-text { font-size: 1.2rem; }
+        .container { padding: 0 1.25rem; }
+        .nav-inner { padding: 1rem 1.25rem; }
+        .sec-head h2 { white-space: normal; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="constellation"></canvas>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="page">
+      <div class="nav-wrap">
+        <nav class="nav-inner">
+          <a class="nav-brand text-gradient" href="index1.html">Jake Golden</a>
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <div class="nav-links" id="navLinks">
+              <a href="index1.html" class="active">Home</a>
+              <a href="engineering.html">Engineering</a>
+              <a href="photography.html">Photography</a>
+              <a href="resume.html">Resume</a>
+              <a href="contact.html">Contact</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme"><i class="bi bi-sun-fill"></i></button>
+            <button class="nav-burger" id="navBurger" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
+          </div>
+        </nav>
+      </div>
+
+      <header class="hero">
+        <div class="container">
+          <div class="hero-inner">
+            <div>
+              <div class="typing-text" data-text="Welcome to my portfolio!"></div>
+              <h1><span class="text-gradient">Jake Golden</span></h1>
+              <div class="hero-cta">
+                <a class="btn btn-gradient" href="engineering.html">Experience</a>
+                <a class="btn btn-outline" href="resume.html">Resume</a>
+              </div>
+            </div>
+            <div class="hero-photo">
+              <div class="hero-photo-frame glow-hover">
+                <picture>
+                  <source srcset="assets/profile.webp" type="image/webp" />
+                  <img src="assets/profile.jpg" alt="Profile photo of Jake Golden" />
+                </picture>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- About -->
+      <section class="fade-in-up" id="about">
+        <div class="container">
+          <div class="about-grid">
+            <div class="about-carousel-wrap">
+              <button class="carousel-btn prev" aria-label="Previous photo"><i class="bi bi-chevron-left"></i></button>
+              <div class="about-carousel glow-hover" id="aboutCarousel">
+                <div class="carousel-track">
+                  <img src="assets/aboutme/hiking.webp" alt="Hiking" />
+                  <img src="assets/aboutme/knicks.webp" alt="Knicks Game" />
+                  <img src="assets/aboutme/photography.webp" alt="Photography" />
+                  <img src="assets/aboutme/brother.webp" alt="Family" />
+                  <img src="assets/aboutme/skiing.webp" alt="Skiing" />
+                  <img src="assets/aboutme/danieljones.webp" alt="Giants Game" />
+                </div>
+                <div class="carousel-dots"></div>
+              </div>
+              <button class="carousel-btn next" aria-label="Next photo"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            <div class="about-box glow-hover">
+              <h2>About Me</h2>
+              <div>
+                <div class="school-box">
+                  <i class="bi bi-mortarboard-fill" style="color:#8a90d9;"></i>
+                  Duke University&ensp;·&ensp;Class of 2027
+                  <span class="school-box-tooltip">Pratt School of Engineering</span>
+                </div>
+                <div class="school-box">
+                  <i class="bi bi-lightning-fill" style="color:#4da3b3;"></i>
+                  Electrical Engineering
+                  <span class="school-box-tooltip">Focus: Solid-State Devices and ICs</span>
+                </div>
+                <div class="school-box">
+                  <i class="bi bi-heart-pulse-fill" style="color:#e76f51;"></i>
+                  Biomedical Engineering
+                  <span class="school-box-tooltip">Focus: Imaging and Measurement Systems</span>
+                </div>
+                <div class="school-box">
+                  <i class="bi bi-lightbulb-fill" style="color:#ffb500;"></i>
+                  Interest: signal processing for medical device design
+                </div>
+              </div>
+              <p class="lead">
+                Thanks for checking out my portfolio! My name is Jake and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard Knicks and Giants fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
+              </p>
+              <div class="about-social">
+                <a class="text-gradient" href="https://www.linkedin.com/in/jakegolden22/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                <a class="text-gradient" href="mailto:jakegolden9001@gmail.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Skills -->
+      <section class="fade-in-up" id="skills">
+        <div class="container">
+          <div class="sec-head">
+            <h2><span class="text-gradient">Skills &amp; Expertise</span></h2>
+            <span class="line"></span>
+          </div>
+          <p class="section-sub">The toolbox I bring to every project</p>
+          <div class="skills-grid">
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/code-slash.svg" alt="Programming icon" />
+              <h5>Programming</h5>
+              <p>MATLAB, Python, Java, C, Bash, LabVIEW</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="95"></div></div>
+            </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/lightning.svg" alt="Circuit & PCB Design icon" />
+              <h5>Circuit &amp; PCB Design</h5>
+              <p>Analog/digital circuit analysis, KiCAD, EasyEDA</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="90"></div></div>
+            </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/graph-up.svg" alt="Signal Processing icon" />
+              <h5>Signal Processing</h5>
+              <p>Analog/digital filtering, FFT, sampling, feature extraction</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="75"></div></div>
+            </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/motherboard.svg" alt="Embedded Systems icon" />
+              <h5>Embedded Systems</h5>
+              <p>Arduino, MCU integration, I2C, serial communication</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="75"></div></div>
+            </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/diagram-3.svg" alt="Control Systems icon" />
+              <h5>Control Systems</h5>
+              <p>Controller design, stability, system characterization</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="85"></div></div>
+            </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/gear-wide-connected.svg" alt="CAD & Prototyping icon" />
+              <h5>CAD &amp; Prototyping</h5>
+              <p>SOLIDWORKS, Creo, 3D printing, breadboarding</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="95"></div></div>
+            </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/activity.svg" alt="Measurement Tools icon" />
+              <h5>Measurement Tools</h5>
+              <p>Oscilloscopes, multimeters, logic analyzers, spectrum analyzers</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="80"></div></div>
+            </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/broadcast.svg" alt="Electromagnetics icon" />
+              <h5>Electro&shy;magnetics</h5>
+              <p>EM waves, RF principles, telecommunication systems</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="50"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Featured Projects -->
+      <section class="fade-in-up" id="projects">
+        <div class="container">
+          <div class="sec-head">
+            <h2><span class="text-gradient">Featured Projects</span></h2>
+            <span class="line"></span>
+          </div>
+          <p class="section-sub">Check out my experience page for more!</p>
+          <div class="projects-grid">
+            <div class="project-card glow-hover">
+              <img src="assets/engineering/pulse-oximeter/pulse_ox_ambient.gif" alt="Pulse Oximeter" />
+              <div class="project-body">
+                <h5>MATLAB Pulse Oximeter</h5>
+                <p>Real-time SpO₂ monitoring system with custom hardware and DSP pipeline</p>
+                <div>
+                  <span class="tech-badge">Embedded Firmware</span>
+                  <span class="tech-badge">DSP</span>
+                  <span class="tech-badge">GUI Design</span>
+                </div>
+                <a href="pulse-oximeter.html" class="project-link">View Details →</a>
+              </div>
+            </div>
+            <div class="project-card glow-hover">
+              <img src="assets/engineering/self-balancing-robot/self_balancing_robot_demo.gif" alt="Self Balancing Robot" />
+              <div class="project-body">
+                <h5>Self-Balancing Robot</h5>
+                <p>PID-controlled two-wheel balancing robot with IMU feedback</p>
+                <div>
+                  <span class="tech-badge">PCB Design</span>
+                  <span class="tech-badge">PID Control</span>
+                  <span class="tech-badge">I2C</span>
+                </div>
+                <a href="self-balancing-robot.html" class="project-link">View Details →</a>
+              </div>
+            </div>
+            <div class="project-card glow-hover">
+              <img src="assets/engineering/steel-ball-dispenser/steel-ball-dispenser-demo.gif" alt="Steel Ball Dispenser" />
+              <div class="project-body">
+                <h5>Steel Ball Dispenser</h5>
+                <p>Automated dispensing system with precision control</p>
+                <div>
+                  <span class="tech-badge">Arduino</span>
+                  <span class="tech-badge">Product Development</span>
+                  <span class="tech-badge">V&amp;V</span>
+                </div>
+                <a href="steel-ball-dispenser.html" class="project-link">View Details →</a>
+              </div>
+            </div>
+          </div>
+          <div class="projects-footer">
+            <a href="engineering.html" class="btn btn-gradient">View All Projects →</a>
+          </div>
+        </div>
+      </section>
+
+      <footer>© 2025 Jake Golden. All rights reserved.</footer>
+    </div>
+
+    <script>
+      // ----- Theme toggle -----
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const icon = btn.querySelector("i");
+        function syncIcon() {
+          const light = document.documentElement.getAttribute("data-theme") === "light";
+          icon.className = light ? "bi bi-moon-fill" : "bi bi-sun-fill";
+        }
+        btn.addEventListener("click", function () {
+          const light = document.documentElement.getAttribute("data-theme") === "light";
+          if (light) {
+            document.documentElement.removeAttribute("data-theme");
+            localStorage.setItem("theme", "dark");
+          } else {
+            document.documentElement.setAttribute("data-theme", "light");
+            localStorage.setItem("theme", "light");
+          }
+          syncIcon();
+        });
+        syncIcon();
+      })();
+
+      // ----- Mobile nav -----
+      document.getElementById("navBurger").addEventListener("click", function () {
+        document.getElementById("navLinks").classList.toggle("open");
+      });
+
+      // Viewport size with fallbacks: some embedded/preview browsers report
+      // window.innerWidth/innerHeight (and even clientWidth/Height) as 0,
+      // which silently breaks IntersectionObserver and any scroll math.
+      function viewportW() {
+        return window.innerWidth || document.documentElement.clientWidth || (window.screen && screen.width) || 1280;
+      }
+      function viewportH() {
+        return window.innerHeight || document.documentElement.clientHeight || (window.screen && screen.height) || 800;
+      }
+
+      // ----- Scroll progress -----
+      window.addEventListener("scroll", function () {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - viewportH();
+        document.getElementById("scrollProgress").style.width = (winScroll / height) * 100 + "%";
+      });
+
+      // ----- Scroll reveal + skill bars -----
+      // Plain scroll-position check instead of IntersectionObserver (IO never
+      // fires in some embedded browsers), plus a low-frequency interval as a
+      // safety net in case scroll events are unreliable too: content must
+      // never be able to stay permanently invisible.
+      (function () {
+        const pending = new Set(document.querySelectorAll(".fade-in-up"));
+        function reveal(el) {
+          el.classList.add("reveal");
+          el.querySelectorAll(".skill-progress-bar").forEach((bar) => {
+            setTimeout(() => { bar.style.width = bar.dataset.progress + "%"; }, 100);
+          });
+          pending.delete(el);
+        }
+        const interval = setInterval(check, 400);
+        function check() {
+          if (!pending.size) { clearInterval(interval); return; }
+          const vh = viewportH();
+          pending.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            // Reveal once any part of the element is within ~85% of the viewport
+            if (rect.top < vh * 0.85 && rect.bottom > 0) reveal(el);
+          });
+        }
+        let ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => { check(); ticking = false; });
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        check();
+      })();
+
+      // ----- Typing animation -----
+      (function () {
+        const el = document.querySelector(".typing-text");
+        const text = el.dataset.text;
+        const caret = document.createElement("span");
+        caret.className = "typing-caret";
+        el.appendChild(caret);
+        let i = 0;
+        function typeNext() {
+          if (i < text.length) {
+            el.insertBefore(document.createTextNode(text[i]), caret);
+            i++;
+            setTimeout(typeNext, 60);
+          } else {
+            setTimeout(() => { caret.style.borderRightColor = "transparent"; }, 1200);
+          }
+        }
+        setTimeout(typeNext, 800);
+      })();
+
+      // ----- About photo carousel (sliding track, matches the site's other carousels) -----
+      (function () {
+        const wrap = document.querySelector(".about-carousel-wrap");
+        const root = document.getElementById("aboutCarousel");
+        const track = root.querySelector(".carousel-track");
+        const imgs = Array.from(track.querySelectorAll("img"));
+        const dotsWrap = root.querySelector(".carousel-dots");
+        let index = 0;
+        let timer;
+        imgs.forEach((_, i) => {
+          const dot = document.createElement("span");
+          if (i === 0) dot.classList.add("active");
+          dotsWrap.appendChild(dot);
+        });
+        const dots = Array.from(dotsWrap.children);
+        function show(i) {
+          index = (i + imgs.length) % imgs.length;
+          track.style.transform = `translateX(-${index * 100}%)`;
+          dots.forEach((d, j) => d.classList.toggle("active", j === index));
+        }
+        function restartTimer() {
+          clearInterval(timer);
+          timer = setInterval(() => show(index + 1), 4000);
+        }
+        wrap.querySelector(".prev").addEventListener("click", () => { show(index - 1); restartTimer(); });
+        wrap.querySelector(".next").addEventListener("click", () => { show(index + 1); restartTimer(); });
+        restartTimer();
+      })();
+
+      // ----- Full-page golden-spiral constellation (mouse-tracking) -----
+      (function () {
+        const canvas = document.getElementById("constellation");
+        const ctx = canvas.getContext("2d");
+        let width, height, dpr;
+        function resize() {
+          dpr = window.devicePixelRatio || 1;
+          width = viewportW();
+          height = viewportH();
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          canvas.style.width = width + "px";
+          canvas.style.height = height + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize();
+        window.addEventListener("resize", resize);
+        // Fallback for environments where the viewport size settles late and
+        // no resize event fires
+        setInterval(() => {
+          if (viewportW() !== width || viewportH() !== height) resize();
+        }, 1000);
+
+        const mouse = { x: null, y: null };
+        let holding = false; // mouse button held down = golden-spiral mode
+        document.addEventListener("mousemove", (e) => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        });
+        document.addEventListener("mouseleave", () => { mouse.x = null; mouse.y = null; stopHolding(); });
+
+        const TEAL = [77, 163, 179];
+        const PURPLE = [156, 140, 212];
+        const BASE_SPEED = 0.16;      // px/frame wandering speed (slow drift)
+        const MAX_DIST = 140;         // node-to-node link distance
+        const REPEL_RADIUS = 160;     // hover repel radius
+        const REPEL_STRENGTH = 0.55;  // hover repel force
+        const SPIRAL_RADIUS = 220;    // capture radius around the cursor while held
+        const SPIRAL_MIN = 34;        // inner orbit band — nodes won't collapse in
+        const SPIRAL_SPEED_MIN = 0.7; // slow, calm orbit speed (was 1.6)
+        const SPIRAL_SPEED_MAX = 1.3; // was 2.7
+        // Golden (logarithmic) spiral: r = a·e^(bθ) with b = ln(φ)/(π/2).
+        // The constant pitch angle atan(b) ≈ 17° is what we steer nodes along.
+        const PITCH = Math.atan(Math.log((1 + Math.sqrt(5)) / 2) / (Math.PI / 2));
+
+        class Node {
+          constructor(x, y, vx, vy) {
+            this.x = x !== undefined ? x : Math.random() * width;
+            this.y = y !== undefined ? y : Math.random() * height;
+            const ang = Math.random() * Math.PI * 2;
+            this.vx = vx !== undefined ? vx : Math.cos(ang) * BASE_SPEED;
+            this.vy = vy !== undefined ? vy : Math.sin(ang) * BASE_SPEED;
+            this.radius = 2.5;
+            this.mix = Math.random(); // teal↔purple blend
+          }
+          color(alpha) {
+            const r = Math.round(TEAL[0] + (PURPLE[0] - TEAL[0]) * this.mix);
+            const g = Math.round(TEAL[1] + (PURPLE[1] - TEAL[1]) * this.mix);
+            const b = Math.round(TEAL[2] + (PURPLE[2] - TEAL[2]) * this.mix);
+            return `rgba(${r},${g},${b},${alpha})`;
+          }
+          update() {
+            if (mouse.x !== null) {
+              const dx = this.x - mouse.x;
+              const dy = this.y - mouse.y;
+              const dist = Math.hypot(dx, dy);
+              if (holding && dist < SPIRAL_RADIUS && dist > 0.01) {
+                // Outward radial unit vector and its counterclockwise tangent
+                const rx = dx / dist, ry = dy / dist;
+                const tx = -ry, ty = rx;
+                // Steer along the golden-spiral pitch: mostly tangential,
+                // with an inward pull that fades to zero at the inner band
+                // so nodes orbit instead of collapsing onto the cursor.
+                const inward = Math.sin(PITCH) * Math.max(0, (dist - SPIRAL_MIN) / (SPIRAL_RADIUS - SPIRAL_MIN));
+                const speed = SPIRAL_SPEED_MIN + (SPIRAL_SPEED_MAX - SPIRAL_SPEED_MIN) * (1 - dist / SPIRAL_RADIUS);
+                const desiredX = (tx * Math.cos(PITCH) - rx * inward) * speed;
+                const desiredY = (ty * Math.cos(PITCH) - ry * inward) * speed;
+                // Steering strength ramps up the closer the node is
+                const grip = 0.1 + 0.12 * (1 - dist / SPIRAL_RADIUS);
+                this.vx += (desiredX - this.vx) * grip;
+                this.vy += (desiredY - this.vy) * grip;
+              } else if (!holding && dist < REPEL_RADIUS && dist > 0.01) {
+                // Gentle push directly away from the cursor
+                const rx = dx / dist, ry = dy / dist;
+                const force = (1 - dist / REPEL_RADIUS) * REPEL_STRENGTH;
+                this.vx += rx * force;
+                this.vy += ry * force;
+              }
+            }
+            // Relax back toward calm wandering speed when free
+            const speed = Math.hypot(this.vx, this.vy);
+            const relaxTarget = holding ? SPIRAL_SPEED_MIN : BASE_SPEED;
+            if (speed > relaxTarget) {
+              const relax = 0.97;
+              this.vx *= relax;
+              this.vy *= relax;
+            }
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+            this.x = Math.max(0, Math.min(width, this.x));
+            this.y = Math.max(0, Math.min(height, this.y));
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color(0.45);
+            ctx.fill();
+          }
+        }
+
+        const nodes = [];
+        // Scale node density with viewport area, within sane bounds
+        const initialCount = Math.max(60, Math.min(100, Math.round((width * height) / 16000)));
+        for (let i = 0; i < initialCount; i++) nodes.push(new Node());
+
+        // Press and hold on the page background = a "source": existing nodes
+        // near the cursor spiral around it for as long as the button is held.
+        // No new nodes are spawned — holding never changes the total node count.
+        function startHolding() { holding = true; }
+        function stopHolding() { holding = false; }
+        document.addEventListener("mousedown", (e) => {
+          if (e.button !== 0) return;
+          if (e.target.closest("a, button, input, .about-box, .about-carousel, .skill-card, .project-card, .nav-wrap, img, picture")) return;
+          startHolding();
+        });
+        document.addEventListener("mouseup", stopHolding);
+        window.addEventListener("blur", stopHolding);
+
+        function drawConnections() {
+          for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+              const dx = nodes[i].x - nodes[j].x;
+              const dy = nodes[i].y - nodes[j].y;
+              const distance = Math.hypot(dx, dy);
+              if (distance < MAX_DIST) {
+                ctx.beginPath();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(nodes[j].x, nodes[j].y);
+                ctx.strokeStyle = nodes[i].color(0.26 * (1 - distance / MAX_DIST));
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+            if (holding && mouse.x !== null) {
+              const dx = nodes[i].x - mouse.x;
+              const dy = nodes[i].y - mouse.y;
+              const distance = Math.hypot(dx, dy);
+              if (distance < SPIRAL_RADIUS) {
+                ctx.beginPath();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.strokeStyle = nodes[i].color(0.34 * (1 - distance / SPIRAL_RADIUS));
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+          }
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, width, height);
+          drawConnections();
+          nodes.forEach((n) => { n.update(); n.draw(); });
+          requestAnimationFrame(animate);
+        }
+        animate();
+      })();
+    </script>
+  </body>
+</html>
