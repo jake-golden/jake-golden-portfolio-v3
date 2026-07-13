@@ -7,273 +7,32 @@
     <meta name="author" content="Jake Golden" />
     <title>Jake Golden - Engineering Portfolio</title>
     <script src="js/head.js"></script>
-    <style>
-      body { overflow-x: hidden; }
-
-      /* Scroll progress indicator */
-      .scroll-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 4px;
-        background: linear-gradient(90deg, #3c7e8b, #7b6aaf);
-        z-index: 9999;
-        transition: width 0.1s ease;
-      }
-
-      /* Animated gradient background for hero */
-      .hero-gradient-bg {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: linear-gradient(-45deg, #e3f2fd, #e3f2fd, #e3f2fd, #e3f2fd);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
-        opacity: 0.3;
-        z-index: 0;
-      }
-      @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-
-      /* Network visualization background */
-      .geometric-bg {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        overflow: hidden;
-        z-index: 0;
-      }
-      .network-canvas {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      /* Typing animation (JS-driven) */
-      .typing-text {
-        white-space: nowrap;
-        display: inline-block;
-        min-height: 1.5em;
-      }
-      .typing-caret {
-        display: inline-block;
-        width: 0;
-        height: 1em;
-        border-right: 3px solid #3c7e8b;
-        margin-left: 2px;
-        animation: blink 0.75s step-end infinite;
-        vertical-align: -0.2em;
-      }
-      @keyframes blink {
-        50% { border-right-color: transparent; }
-      }
-
-      .profile-img {
-        transition: none !important;
-        cursor: pointer;
-      }
-      .profile-img:hover {
-        transform: none;
-        filter: none;
-        box-shadow: none !important;
-      }
-
-      /* Skills section */
-      .skill-card {
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-        height: 100%;
-        perspective: 1000px;
-      }
-      .skill-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      }
-      .skill-card i {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, #3c7e8b, #7b6aaf);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      .skill-card img {
-        width: 3rem;
-        height: 3rem;
-        margin-bottom: 1rem;
-        display: inline-block;
-      }
-      .skill-card h5 {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-        word-break: break-word;
-        hyphens: show;
-      }
-      .skill-progress {
-        width: 100%;
-        height: 8px;
-        background: #e9ecef;
-        border-radius: 10px;
-        overflow: hidden;
-        margin-top: 1rem;
-      }
-      .skill-progress-bar {
-        height: 100%;
-        background: linear-gradient(90deg, #3c7e8b, #7b6aaf);
-        border-radius: 10px;
-        transition: width 1s ease;
-        width: 0%;
-      }
-
-      /* Enhanced About section */
-      .about-box {
-        background-color: #F7F9FB;
-        padding: 2rem;
-        border-radius: 12px;
-      }
-      .school-box {
-        margin-right: 0.7rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        cursor: pointer;
-        position: relative;
-      }
-      .school-box:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
-      }
-      .school-box-tooltip {
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-10px);
-        background: #373d47;
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        font-size: 0.85rem;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        z-index: 10;
-      }
-      .school-box:hover .school-box-tooltip {
-        opacity: 1;
-        transform: translateX(-50%) translateY(-5px);
-      }
-
-      /* Featured projects */
-      .project-preview-card {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-      .project-preview-card:hover {
-        transform: translateY(-10px) scale(1.05);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-      }
-      .project-preview-img {
-        width: 100%;
-        height: 300px;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-        flex-shrink: 0;
-      }
-      .project-preview-body {
-        padding: 1.5rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-      .tech-badge {
-        display: inline-block;
-        background: #e9eef3;
-        color: #373d47;
-        padding: 0.3rem 0.8rem;
-        border-radius: 15px;
-        font-size: 0.75rem;
-        margin-right: 0.4rem;
-        margin-bottom: 0.4rem;
-        font-weight: 600;
-      }
-
-      /* Section dividers */
-      .section-divider {
-        width: 100px;
-        height: 4px;
-        background: linear-gradient(90deg, #3c7e8b, #7b6aaf);
-        margin: 3rem auto;
-        border-radius: 2px;
-      }
-
-      /* Scroll animations */
-      .fade-in-up {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-      }
-      .fade-in-up.reveal {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .typing-text { font-size: 1.5rem !important; }
-        .school-box {
-          display: flex !important;
-          align-items: center !important;
-          margin-bottom: 0.75rem;
-        }
-        .school-box i {
-          flex-shrink: 0;
-          min-width: 1.5em;
-        }
-      }
-    </style>
   </head>
-  <body class="d-flex flex-column h-100 bg-light">
+  <body class="d-flex flex-column h-100">
+    <canvas id="constellation"></canvas>
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <main class="flex-shrink-0">
-      <div id="navbar-placeholder"></div>
-      <script src="js/projects-data.js"></script>
-      <script src="js/navbar.js"></script>
+    <div id="navbar-placeholder"></div>
+    <script src="js/projects-data.js"></script>
+    <script src="js/navbar.js"></script>
 
-      <header class="py-5" style="position: relative; overflow: hidden;">
-        <div class="hero-gradient-bg"></div>
-        <div class="geometric-bg" id="geometricBg"></div>
-        <div class="container px-5 pb-5" style="position: relative; z-index: 1;">
-          <div class="row gx-5 align-items-center">
-            <div class="col-xxl-5">
-              <div class="text-center text-xxl-start">
-                <div class="fs-3 fw-light text-muted typing-text" data-text="Welcome to my portfolio!"></div>
-                <h1 class="display-3 fw-bolder mb-5 mt-3">
-                  <span class="text-gradient d-inline">Jake Golden</span>
-                </h1>
-                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
-                  <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder btn-float" href="engineering.html">Experience</a>
-                  <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder btn-float" href="resume.html">Resume</a>
-                </div>
+    <div id="home">
+      <header class="hero">
+        <div class="container">
+          <div class="hero-inner">
+            <div>
+              <div class="typing-text" data-text="Welcome to my portfolio!"></div>
+              <h1><span class="text-gradient">Jake Golden</span></h1>
+              <div class="hero-cta">
+                <a class="btn btn-gradient" href="engineering.html">Experience</a>
+                <a class="btn btn-outline" href="resume.html">Resume</a>
               </div>
             </div>
-            <div class="col-xxl-7">
-              <div class="d-flex justify-content-center mt-5 mt-xxl-0" style="position: relative;">
+            <div class="hero-photo">
+              <div class="hero-photo-frame glow-hover">
                 <picture>
-                  <source srcset="assets/profile.webp" type="image/webp">
-                  <img class="profile-img img-fluid" src="assets/profile.jpg" alt="Profile photo" style="max-width: 450px; background: transparent; box-shadow: none; border-radius: 0;" />
+                  <source srcset="assets/profile.webp" type="image/webp" />
+                  <img src="assets/profile.jpg" alt="Profile photo of Jake Golden" />
                 </picture>
               </div>
             </div>
@@ -281,91 +40,54 @@
         </div>
       </header>
 
-      <!-- About Me Section -->
-      <section class="py-5 fade-in-up">
-        <div class="container px-5">
-          <div class="row align-items-center">
-            <div class="col-lg-6 text-center mb-4 mb-lg-0">
-              <!-- max-width widened from the original 350px so the shared .media-carousel
-                   arrow gutters don't visibly shrink the photo -->
-              <div id="aboutCarousel" class="carousel slide media-carousel" data-bs-ride="none" style="max-width: 430px; margin: 0 auto;">
-                <div class="carousel-inner rounded shadow" style="aspect-ratio:3/4; width:100%; max-width:350px; background:#f7f9fb;">
-                  <div class="carousel-item active">
-                    <picture>
-                      <source srcset="assets/aboutme/hiking.webp" type="image/webp">
-                      <img src="assets/aboutme/hiking.jpg" class="d-block mx-auto" alt="Hiking" style="width:100%; height:100%; object-fit:cover; display:block;">
-                    </picture>
-                  </div>
-                  <div class="carousel-item">
-                    <picture>
-                      <source srcset="assets/aboutme/knicks.webp" type="image/webp">
-                      <img src="assets/aboutme/knicks.jpg" class="d-block mx-auto" alt="Knicks Game" style="width:100%; height:100%; object-fit:cover; display:block;">
-                    </picture>
-                  </div>
-                  <div class="carousel-item">
-                    <picture>
-                      <source srcset="assets/aboutme/photography.webp" type="image/webp">
-                      <img src="assets/aboutme/photography.jpg" class="d-block mx-auto" alt="Photography" style="width:100%; height:100%; object-fit:cover; display:block;">
-                    </picture>
-                  </div>
-                  <div class="carousel-item">
-                    <picture>
-                      <source srcset="assets/aboutme/brother.webp" type="image/webp">
-                      <img src="assets/aboutme/brother.jpg" class="d-block mx-auto" alt="Family" style="width:100%; height:100%; object-fit:cover; display:block;">
-                    </picture>
-                  </div>
-                  <div class="carousel-item">
-                    <picture>
-                      <source srcset="assets/aboutme/skiing.webp" type="image/webp">
-                      <img src="assets/aboutme/skiing.jpg" class="d-block mx-auto" alt="Skiing" style="width:100%; height:100%; object-fit:cover; display:block;">
-                    </picture>
-                  </div>
-                  <div class="carousel-item">
-                    <picture>
-                      <source srcset="assets/aboutme/danieljones.webp" type="image/webp">
-                      <img src="assets/aboutme/danieljones.jpg" class="d-block mx-auto" alt="Giants Game" style="width:100%; height:100%; object-fit:cover; display:block;">
-                    </picture>
-                  </div>
+      <!-- About -->
+      <section class="fade-in-up" id="about">
+        <div class="container">
+          <div class="about-grid">
+            <div class="about-carousel-wrap">
+              <button class="carousel-btn prev" aria-label="Previous photo"><i class="bi bi-chevron-left"></i></button>
+              <div class="about-carousel glow-hover" id="aboutCarousel">
+                <div class="carousel-track">
+                  <img src="assets/aboutme/hiking.webp" alt="Hiking" />
+                  <img src="assets/aboutme/knicks.webp" alt="Knicks Game" />
+                  <img src="assets/aboutme/photography.webp" alt="Photography" />
+                  <img src="assets/aboutme/brother.webp" alt="Family" />
+                  <img src="assets/aboutme/skiing.webp" alt="Skiing" />
+                  <img src="assets/aboutme/danieljones.webp" alt="Giants Game" />
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
+                <div class="carousel-dots"></div>
               </div>
+              <button class="carousel-btn next" aria-label="Next photo"><i class="bi bi-chevron-right"></i></button>
             </div>
-            <div class="col-lg-6">
-              <div class="about-box text-center text-lg-start">
-                <h2 class="fw-bolder mb-4" style="color:#373D47;">About Me</h2>
-                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-                  <i class="bi bi-mortarboard-fill me-2" style="font-size:1.2em; color:#6a70af;"></i>
-                  Duke University &nbsp·&nbsp Class of 2027
+            <div class="about-box glow-hover">
+              <h2>About Me</h2>
+              <div>
+                <div class="school-box">
+                  <i class="bi bi-mortarboard-fill" style="color:#8a90d9;"></i>
+                  Duke University&ensp;·&ensp;Class of 2027
                   <span class="school-box-tooltip">Pratt School of Engineering</span>
                 </div>
-                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-                  <i class="bi bi-lightning-fill me-2" style="font-size:1.2em; color:#3c7e8b;"></i>
+                <div class="school-box">
+                  <i class="bi bi-lightning-fill" style="color:#4da3b3;"></i>
                   Electrical Engineering
                   <span class="school-box-tooltip">Focus: Solid-State Devices and ICs</span>
                 </div>
-                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-                  <i class="bi bi-heart-pulse-fill me-2" style="font-size:1.2em; color:#e76f51;"></i>
+                <div class="school-box">
+                  <i class="bi bi-heart-pulse-fill" style="color:#e76f51;"></i>
                   Biomedical Engineering
                   <span class="school-box-tooltip">Focus: Imaging and Measurement Systems</span>
                 </div>
-                <div class="school-box d-inline-flex align-items-center mb-3 px-3 py-1 rounded" style="background:#e9eef3; font-size:1rem; color:#373d47; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-                  <i class="bi bi-lightbulb-fill me-2" style="font-size:1.2em; color:#FFB500;"></i>
+                <div class="school-box">
+                  <i class="bi bi-lightbulb-fill" style="color:#ffb500;"></i>
                   Interest: signal processing for medical device design
                 </div>
-                <p class="lead">
-                  Thanks for checking out my portfolio! My name is Jake and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard Knicks and Giants fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
-                </p>
-                <div class="d-flex justify-content-center justify-content-lg-start fs-2 gap-4 mt-4">
-                  <a class="text-gradient" href="https://www.linkedin.com/in/jakegolden22/" target="_blank"><i class="bi bi-linkedin"></i></a>
-                  <a class="text-gradient" href="mailto:jakegolden9001@gmail.com" target="_blank"><i class="bi bi-envelope-fill"></i></a>
-                </div>
+              </div>
+              <p class="lead">
+                Thanks for checking out my portfolio! My name is Jake and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard Knicks and Giants fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
+              </p>
+              <div class="about-social">
+                <a class="text-gradient" href="https://www.linkedin.com/in/jakegolden22/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                <a class="text-gradient" href="mailto:jakegolden9001@gmail.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
               </div>
             </div>
           </div>
@@ -374,92 +96,62 @@
 
       <div class="section-divider"></div>
 
-      <!-- Skills & Expertise Section -->
-      <section class="py-5 fade-in-up">
-        <div class="container px-5">
-          <div class="text-center mb-5">
-            <h2 class="display-5 fw-bolder"><span class="text-gradient d-inline">Skills & Expertise</span></h2>
+      <!-- Skills -->
+      <section class="fade-in-up" id="skills">
+        <div class="container">
+          <div class="sec-head">
+            <h2><span class="text-gradient">Skills &amp; Expertise</span></h2>
+            <span class="line"></span>
           </div>
-          <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/code-slash.svg" alt="Programming icon" style="width:3rem;height:3rem;margin-bottom:1rem;" />
-                <h5>Programming</h5>
-                <p class="text-muted mb-2 small">MATLAB, Python, Java, C, Bash, LabVIEW</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="95"></div>
-                </div>
-              </div>
+          <p class="section-sub"></p>
+          <div class="skills-grid">
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/code-slash.svg" alt="Programming icon" />
+              <h5>Programming</h5>
+              <p>MATLAB, Python, Java, C, Bash, LabVIEW</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="95"></div></div>
             </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/lightning.svg" alt="Circuit & PCB Design icon" />
-                <h5>Circuit & PCB Design</h5>
-                <p class="text-muted mb-2 small">Analog/digital circuit analysis, KiCAD, EasyEDA</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="90"></div>
-                </div>
-              </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/lightning.svg" alt="Circuit & PCB Design icon" />
+              <h5>Circuit &amp; PCB Design</h5>
+              <p>Analog/digital circuit analysis, KiCAD, EasyEDA</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="90"></div></div>
             </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/graph-up.svg" alt="Signal Processing icon" />
-                <h5>Signal Processing</h5>
-                <p class="text-muted mb-2 small">Analog/digital filtering, FFT, sampling, feature extraction</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="75"></div>
-                </div>
-              </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/graph-up.svg" alt="Signal Processing icon" />
+              <h5>Signal Processing</h5>
+              <p>Analog/digital filtering, FFT, sampling, feature extraction</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="75"></div></div>
             </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/motherboard.svg" alt="Embedded Systems icon" />
-                <h5>Embedded Systems</h5>
-                <p class="text-muted mb-2 small">Arduino, MCU integration, I2C, serial communication</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="75"></div>
-                </div>
-              </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/motherboard.svg" alt="Embedded Systems icon" />
+              <h5>Embedded Systems</h5>
+              <p>Arduino, MCU integration, I2C, serial communication</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="75"></div></div>
             </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/diagram-3.svg" alt="Control Systems icon" />
-                <h5>Control Systems</h5>
-                <p class="text-muted mb-2 small">Controller design, stability, system characterization</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="85"></div>
-                </div>
-              </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/diagram-3.svg" alt="Control Systems icon" />
+              <h5>Control Systems</h5>
+              <p>Controller design, stability, system characterization</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="85"></div></div>
             </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/gear-wide-connected.svg" alt="CAD & Prototyping icon" />
-                <h5>CAD & Prototyping</h5>
-                <p class="text-muted mb-2 small">SOLIDWORKS, Creo, 3D printing, breadboarding</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="95"></div>
-                </div>
-              </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/gear-wide-connected.svg" alt="CAD & Prototyping icon" />
+              <h5>CAD &amp; Prototyping</h5>
+              <p>SOLIDWORKS, Creo, 3D printing, breadboarding</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="95"></div></div>
             </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/activity.svg" alt="Measurement Tools icon" />
-                <h5>Measurement Tools</h5>
-                <p class="text-muted mb-2 small">Oscilloscopes, multimeters, logic analyzers, spectrum analyzers</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="80"></div>
-                </div>
-              </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/activity.svg" alt="Measurement Tools icon" />
+              <h5>Measurement Tools</h5>
+              <p>Oscilloscopes, multimeters, logic analyzers, spectrum analyzers</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="80"></div></div>
             </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="skill-card">
-                <img src="assets/icons/broadcast.svg" alt="Electromagnetics icon" />
-                <h5>Electro&shy;magnetics</h5>
-                <p class="text-muted mb-2 small">EM waves, RF principles, telecommunication systems</p>
-                <div class="skill-progress">
-                  <div class="skill-progress-bar" data-progress="50"></div>
-                </div>
-              </div>
+            <div class="skill-card glow-hover">
+              <img src="assets/icons/broadcast.svg" alt="Electromagnetics icon" />
+              <h5>Electro&shy;magnetics</h5>
+              <p>EM waves, RF principles, telecommunication systems</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="50"></div></div>
             </div>
           </div>
         </div>
@@ -467,182 +159,266 @@
 
       <div class="section-divider"></div>
 
-      <!-- Featured Projects Section -->
-      <section class="py-5 fade-in-up">
-        <div class="container px-5">
-          <div class="text-center mb-5">
-            <h2 class="display-5 fw-bolder"><span class="text-gradient d-inline">Featured Projects</span></h2>
-            <p class="lead text-muted mb-0">Check out my experience page for more!</p>
+      <!-- Featured Projects -->
+      <section class="fade-in-up" id="projects">
+        <div class="container">
+          <div class="sec-head">
+            <h2><span class="text-gradient">Featured Projects</span></h2>
+            <span class="line"></span>
           </div>
-          <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-              <div class="project-preview-card">
-                <img src="assets/engineering/pulse-oximeter/pulse_ox_ambient.gif" alt="Pulse Oximeter" class="project-preview-img">
-                <div class="project-preview-body">
-                  <h5 class="fw-bolder mb-2">MATLAB Pulse Oximeter</h5>
-                  <p class="text-muted small mb-3">Real-time SpO₂ monitoring system with custom hardware and DSP pipeline</p>
-                  <div class="mb-3">
-                    <span class="tech-badge">Embedded Firmware</span>
-                    <span class="tech-badge">DSP</span>
-                    <span class="tech-badge">GUI Design</span>
-                  </div>
-                  <a href="pulse-oximeter.html" class="btn btn-sm btn-outline-primary">View Details →</a>
+          <p class="section-sub">Check out my experience page for more!</p>
+          <div class="projects-grid">
+            <div class="project-card glow-hover">
+              <img src="assets/engineering/pulse-oximeter/pulse_ox_ambient.gif" alt="Pulse Oximeter" />
+              <div class="project-body">
+                <h5>MATLAB Pulse Oximeter</h5>
+                <p>Real-time SpO₂ monitoring system with custom hardware and DSP pipeline</p>
+                <div>
+                  <span class="tech-badge">Embedded Firmware</span>
+                  <span class="tech-badge">DSP</span>
+                  <span class="tech-badge">GUI Design</span>
                 </div>
+                <a href="pulse-oximeter.html" class="project-link">View Details →</a>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-              <div class="project-preview-card">
-                <img src="assets/engineering/self-balancing-robot/self_balancing_robot_demo.gif" alt="Self Balancing Robot" class="project-preview-img">
-                <div class="project-preview-body">
-                  <h5 class="fw-bolder mb-2">Self-Balancing Robot</h5>
-                  <p class="text-muted small mb-3">PID-controlled two-wheel balancing robot with IMU feedback</p>
-                  <div class="mb-3">
-                    <span class="tech-badge">PCB Design</span>
-                    <span class="tech-badge">PID Control</span>
-                    <span class="tech-badge">I2C</span>
-                  </div>
-                  <a href="self-balancing-robot.html" class="btn btn-sm btn-outline-primary">View Details →</a>
+            <div class="project-card glow-hover">
+              <img src="assets/engineering/self-balancing-robot/self_balancing_robot_demo.gif" alt="Self Balancing Robot" />
+              <div class="project-body">
+                <h5>Self-Balancing Robot</h5>
+                <p>PID-controlled two-wheel balancing robot with IMU feedback</p>
+                <div>
+                  <span class="tech-badge">PCB Design</span>
+                  <span class="tech-badge">PID Control</span>
+                  <span class="tech-badge">I2C</span>
                 </div>
+                <a href="self-balancing-robot.html" class="project-link">View Details →</a>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-              <div class="project-preview-card">
-                <img src="assets/engineering/steel-ball-dispenser/steel-ball-dispenser-demo.gif" alt="Steel Ball Dispenser" class="project-preview-img">
-                <div class="project-preview-body">
-                  <h5 class="fw-bolder mb-2">Steel Ball Dispenser</h5>
-                  <p class="text-muted small mb-3">Automated dispensing system with precision control</p>
-                  <div class="mb-3">
-                    <span class="tech-badge">Arduino</span>
-                    <span class="tech-badge">Product Development</span>
-                    <span class="tech-badge">V&V</span>
-                  </div>
-                  <a href="steel-ball-dispenser.html" class="btn btn-sm btn-outline-primary">View Details →</a>
+            <div class="project-card glow-hover">
+              <img src="assets/engineering/steel-ball-dispenser/steel-ball-dispenser-demo.gif" alt="Steel Ball Dispenser" />
+              <div class="project-body">
+                <h5>Steel Ball Dispenser</h5>
+                <p>Automated dispensing system with precision control</p>
+                <div>
+                  <span class="tech-badge">Arduino</span>
+                  <span class="tech-badge">Product Development</span>
+                  <span class="tech-badge">V&amp;V</span>
                 </div>
+                <a href="steel-ball-dispenser.html" class="project-link">View Details →</a>
               </div>
             </div>
           </div>
-          <div class="text-center mt-4">
-            <a href="engineering.html" class="btn btn-primary btn-lg btn-float">View All Projects →</a>
+          <div class="projects-footer">
+            <a href="engineering.html" class="btn btn-gradient">View All Projects →</a>
           </div>
         </div>
       </section>
-    </main>
+    </div>
 
     <div id="footer-placeholder"></div>
     <script src="js/footer.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="js/media-carousel.js"></script>
 
     <script>
-      // Scroll progress indicator (index-only)
-      window.addEventListener('scroll', function() {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        document.getElementById('scrollProgress').style.width = scrolled + '%';
+      // Viewport size with fallbacks: some embedded/preview browsers report
+      // window.innerWidth/innerHeight (and even clientWidth/Height) as 0,
+      // which silently breaks any scroll math.
+      function viewportW() {
+        return window.innerWidth || document.documentElement.clientWidth || (window.screen && screen.width) || 1280;
+      }
+      function viewportH() {
+        return window.innerHeight || document.documentElement.clientHeight || (window.screen && screen.height) || 800;
+      }
+
+      // ----- Scroll progress -----
+      window.addEventListener("scroll", function () {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - viewportH();
+        document.getElementById("scrollProgress").style.width = (winScroll / height) * 100 + "%";
       });
 
-      // Intersection Observer for scroll-reveal animations
-      const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' };
-      const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('reveal');
-            if (entry.target.querySelector('.skill-progress-bar')) {
-              entry.target.querySelectorAll('.skill-progress-bar').forEach(bar => {
-                const progress = bar.getAttribute('data-progress');
-                setTimeout(() => { bar.style.width = progress + '%'; }, 100);
-              });
-            }
-          }
-        });
-      }, observerOptions);
+      // ----- Scroll reveal + skill bars -----
+      // Plain scroll-position check instead of IntersectionObserver (IO never
+      // fires in some embedded browsers), plus a low-frequency interval as a
+      // safety net in case scroll events are unreliable too: content must
+      // never be able to stay permanently invisible.
+      (function () {
+        const pending = new Set(document.querySelectorAll(".fade-in-up"));
+        function reveal(el) {
+          el.classList.add("reveal");
+          el.querySelectorAll(".skill-progress-bar").forEach((bar) => {
+            setTimeout(() => { bar.style.width = bar.dataset.progress + "%"; }, 100);
+          });
+          pending.delete(el);
+        }
+        const interval = setInterval(check, 400);
+        function check() {
+          if (!pending.size) { clearInterval(interval); return; }
+          const vh = viewportH();
+          pending.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            // Reveal once any part of the element is within ~85% of the viewport
+            if (rect.top < vh * 0.85 && rect.bottom > 0) reveal(el);
+          });
+        }
+        let ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => { check(); ticking = false; });
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        check();
+      })();
 
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-      });
-
-      // JS-driven typing animation to avoid variable-width clipping
-      document.addEventListener('DOMContentLoaded', function() {
-        const el = document.querySelector('.typing-text');
-        if (!el) return;
-        const text = el.getAttribute('data-text') || el.textContent.trim();
-        el.textContent = '';
-        const caret = document.createElement('span');
-        caret.className = 'typing-caret';
+      // ----- Typing animation -----
+      (function () {
+        const el = document.querySelector(".typing-text");
+        const text = el.dataset.text;
+        const caret = document.createElement("span");
+        caret.className = "typing-caret";
         el.appendChild(caret);
         let i = 0;
-        const perChar = 60;
-        const startDelay = 800;
         function typeNext() {
           if (i < text.length) {
             el.insertBefore(document.createTextNode(text[i]), caret);
             i++;
-            setTimeout(typeNext, perChar);
+            setTimeout(typeNext, 60);
           } else {
-            setTimeout(() => { caret.style.borderRightColor = 'transparent'; }, 1200);
+            setTimeout(() => { caret.style.borderRightColor = "transparent"; }, 1200);
           }
         }
-        setTimeout(typeNext, startDelay);
-      });
+        setTimeout(typeNext, 800);
+      })();
 
-      // Freeze About carousel until visible, then start cycling
-      document.addEventListener('DOMContentLoaded', function() {
-        const carouselEl = document.getElementById('aboutCarousel');
-        if (!carouselEl || !window.bootstrap) return;
-        const bsCarousel = new bootstrap.Carousel(carouselEl, {
-          interval: 4000,
-          ride: false,
-          pause: false,
-          wrap: true
+      // ----- About photo carousel (sliding track, matches the site's other carousels) -----
+      (function () {
+        const wrap = document.querySelector(".about-carousel-wrap");
+        const root = document.getElementById("aboutCarousel");
+        const track = root.querySelector(".carousel-track");
+        const imgs = Array.from(track.querySelectorAll("img"));
+        const dotsWrap = root.querySelector(".carousel-dots");
+        let index = 0;
+        let timer;
+        imgs.forEach((_, i) => {
+          const dot = document.createElement("span");
+          if (i === 0) dot.classList.add("active");
+          dotsWrap.appendChild(dot);
         });
-        const io = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              bsCarousel.to(0);
-              bsCarousel.cycle();
-              observer.disconnect();
-            }
-          });
-        }, { threshold: 0.5 });
-        io.observe(carouselEl);
-      });
+        const dots = Array.from(dotsWrap.children);
+        function show(i) {
+          index = (i + imgs.length) % imgs.length;
+          track.style.transform = `translateX(-${index * 100}%)`;
+          dots.forEach((d, j) => d.classList.toggle("active", j === index));
+        }
+        function restartTimer() {
+          clearInterval(timer);
+          timer = setInterval(() => show(index + 1), 4000);
+        }
+        wrap.querySelector(".prev").addEventListener("click", () => { show(index - 1); restartTimer(); });
+        wrap.querySelector(".next").addEventListener("click", () => { show(index + 1); restartTimer(); });
+        restartTimer();
+      })();
 
-      // Network visualization for header background
-      document.addEventListener('DOMContentLoaded', function() {
-        const geometricBg = document.getElementById('geometricBg');
-        if (!geometricBg) return;
-
-        const canvas = document.createElement('canvas');
-        canvas.className = 'network-canvas';
-        geometricBg.appendChild(canvas);
-
-        const ctx = canvas.getContext('2d');
-        let width, height;
-
+      // ----- Full-page golden-spiral constellation (mouse-tracking) -----
+      (function () {
+        const canvas = document.getElementById("constellation");
+        const ctx = canvas.getContext("2d");
+        let width, height, dpr;
         function resize() {
-          width = canvas.width = geometricBg.offsetWidth;
-          height = canvas.height = geometricBg.offsetHeight;
+          dpr = window.devicePixelRatio || 1;
+          width = viewportW();
+          height = viewportH();
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          canvas.style.width = width + "px";
+          canvas.style.height = height + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
         resize();
-        window.addEventListener('resize', resize);
+        window.addEventListener("resize", resize);
+        // Fallback for environments where the viewport size settles late and
+        // no resize event fires
+        setInterval(() => {
+          if (viewportW() !== width || viewportH() !== height) resize();
+        }, 1000);
 
-        const nodes = [];
-        const nodeCount = 55;
-        const maxDistance = 150;
-        const nodeColor = '#9e9e9e';
-        const lineColor = '#b0b0b0';
+        const mouse = { x: null, y: null };
+        let holding = false; // mouse button held down = golden-spiral mode
+        document.addEventListener("mousemove", (e) => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        });
+        document.addEventListener("mouseleave", () => { mouse.x = null; mouse.y = null; stopHolding(); });
+
+        const TEAL = [77, 163, 179];
+        const PURPLE = [156, 140, 212];
+        const BASE_SPEED = 0.16;      // px/frame wandering speed (slow drift)
+        const MAX_DIST = 140;         // node-to-node link distance
+        const REPEL_RADIUS = 160;     // hover repel radius
+        const REPEL_STRENGTH = 0.55;  // hover repel force
+        const SPIRAL_RADIUS = 220;    // capture radius around the cursor while held
+        const SPIRAL_MIN = 34;        // inner orbit band — nodes won't collapse in
+        const SPIRAL_SPEED_MIN = 0.7; // slow, calm orbit speed
+        const SPIRAL_SPEED_MAX = 1.3;
+        // Golden (logarithmic) spiral: r = a·e^(bθ) with b = ln(φ)/(π/2).
+        // The constant pitch angle atan(b) ≈ 17° is what we steer nodes along.
+        const PITCH = Math.atan(Math.log((1 + Math.sqrt(5)) / 2) / (Math.PI / 2));
 
         class Node {
-          constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.5;
-            this.vy = (Math.random() - 0.5) * 0.5;
-            this.radius = 3;
+          constructor(x, y, vx, vy) {
+            this.x = x !== undefined ? x : Math.random() * width;
+            this.y = y !== undefined ? y : Math.random() * height;
+            const ang = Math.random() * Math.PI * 2;
+            this.vx = vx !== undefined ? vx : Math.cos(ang) * BASE_SPEED;
+            this.vy = vy !== undefined ? vy : Math.sin(ang) * BASE_SPEED;
+            this.radius = 2.5;
+            this.mix = Math.random(); // teal↔purple blend
+          }
+          color(alpha) {
+            const r = Math.round(TEAL[0] + (PURPLE[0] - TEAL[0]) * this.mix);
+            const g = Math.round(TEAL[1] + (PURPLE[1] - TEAL[1]) * this.mix);
+            const b = Math.round(TEAL[2] + (PURPLE[2] - TEAL[2]) * this.mix);
+            return `rgba(${r},${g},${b},${alpha})`;
           }
           update() {
+            if (mouse.x !== null) {
+              const dx = this.x - mouse.x;
+              const dy = this.y - mouse.y;
+              const dist = Math.hypot(dx, dy);
+              if (holding && dist < SPIRAL_RADIUS && dist > 0.01) {
+                // Outward radial unit vector and its counterclockwise tangent
+                const rx = dx / dist, ry = dy / dist;
+                const tx = -ry, ty = rx;
+                // Steer along the golden-spiral pitch: mostly tangential,
+                // with an inward pull that fades to zero at the inner band
+                // so nodes orbit instead of collapsing onto the cursor.
+                const inward = Math.sin(PITCH) * Math.max(0, (dist - SPIRAL_MIN) / (SPIRAL_RADIUS - SPIRAL_MIN));
+                const speed = SPIRAL_SPEED_MIN + (SPIRAL_SPEED_MAX - SPIRAL_SPEED_MIN) * (1 - dist / SPIRAL_RADIUS);
+                const desiredX = (tx * Math.cos(PITCH) - rx * inward) * speed;
+                const desiredY = (ty * Math.cos(PITCH) - ry * inward) * speed;
+                // Steering strength ramps up the closer the node is
+                const grip = 0.1 + 0.12 * (1 - dist / SPIRAL_RADIUS);
+                this.vx += (desiredX - this.vx) * grip;
+                this.vy += (desiredY - this.vy) * grip;
+              } else if (!holding && dist < REPEL_RADIUS && dist > 0.01) {
+                // Gentle push directly away from the cursor
+                const rx = dx / dist, ry = dy / dist;
+                const force = (1 - dist / REPEL_RADIUS) * REPEL_STRENGTH;
+                this.vx += rx * force;
+                this.vy += ry * force;
+              }
+            }
+            // Relax back toward calm wandering speed when free
+            const speed = Math.hypot(this.vx, this.vy);
+            const relaxTarget = holding ? SPIRAL_SPEED_MIN : BASE_SPEED;
+            if (speed > relaxTarget) {
+              const relax = 0.97;
+              this.vx *= relax;
+              this.vy *= relax;
+            }
             this.x += this.vx;
             this.y += this.vy;
             if (this.x < 0 || this.x > width) this.vx *= -1;
@@ -653,28 +429,53 @@
           draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = nodeColor;
-            ctx.globalAlpha = 0.15;
+            ctx.fillStyle = this.color(0.45);
             ctx.fill();
           }
         }
 
-        for (let i = 0; i < nodeCount; i++) {
-          nodes.push(new Node());
-        }
+        const nodes = [];
+        // Scale node density with viewport area, within sane bounds
+        const initialCount = Math.max(60, Math.min(100, Math.round((width * height) / 16000)));
+        for (let i = 0; i < initialCount; i++) nodes.push(new Node());
+
+        // Press and hold on the page background = a "source": existing nodes
+        // near the cursor spiral around it for as long as the button is held.
+        // No new nodes are spawned — holding never changes the total node count.
+        function startHolding() { holding = true; }
+        function stopHolding() { holding = false; }
+        document.addEventListener("mousedown", (e) => {
+          if (e.button !== 0) return;
+          if (e.target.closest("a, button, input, .about-box, .about-carousel, .skill-card, .project-card, .nav-wrap, img, picture")) return;
+          startHolding();
+        });
+        document.addEventListener("mouseup", stopHolding);
+        window.addEventListener("blur", stopHolding);
 
         function drawConnections() {
           for (let i = 0; i < nodes.length; i++) {
             for (let j = i + 1; j < nodes.length; j++) {
               const dx = nodes[i].x - nodes[j].x;
               const dy = nodes[i].y - nodes[j].y;
-              const distance = Math.sqrt(dx * dx + dy * dy);
-              if (distance < maxDistance) {
+              const distance = Math.hypot(dx, dy);
+              if (distance < MAX_DIST) {
                 ctx.beginPath();
                 ctx.moveTo(nodes[i].x, nodes[i].y);
                 ctx.lineTo(nodes[j].x, nodes[j].y);
-                ctx.strokeStyle = lineColor;
-                ctx.globalAlpha = 0.25 * (1 - distance / maxDistance);
+                ctx.strokeStyle = nodes[i].color(0.26 * (1 - distance / MAX_DIST));
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+            if (holding && mouse.x !== null) {
+              const dx = nodes[i].x - mouse.x;
+              const dy = nodes[i].y - mouse.y;
+              const distance = Math.hypot(dx, dy);
+              if (distance < SPIRAL_RADIUS) {
+                ctx.beginPath();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.strokeStyle = nodes[i].color(0.34 * (1 - distance / SPIRAL_RADIUS));
                 ctx.lineWidth = 1;
                 ctx.stroke();
               }
@@ -685,11 +486,11 @@
         function animate() {
           ctx.clearRect(0, 0, width, height);
           drawConnections();
-          nodes.forEach(node => { node.update(); node.draw(); });
+          nodes.forEach((n) => { n.update(); n.draw(); });
           requestAnimationFrame(animate);
         }
         animate();
-      });
+      })();
     </script>
   </body>
 </html>

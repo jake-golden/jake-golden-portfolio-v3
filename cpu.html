@@ -30,17 +30,14 @@
       .img-placeholder-xl { min-height: 460px; }
 
       .content-box {
-        background-color: #fff;
         padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         margin-bottom: 2rem;
       }
 
       .stat-pill {
-        background: #fff;
+        background: var(--bg-elevated);
         border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        box-shadow: var(--shadow);
         padding: 1rem 1.5rem;
         text-align: center;
         min-width: 140px;
@@ -51,28 +48,70 @@
         font-family: "Arial Black", Arial, sans-serif;
         font-size: 2rem;
         font-weight: 900;
-        color: #373d47;
+        color: var(--text);
         line-height: 1;
       }
       .stat-pill .stat-label {
         display: block;
         font-size: 0.8rem;
-        color: #6c757d;
+        color: var(--text-muted);
         margin-top: 0.3rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
       .stat-num-green { color: #198754 !important; }
 
-      .component-pill {
-        background: #f8f9fa;
-        border: 1px solid #dee2e6;
-        border-radius: 20px;
-        padding: 0.4rem 1rem;
+      .pipeline-diagram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .pipeline-stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 90px;
+      }
+      .pipeline-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        background: var(--carousel-btn-bg);
+        color: var(--carousel-btn-icon);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        box-shadow: var(--shadow);
+      }
+      .pipeline-label {
         font-size: 0.85rem;
-        color: #495057;
         font-weight: 600;
-        white-space: nowrap;
+        color: var(--text);
+        text-align: center;
+      }
+      .pipeline-arrow {
+        color: var(--text-muted);
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        margin-top: 16px;
+      }
+      @media (max-width: 768px) {
+        .pipeline-arrow { display: none; }
+        .pipeline-diagram { gap: 0.35rem; }
+        .pipeline-stage { min-width: 0; flex: 1 1 0; }
+        .pipeline-icon { width: 42px; height: 42px; font-size: 1.05rem; border-radius: 10px; }
+        .pipeline-label { font-size: 0.65rem; white-space: normal; line-height: 1.1; }
+      }
+      @media (max-width: 380px) {
+        .pipeline-icon { width: 34px; height: 34px; font-size: 0.9rem; border-radius: 8px; }
+        .pipeline-label { font-size: 0.58rem; }
       }
 
       .isa-table-wrap, .ctrl-table-wrap {
@@ -96,17 +135,17 @@
       }
       .isa-table td, .ctrl-table td {
         padding: 0.45rem 0.85rem;
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 1px solid var(--border);
         vertical-align: middle;
       }
       .isa-table tr:last-child td, .ctrl-table tr:last-child td { border-bottom: none; }
-      .isa-table tr:nth-child(even), .ctrl-table tr:nth-child(even) { background: #f8f9fa; }
+      .isa-table tr:nth-child(even), .ctrl-table tr:nth-child(even) { background: var(--surface-hover); }
       .isa-table code, .ctrl-table code {
-        background: #e9ecef;
+        background: var(--chip-bg);
         padding: 0.1rem 0.35rem;
         border-radius: 4px;
         font-size: 0.85rem;
-        color: #373d47;
+        color: var(--text);
       }
       .tag-r { color: #3C7E8B; font-weight: 700; }
       .tag-i { color: #7B6AAF; font-weight: 700; }
@@ -128,19 +167,20 @@
         letter-spacing: 0.03em;
       }
       .fmt-table td {
-        border: 1px solid #dee2e6;
+        border: 1px solid var(--border);
         padding: 0.4rem 0.5rem;
         text-align: center;
-        background: #fff;
+        background: var(--bg-elevated);
+        color: var(--text);
         font-family: monospace;
         font-size: 0.85rem;
       }
       .fmt-label {
-        background: #f8f9fa !important;
+        background: var(--surface-hover) !important;
         font-weight: 700;
         font-family: "Arial Black", Arial, sans-serif;
         font-size: 0.75rem;
-        color: #373d47;
+        color: var(--text);
         width: 60px;
       }
 
@@ -163,21 +203,21 @@
       }
 
       .subcircuit-card {
-        background: #fff;
+        background: var(--bg-elevated);
         border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        box-shadow: var(--shadow);
         overflow: hidden;
       }
       .subcircuit-card .sc-body { padding: 1rem; }
       .subcircuit-card .sc-body h6 {
         font-family: "Arial Black", Arial, sans-serif;
         font-size: 0.9rem;
-        color: #373d47;
+        color: var(--text);
         margin-bottom: 0.5rem;
       }
       .subcircuit-card .sc-body ul {
         font-size: 0.83rem;
-        color: #495057;
+        color: var(--text-muted);
         padding-left: 1.25rem;
         margin: 0;
       }
@@ -212,7 +252,7 @@
       }
     </style>
   </head>
-  <body class="d-flex flex-column h-100 bg-light" data-project="cpu">
+  <body class="d-flex flex-column h-100" data-project="cpu">
     <main class="flex-shrink-0">
       <div id="navbar-placeholder"></div>
       <script src="js/projects-data.js"></script>
@@ -288,16 +328,35 @@
           <img src="assets/engineering/cpu/CPU_Datapath.png" alt="Full CPU Datapath" class="img-fluid rounded mb-4" style="width: 100%; height: auto; display: block;">
 
           <p class="text-muted mb-3" style="font-size: 0.95rem;">
-            The CPU follows a classic single-cycle RISC datapath: each instruction completes within one clock cycle, with all datapath decisions made combinationally from the opcode. The design uses a Harvard architecture (instruction and data memory are separate) which maps naturally to Logisim's ROM (instruction fetch) and RAM (load/store) components.
+            The CPU follows a classic single-cycle RISC datapath: each instruction completes within one clock cycle, with all datapath decisions made combinationally from the opcode.
           </p>
 
-          <div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
-            <span class="component-pill"><i class="bi bi-arrow-right-circle me-1"></i>PC Logic</span>
-            <span class="component-pill"><i class="bi bi-code-square me-1"></i>Instruction Decode</span>
-            <span class="component-pill"><i class="bi bi-grid-3x3 me-1"></i>Register File</span>
-            <span class="component-pill"><i class="bi bi-calculator me-1"></i>ALU</span>
-            <span class="component-pill"><i class="bi bi-hdd me-1"></i>Data Memory</span>
-            <span class="component-pill"><i class="bi bi-keyboard me-1"></i>Keyboard + TTY</span>
+          <h5 class="fw-bolder mt-4 mb-3 text-center">5-Stage RISC Pipeline</h5>
+          <div class="pipeline-diagram">
+            <div class="pipeline-stage">
+              <div class="pipeline-icon"><i class="bi bi-download"></i></div>
+              <div class="pipeline-label">Fetch</div>
+            </div>
+            <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon"><i class="bi bi-code-square"></i></div>
+              <div class="pipeline-label">Decode</div>
+            </div>
+            <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon"><i class="bi bi-calculator"></i></div>
+              <div class="pipeline-label">Execute</div>
+            </div>
+            <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon"><i class="bi bi-hdd"></i></div>
+              <div class="pipeline-label">Memory</div>
+            </div>
+            <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+            <div class="pipeline-stage">
+              <div class="pipeline-icon"><i class="bi bi-pencil-square"></i></div>
+              <div class="pipeline-label">Write-Back</div>
+            </div>
           </div>
         </div>
       </section>
@@ -631,33 +690,6 @@
             </div>
           </div>
 
-          <div class="col-12">
-            <div class="card shadow expandable-card">
-              <div class="card-body">
-                <h5 class="fw-bolder">Test Suite &mdash; 9 / 9 Passed</h5>
-                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
-                <div class="expandable-content">
-                  <p class="mt-3 mb-3">
-                    The automated test harness (<code>hwtest.py</code>) loads each program into the CPU's instruction and data memory via Logisim CLI, clocks the simulation, and compares all register values against expected outputs cycle-by-cycle.
-                  </p>
-                  <div class="row g-2 mb-3">
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> addition</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> arithmetic</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> boolean</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> shift</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> memory</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> control</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> io</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> recurse</div></div>
-                    <div class="col-12 col-md-4"><div class="test-badge"><i class="bi bi-check-circle-fill check"></i> demo_fibonacci</div></div>
-                  </div>
-                  <p class="text-muted mb-0" style="font-size: 0.88rem;">
-                    The <strong>recurse</strong> test verifies the full stack-based calling convention: <code>jal</code>/<code>jr</code>, callee-saved registers ($r3&ndash;$r5), and a software stack pointer ($r6) &mdash; computing fib(4) = 5 recursively. The <strong>io</strong> test validates non-blocking keyboard reads and character output to the TTY.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

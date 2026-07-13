@@ -11,7 +11,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
   </head>
-  <body class="d-flex flex-column h-100 bg-light" data-project="pacemaker">
+  <body class="d-flex flex-column h-100" data-project="pacemaker">
     <main class="flex-shrink-0">
       <div id="navbar-placeholder"></div>
       <script src="js/projects-data.js"></script>
@@ -70,9 +70,13 @@
           <h3 class="fw-bolder mb-3">System-Level Block Diagram</h3>
           <div class="d-flex flex-row align-items-start mt-4" style="width:100%; justify-content: center;">
             <picture>
-              <source srcset="assets/engineering/pacemaker/pacemaker-block-diagram.webp" type="image/webp">
-              <img src="assets/engineering/pacemaker/pacemaker-block-diagram.png" alt="Pacemaker Block Diagram"
+              <source data-light-srcset="assets/engineering/pacemaker/pacemaker-block-diagram-light.webp"
+                      data-dark-srcset="assets/engineering/pacemaker/pacemaker-block-diagram-dark.webp"
+                      srcset="assets/engineering/pacemaker/pacemaker-block-diagram-light.webp" type="image/webp">
+              <img src="assets/engineering/pacemaker/pacemaker-block-diagram-light.png" alt="Pacemaker Block Diagram"
                    class="img-fluid clickable-lightbox"
+                   data-light-src="assets/engineering/pacemaker/pacemaker-block-diagram-light.png"
+                   data-dark-src="assets/engineering/pacemaker/pacemaker-block-diagram-dark.png"
                    data-full="assets/engineering/pacemaker/pacemaker-block-diagram-lightbox.png"
                    data-caption="System-level block diagram of the benchtop VVI cardiac pacemaker."
                    style="max-width:900px; width:100%; height:auto; display:block;">
@@ -95,7 +99,7 @@
                   <div class="row mt-3 mb-2">
                     <div class="col-12">
                       <div id="carouselTile1" class="carousel slide media-carousel mb-1" data-bs-ride="false">
-                        <div class="carousel-inner" style="max-height:500px">
+                        <div class="carousel-inner dark-fill-white" style="max-height:500px">
                           <div class="carousel-item active">
                             <div class="d-flex justify-content-center align-items-center w-100 h-100">
                               <picture>
@@ -210,7 +214,7 @@
                           <source srcset="assets/engineering/pacemaker/vvi_block_diagram.webp" type="image/webp">
                           <img src="assets/engineering/pacemaker/vvi_block_diagram.png"
                                alt="VVI algorithm block diagram"
-                               class="img-fluid rounded clickable-lightbox"
+                               class="img-fluid rounded clickable-lightbox dark-fill-white"
                                data-full="assets/engineering/pacemaker/vvi_block_diagram.png"
                                data-caption="VVI algorithm block diagram."
                                style="width:100%; height:auto; display:block;">
@@ -230,7 +234,7 @@
                           <source srcset="assets/engineering/pacemaker/vvi_pacing_pulse.webp" type="image/webp">
                           <img src="assets/engineering/pacemaker/vvi_pacing_pulse.png"
                                alt="Arduino pacing pulse output with LRI and pulse width annotated"
-                               class="img-fluid rounded clickable-lightbox"
+                               class="img-fluid rounded clickable-lightbox dark-fill-white"
                                data-full="assets/engineering/pacemaker/vvi_pacing_pulse.png"
                                data-caption="Arduino pacing pulse output: LRI and 166 ms pulse width annotated."
                                style="width:100%; height:auto; display:block;">
@@ -263,7 +267,7 @@
                           <source srcset="assets/engineering/pacemaker/stim_circuit.webp" type="image/webp">
                           <img src="assets/engineering/pacemaker/stim_circuit.png"
                                alt="MOSFET stimulation circuit schematic: capacitive discharge via 2N7000"
-                               class="img-fluid rounded clickable-lightbox"
+                               class="img-fluid rounded clickable-lightbox dark-fill-white"
                                data-full="assets/engineering/pacemaker/stim_circuit.png"
                                data-caption="2N7000 MOSFET low-side switch; capacitor charges to 9 V and discharges through the tissue load on each pace event."
                                style="width:100%; height:auto; display:block;">
@@ -276,7 +280,7 @@
                           <source srcset="assets/engineering/pacemaker/stim_pulse.webp" type="image/webp">
                           <img src="assets/engineering/pacemaker/stim_pulse.png"
                                alt="Capacitive discharge stimulus pulse waveform across tissue load"
-                               class="img-fluid rounded clickable-lightbox"
+                               class="img-fluid rounded clickable-lightbox dark-fill-white"
                                data-full="assets/engineering/pacemaker/stim_pulse.png"
                                data-caption="Measured stimulus pulse across RL (assumed 1 k&Omega;): exponentially-decaying discharge with peak &minus;4.5 V, 166 ms duration."
                                style="width:100%; height:auto; display:block;">
@@ -350,6 +354,7 @@
     <script src="js/scripts.js"></script>
     <script src="js/media-carousel.js"></script>
     <script src="js/lightbox.js"></script>
+    <script src="js/theme-images.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         renderMathInElement(document.body, {

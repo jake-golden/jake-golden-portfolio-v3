@@ -11,7 +11,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
   </head>
-  <body class="d-flex flex-column h-100 bg-light" data-project="pulse-oximeter">
+  <body class="d-flex flex-column h-100" data-project="pulse-oximeter">
     <main class="flex-shrink-0">
       <div id="navbar-placeholder"></div>
       <script src="js/projects-data.js"></script>
@@ -97,9 +97,13 @@
           <h3 class="fw-bolder mb-3">System-Level Block Diagram</h3>
           <div class="d-flex flex-row align-items-start mt-4" style="width:100%; justify-content: center;">
             <picture>
-              <source srcset="assets/engineering/pulse-oximeter/pulse-ox-block-diagram.webp" type="image/webp">
-              <img src="assets/engineering/pulse-oximeter/pulse-ox-block-diagram.png" alt="Pulse Oximeter Schematic"
+              <source data-light-srcset="assets/engineering/pulse-oximeter/pulse-ox-block-diagram-light.webp"
+                      data-dark-srcset="assets/engineering/pulse-oximeter/pulse-ox-block-diagram-dark.webp"
+                      srcset="assets/engineering/pulse-oximeter/pulse-ox-block-diagram-light.webp" type="image/webp">
+              <img src="assets/engineering/pulse-oximeter/pulse-ox-block-diagram-light.png" alt="Pulse Oximeter Schematic"
                    class="img-fluid clickable-lightbox"
+                   data-light-src="assets/engineering/pulse-oximeter/pulse-ox-block-diagram-light.png"
+                   data-dark-src="assets/engineering/pulse-oximeter/pulse-ox-block-diagram-dark.png"
                    data-full="assets/engineering/pulse-oximeter/pulse-ox-block-diagram-lightbox.png"
                    data-caption="System-level block diagram of the MATLAB pulse oximeter."
                    style="max-width:900px; width:100%; height:auto; display:block;">
@@ -129,7 +133,7 @@
                       </picture>
                     </div>
                     <div class="col-md-6">
-                      <div id="carouselTile1" class="carousel slide media-carousel mb-3" data-bs-ride="false">
+                      <div id="carouselTile1" class="carousel slide media-carousel theme-fill-bg mb-3" data-bs-ride="false">
                         <div class="carousel-inner" style="max-height:400px">
                           <div class="carousel-item active">
                             <div class="d-flex justify-content-center align-items-center w-100 h-100">
@@ -257,7 +261,7 @@
                       </picture>
                     </div>
                     <div class="col-md-6">
-                      <div id="carouselTile2" class="carousel slide media-carousel mb-3" data-bs-ride="false">
+                      <div id="carouselTile2" class="carousel slide media-carousel theme-fill-bg mb-3" data-bs-ride="false">
                         <div class="carousel-inner" style="max-height:400px">
                           <div class="carousel-item active">
                             <div class="d-flex justify-content-center align-items-center w-100 h-100">
@@ -390,7 +394,7 @@
                       </figure>
                     </div>
                     <div id="guiTile" class="mb-3">
-                      <div class="content-box" style="padding:1.25rem; box-shadow:none; background:transparent;">
+                      <div class="content-box" style="padding:1.25rem; box-shadow:none; background:transparent; border:none;">
                         <p>I built a MATLAB App interface that acts as the dashboard for the pulse-oximeter system, allowing for <strong>device control</strong> and <strong>real-time visualization</strong> of incoming data and the DSP pipeline.</p>
                         <h5 class="fw-bolder mt-3">Key Design Features</h5>
                         <ul class="mt-2 mb-0">
@@ -432,6 +436,7 @@
     <script src="js/scripts.js"></script>
     <script src="js/media-carousel.js"></script>
     <script src="js/lightbox.js"></script>
+    <script src="js/theme-images.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         renderMathInElement(document.body, {

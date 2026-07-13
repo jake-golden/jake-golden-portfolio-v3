@@ -2,6 +2,9 @@
 // Must be loaded with a plain <script> tag (no defer/async) so it runs synchronously
 // during <head> parsing, keeping stylesheets render-blocking and preventing FOUC.
 document.write(
+  // Apply a saved light-mode preference before first paint (dark is the
+  // default state, so there's nothing to do unless the user opted into light).
+  '<script>(function(){if(localStorage.getItem("theme")==="light"){document.documentElement.setAttribute("data-theme","light");}})();</script>' +
   '<link rel="icon" type="image/x-icon" href="assets/favicon.ico">' +
   '<link rel="preconnect" href="https://fonts.googleapis.com">' +
   '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +

@@ -3,28 +3,57 @@
 // Run without defer/async so the navbar renders immediately during parsing.
 (function () {
   var navbarHTML = `
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-      <div class="container px-5">
-        <a class="navbar-brand fw-bolder text-primary" href="index.html">Jake Golden</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto small fw-bolder">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="engineering.html">Engineering</a></li>
-            <li class="nav-item"><a class="nav-link" href="photography.html">Photography</a></li>
-            <li class="nav-item"><a class="nav-link" href="resume.html">Resume</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          </ul>
+    <div class="nav-wrap">
+      <nav class="nav-inner">
+        <a class="nav-brand text-gradient" href="index.html">Jake Golden</a>
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="engineering.html">Engineering</a>
+            <a href="photography.html">Photography</a>
+            <a href="resume.html">Resume</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme"><i class="bi bi-sun-fill"></i></button>
+          <button class="nav-burger" id="navBurger" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
         </div>
-      </div>
-    </nav>`;
+      </nav>
+    </div>`;
 
   // Inject navbar synchronously — placeholder element is already in the DOM at this point
   var placeholder = document.getElementById('navbar-placeholder');
   if (placeholder) {
     placeholder.outerHTML = navbarHTML;
+  }
+
+  // ----- Theme toggle -----
+  var themeBtn = document.getElementById('themeToggle');
+  if (themeBtn) {
+    var icon = themeBtn.querySelector('i');
+    var syncIcon = function () {
+      var light = document.documentElement.getAttribute('data-theme') === 'light';
+      icon.className = light ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
+    };
+    themeBtn.addEventListener('click', function () {
+      var light = document.documentElement.getAttribute('data-theme') === 'light';
+      if (light) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      }
+      syncIcon();
+    });
+    syncIcon();
+  }
+
+  // ----- Mobile nav -----
+  var burger = document.getElementById('navBurger');
+  if (burger) {
+    burger.addEventListener('click', function () {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
   }
 
   // Pages that live under the Engineering section — derived from the single
@@ -43,7 +72,7 @@
       activeHref = 'engineering.html';
     }
 
-    document.querySelectorAll('#navbarNav .nav-link').forEach(function (link) {
+    document.querySelectorAll('#navLinks a').forEach(function (link) {
       if (link.getAttribute('href') === activeHref) {
         link.classList.add('active');
       }

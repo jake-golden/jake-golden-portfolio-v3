@@ -11,7 +11,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
   </head>
-  <body class="d-flex flex-column h-100 bg-light" data-project="self-balancing-robot">
+  <body class="d-flex flex-column h-100" data-project="self-balancing-robot">
     <main class="flex-shrink-0">
       <div id="navbar-placeholder"></div>
       <script src="js/projects-data.js"></script>
@@ -29,37 +29,76 @@
             <li>Using a PID feedback loop, the Arduino determines how quickly to drive the motors to restore balance</li>
           </ul>
           <div class="d-flex flex-row align-items-start mt-10 working-principle-row" style="width:100%; justify-content: space-around;">
-            <picture>
-              <source srcset="assets/engineering/self-balancing-robot/working_principle_1.webp" type="image/webp">
-              <img src="assets/engineering/self-balancing-robot/working_principle_1.png" alt="Working Principle Image 1" class="img-fluid rounded working-principle-img" style="max-width:240px; width:100%; height:auto; display:block;">
-            </picture>
-            <picture>
-              <source srcset="assets/engineering/self-balancing-robot/working_principle_2.webp" type="image/webp">
-              <img src="assets/engineering/self-balancing-robot/working_principle_2.png" alt="Working Principle Image 2" class="img-fluid rounded working-principle-img" style="max-width:240px; width:100%; height:auto; display:block;">
-            </picture>
-            <picture>
-              <source srcset="assets/engineering/self-balancing-robot/working_principle_3.webp" type="image/webp">
-              <img src="assets/engineering/self-balancing-robot/working_principle_3.png" alt="Working Principle Image 3" class="img-fluid rounded working-principle-img" style="max-width:240px; width:100%; height:auto; display:block;">
-            </picture>
+            <div class="d-flex flex-column align-items-center" style="max-width:240px;">
+              <picture>
+                <source data-light-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.webp"
+                        data-dark-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_1-dark.webp"
+                        srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.webp" type="image/webp">
+                <img src="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.png" alt="Working Principle Image 1" class="img-fluid rounded working-principle-img"
+                     data-light-src="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.png"
+                     data-dark-src="assets/engineering/self-balancing-robot/working_principle/working_principle_1-dark.png"
+                     style="max-width:240px; width:100%; height:auto; display:block;">
+              </picture>
+              <p class="text-center text-muted mt-2 mb-0 small">Robot corrects CW tilt by accelerating to the right</p>
+            </div>
+            <div class="d-flex flex-column align-items-center" style="max-width:240px;">
+              <picture>
+                <source data-light-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.webp"
+                        data-dark-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_2-dark.webp"
+                        srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.webp" type="image/webp">
+                <img src="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.png" alt="Working Principle Image 2" class="img-fluid rounded working-principle-img"
+                     data-light-src="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.png"
+                     data-dark-src="assets/engineering/self-balancing-robot/working_principle/working_principle_2-dark.png"
+                     style="max-width:240px; width:100%; height:auto; display:block;">
+              </picture>
+              <p class="text-center text-muted mt-2 mb-0 small">Dynamic equilibrium</p>
+            </div>
+            <div class="d-flex flex-column align-items-center" style="max-width:240px;">
+              <picture>
+                <source data-light-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.webp"
+                        data-dark-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_3-dark.webp"
+                        srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.webp" type="image/webp">
+                <img src="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.png" alt="Working Principle Image 3" class="img-fluid rounded working-principle-img"
+                     data-light-src="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.png"
+                     data-dark-src="assets/engineering/self-balancing-robot/working_principle/working_principle_3-dark.png"
+                     style="max-width:240px; width:100%; height:auto; display:block;">
+              </picture>
+              <p class="text-center text-muted mt-2 mb-0 small">Robot corrects CCW tilt by accelerating to the left</p>
+            </div>
           </div>
           <div id="workingPrincipleCarousel" class="carousel slide media-carousel d-none" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <picture>
-                  <source srcset="assets/engineering/self-balancing-robot/working_principle_1.webp" type="image/webp">
-                  <img src="assets/engineering/self-balancing-robot/working_principle_1.png" class="d-block w-100 rounded" alt="Working Principle Image 1" style="max-width:340px; margin:auto;">
+                  <source data-light-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.webp"
+                          data-dark-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_1-dark.webp"
+                          srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.webp" type="image/webp">
+                  <img src="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.png" class="d-block w-100 rounded" alt="Working Principle Image 1"
+                       data-light-src="assets/engineering/self-balancing-robot/working_principle/working_principle_1-light.png"
+                       data-dark-src="assets/engineering/self-balancing-robot/working_principle/working_principle_1-dark.png"
+                       style="max-width:340px; margin:auto;">
                 </picture>
               </div>
               <div class="carousel-item">
                 <picture>
-                  <source srcset="assets/engineering/self-balancing-robot/working_principle_2.webp" type="image/webp">
-                  <img src="assets/engineering/self-balancing-robot/working_principle_2.png" class="d-block w-100 rounded" alt="Working Principle Image 2" style="max-width:340px; margin:auto;">
+                  <source data-light-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.webp"
+                          data-dark-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_2-dark.webp"
+                          srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.webp" type="image/webp">
+                  <img src="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.png" class="d-block w-100 rounded" alt="Working Principle Image 2"
+                       data-light-src="assets/engineering/self-balancing-robot/working_principle/working_principle_2-light.png"
+                       data-dark-src="assets/engineering/self-balancing-robot/working_principle/working_principle_2-dark.png"
+                       style="max-width:340px; margin:auto;">
                 </picture>
               </div>
               <div class="carousel-item">
                 <picture>
-                  <source srcset="assets/engineering/self-balancing-robot/working_principle_3.webp" type="image/webp">
-                  <img src="assets/engineering/self-balancing-robot/working_principle_3.png" class="d-block w-100 rounded" alt="Working Principle Image 3" style="max-width:340px; margin:auto;">
+                  <source data-light-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.webp"
+                          data-dark-srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_3-dark.webp"
+                          srcset="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.webp" type="image/webp">
+                  <img src="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.png" class="d-block w-100 rounded" alt="Working Principle Image 3"
+                       data-light-src="assets/engineering/self-balancing-robot/working_principle/working_principle_3-light.png"
+                       data-dark-src="assets/engineering/self-balancing-robot/working_principle/working_principle_3-dark.png"
+                       style="max-width:340px; margin:auto;">
                 </picture>
               </div>
             </div>
@@ -71,6 +110,11 @@
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
+          </div>
+          <div class="carousel-descriptions text-center" id="desc-workingPrincipleCarousel">
+            <p class="desc-slide desc-slide-0 text-muted mb-0 small">Robot corrects CW tilt by accelerating to the right</p>
+            <p class="desc-slide desc-slide-1 text-muted mb-0 small d-none">Dynamic equilibrium</p>
+            <p class="desc-slide desc-slide-2 text-muted mb-0 small d-none">Robot corrects CCW tilt by accelerating to the left</p>
           </div>
         </div>
         <!-- Design Process -->
@@ -171,8 +215,15 @@
               <h4 class="fw-bold mb-2">PID Controller</h4>
               <p>The controller is responsible for processing sensor data and adjusting the motor outputs to maintain balance. It uses PID control, which aims to minimize the error between the desired and actual positions of the robot based on proportional, integral, and derivative terms.</p>
               <picture>
-                <source srcset="assets/engineering/self-balancing-robot/PID_block_diagram.webp" type="image/webp">
-                <img src="assets/engineering/self-balancing-robot/PID_block_diagram.png" alt="PID Control Diagram" class="img-fluid rounded mb-3" style="max-width:100%; height:auto; display:block;">
+                <source data-light-srcset="assets/engineering/self-balancing-robot/PID_block_diagram-light.webp"
+                        data-dark-srcset="assets/engineering/self-balancing-robot/PID_block_diagram-dark.webp"
+                        srcset="assets/engineering/self-balancing-robot/PID_block_diagram-light.webp" type="image/webp">
+                <img src="assets/engineering/self-balancing-robot/PID_block_diagram-light.png" alt="PID Control Diagram" class="img-fluid rounded mb-3 clickable-lightbox"
+                     data-light-src="assets/engineering/self-balancing-robot/PID_block_diagram-light.png"
+                     data-dark-src="assets/engineering/self-balancing-robot/PID_block_diagram-dark.png"
+                     data-full="assets/engineering/self-balancing-robot/PID_block_diagram-lightbox.png"
+                     data-caption="PID control block diagram."
+                     style="max-width:100%; height:auto; display:block;">
               </picture>
               <p>A large part of the project was dedicated to <strong>tuning PID constants</strong>. Tuning PID constants precisely is critical for a self-balancing robot because the system behaves like an inverted pendulum: <strong>inherently unstable</strong> and <strong>highly sensitive</strong> to small control errors. The robot is always on the edge of tipping over; even a tiny deviation grows quickly if not corrected immediately. Slightly off PID constants can mean the robot either reacts too slowly (falls) or too aggressively (oscillates and falls).</p>
               <ul>
@@ -273,6 +324,7 @@
     <script src="js/scripts.js"></script>
     <script src="js/media-carousel.js"></script>
     <script src="js/lightbox.js"></script>
+    <script src="js/theme-images.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         renderMathInElement(document.body, {
@@ -302,9 +354,15 @@
           display: block !important;
           margin-top: 2.5rem;
         }
+        #desc-workingPrincipleCarousel {
+          display: block !important;
+        }
       }
       @media (min-width: 1001px) {
         #workingPrincipleCarousel {
+          display: none !important;
+        }
+        #desc-workingPrincipleCarousel {
           display: none !important;
         }
         .working-principle-row {

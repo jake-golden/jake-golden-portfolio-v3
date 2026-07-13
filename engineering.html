@@ -46,14 +46,23 @@
       .project-card .card-tag { transition: opacity 0.15s ease, transform 0.15s ease; }
       .project-overlay h2,
       .text-white h2 { color: #fff; }
+      /* Theme-reactive: .btn-outline-dark hardcodes dark text/border
+         (#212529), which is illegible against the dark page background */
+      .filter-btn {
+        --bs-btn-color: var(--text);
+        --bs-btn-border-color: var(--border);
+        --bs-btn-hover-color: var(--bg);
+        --bs-btn-hover-bg: var(--text);
+        --bs-btn-hover-border-color: var(--text);
+      }
       .filter-btn.active {
-        background: #373d47;
-        color: #fff;
-        border-color: #373d47;
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
       }
     </style>
   </head>
-  <body class="d-flex flex-column h-100 bg-light">
+  <body class="d-flex flex-column h-100">
     <main class="flex-shrink-0">
       <div id="navbar-placeholder"></div>
       <script src="js/projects-data.js"></script>

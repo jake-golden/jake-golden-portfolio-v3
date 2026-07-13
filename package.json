@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "thumbs": "node scripts/thumbs.mjs"
+    "thumbs": "node scripts/thumbs.mjs",
+    "to-webp": "node scripts/to-webp.mjs"
   },
   "dependencies": {
     "sharp": "^0.33.3"
