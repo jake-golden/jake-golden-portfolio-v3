@@ -48,9 +48,32 @@ Phase 1 (migration, below) is done and committed. Phase 2 — dark mode theming 
 
 **Homepage carousel arrow design** (standardized after user feedback comparing Stryker vs. Pacemaker, predates the per-page fixes above but is the origin of the `--carousel-btn-*` variables now reused everywhere): every `.media-carousel` instance uses one design: a 36px circular button sitting in a dedicated 44px gutter beside the image, so it never depends on ambient parent padding or on the content behind it for legibility. `#aboutCarousel` on the homepage was widened from 350px to 430px to compensate for the new gutters without shrinking the visible photo.
 
-## Next Phase: footer redesign (planned, not started)
+## Footer redesign — DONE, rolled out site-wide (Phase 3, committed as of this writing)
 
-Full plan written and approved-in-principle: **`.claude/plans/footer-redesign.md`** (copied into this repo for durability; originally drafted at `/Users/jakegolden/.claude/plans/let-s-go-back-to-breezy-storm.md` on the planning machine). Read it in full before starting — summary: replace the current single-line static footer (`js/footer.js`) with (1) scroll-triggered reveal of real content (contact links, copyright, a fun message) and (2) a small inline-SVG "mopping robot" that wanders onto the footer and animates if the user dwells there 5+ seconds, built with zero new image assets and fully theme-reactive via CSS variables. "Hungry for More" project links and a music player were explicitly discussed and deferred out of this round — don't add them unless asked. The plan file has exact file-by-file changes, markup, CSS, and a JS state-machine design ready to implement directly.
+The footer was redesigned and the new version is now live on **all 14 content pages** via the shared-chrome layer. It replaces the old single-line copyright footer. The final shipped design differs from the originally-planned concept in `.claude/plans/footer-redesign.md` (that plan proposed an inline-SVG "mopping robot" on 5s dwell; it's now superseded — see below). The design that shipped is "3f — Split columns, scale + fade," which came from a separate Claude Design handoff (`~/Downloads/design_handoff_footer_3f/`) and was prototyped/iterated in `index1.html` before being promoted to the shared layer.
+
+**What the footer is now** (all theme-reactive via CSS variables):
+- A single centered column (`.footer-cols`) containing: a borderless muted **"Back to top"** button (`.footer-top-btn`, `bi-arrow-up`, smooth-scrolls to top, plays a one-shot damped **bob** animation on first reveal); a **"Questions? / Contact Me!"** row (`.footer-contact-row` → gradient button linking to `contact.html`); and a muted copyright line (`© 2026 Jake Golden | Built with Care.`).
+- **Scroll-linked scale + fade reveal**: `.footer-cols` starts at `opacity:0; scale(0.9)` and interpolates to `opacity:1; scale(1)` tied directly to scroll position (fully reversible, not a one-shot). Skipped under `prefers-reduced-motion` (CSS media query forces it visible).
+- An ambient **pixel-art vacuum robot** (real PNG sprites in `assets/robot/`, NOT the originally-planned inline SVG). After the footer stays in view for 3s, the robot walks in from a screen edge, then perpetually wanders to random spots along the footer's top separator line, stopping to either stand still (`idle0`) or vacuum (flip `idle0`/`idle1`); walks by flipping `walking0`/`walking1`; sprites face left by default and mirror (`.facing-right`, `scaleX(-1)`) when moving right. Despawns when the footer scrolls out of view; re-arms on return. Bails out entirely under `prefers-reduced-motion`.
+
+**Architecture — how it's wired (and how to add the footer to a NEW page):**
+- **`js/footer.js`** injects the footer markup (replacing `#footer-placeholder`) and runs the scale/fade reveal + back-to-top. This is the shared footer; every page that includes it gets the footer.
+- **`js/footer-robot.js`** is a separate module that adds the robot. It's split out **deliberately** so a page can have the footer *without* the robot — just omit this one script. It queries `document.querySelector('footer')`, so **it must load AFTER `js/footer.js`** (neither uses `defer`).
+- **`css/styles.css`** holds all footer + robot styles as top-level (NON-`#home`-scoped) rules, right after the shared `footer {}` rule (~line 216+). Robot size is `--footer-robot-size` (default 58px) which must stay in sync with `SIZE` in `js/footer-robot.js`.
+- **To add the footer to a new page**, use the standard placeholder pattern in the body, in this order:
+  ```html
+  <div id="footer-placeholder"></div>
+  <script src="js/footer.js"></script>
+  <script src="js/footer-robot.js"></script>   <!-- omit this line to skip the robot on this page -->
+  ```
+  (`bootstrap-icons` is already loaded globally by `js/head.js`, so `bi-arrow-up` resolves everywhere — no extra include needed.)
+
+**Notes / deliberate scope decisions:**
+- Robot uses hand-made PNG sprites (Jake's own art) instead of the plan's inline SVG — the PNG approach was chosen during implementation.
+- `index1.html` was the build/preview prototype and has been converted to the shared pattern (no more inline footer). `index2.html`/`index3.html` are older rejected footer-concept prototypes — left untouched, still carry their own inline footers, and are not linked from nav (inert scratch files).
+- The "Contact Me!" button links to `contact.html` even on `contact.html` itself (harmless self-link, left as-is).
+- Tuning constants live at the top of `js/footer-robot.js`: `TRIGGER_DELAY` (3000ms dwell), `IDLE_MIN`/`IDLE_MAX` (3500–6500ms per stop), `SPEED` (60px/s), `FRAME_MS` (420ms sprite flip), `SIZE` (58px). The bob keyframes and `.footer-robot-stage { top: 6px }` (vertical offset from the separator line) live in `css/styles.css`.
 
 ## Migration Status: all 13 pages done, all 7 tasks complete (Phase 1, committed)
 

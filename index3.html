@@ -5,487 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Engineering Portfolio of Jake Golden" />
     <meta name="author" content="Jake Golden" />
-    <title>Jake Golden - Engineering Portfolio (Concept 3: Terminal)</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <script>
-      (function () {
-        if (localStorage.getItem("theme") === "light") {
-          document.documentElement.setAttribute("data-theme", "light");
-        }
-      })();
-    </script>
+    <title>Jake Golden - Footer Prototype 3: Peeking Gear</title>
+    <script src="js/head.js"></script>
     <style>
-      :root {
-        --bg: #0a0e12;
-        --surface: #10161c;
-        --surface-2: #141c24;
-        --border: #1f2a33;
-        --text: #d7e0e6;
-        --text-muted: #7d8b95;
-        --accent: #2de0c8;          /* Jake's teal, pushed neon */
-        --accent-dim: rgba(45, 224, 200, 0.14);
-        --accent-2: #9c8cd4;
-        --amber: #ffb500;
-        --dot: rgba(215, 224, 230, 0.14);
-        --shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
-      }
-      [data-theme="light"] {
-        --bg: #f4f3ee;               /* paper terminal */
-        --surface: #fdfcf8;
-        --surface-2: #efede5;
-        --border: #d8d4c6;
-        --text: #22302c;
-        --text-muted: #6d7a76;
-        --accent: #0f766e;
-        --accent-dim: rgba(15, 118, 110, 0.1);
-        --accent-2: #7b6aaf;
-        --dot: rgba(34, 48, 44, 0.16);
-        --shadow: 0 12px 34px rgba(34, 48, 44, 0.12);
-      }
+      /* Footer prototype 3 — self-contained, not shared with css/styles.css or js/footer.js */
+      footer { padding: 2rem 0 3.75rem; position: relative; }
+      .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+      .footer-content { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .footer-content.reveal { opacity: 1; transform: translateY(0); }
+      @media (prefers-reduced-motion: reduce) { .footer-content { transition: none; } }
+      .footer-contact { display: flex; justify-content: center; gap: 0.85rem; margin-bottom: 0.9rem; }
+      .footer-icon-link { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--chip-bg); color: var(--text-muted); border: 1px solid var(--border); font-size: 1.05rem; text-decoration: none; transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+      .footer-icon-link:hover { color: var(--teal); border-color: var(--teal); transform: translateY(-2px); }
+      .footer-copyright { color: var(--text-muted); font-size: 0.9rem; margin: 0 0 0.25rem; }
+      .footer-fun-message { color: var(--text-muted); font-size: 0.85rem; font-style: italic; margin: 0; display: inline-block; }
+      .footer-robot-stage { position: relative; width: 100%; height: 26px; pointer-events: none; overflow: visible; }
 
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      body {
-        margin: 0;
-        font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-        background: var(--bg);
-        color: var(--text);
-        overflow-x: hidden;
-        transition: background 0.35s ease, color 0.35s ease;
-      }
-      a { color: var(--accent); text-decoration: none; }
-      img { max-width: 100%; }
-      ::selection { background: var(--accent); color: var(--bg); }
+      .footer-gear { position: absolute; left: 50%; bottom: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--chip-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--purple); font-size: 1.1rem; transform: translate(-50%, 70%); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .footer-gear.peek { transform: translate(-50%, 0); }
+      .footer-gear.spin i { display: inline-block; animation: gear-spin 3s linear infinite; }
+      @keyframes gear-spin { to { transform: rotate(360deg); } }
 
-      /* Dot-grid canvas that lights up near the cursor */
-      #gridCanvas {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
+      .footer-fun-message.shine {
+        background-image: linear-gradient(90deg, var(--text-muted) 40%, var(--teal) 50%, var(--text-muted) 60%);
+        background-size: 200% 100%;
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+        animation: text-shine 2.2s ease-in-out 1;
       }
-      .page { position: relative; z-index: 1; }
-      .container { max-width: 1150px; margin: 0 auto; padding: 0 2rem; }
-
-      /* ---------- Nav ---------- */
-      .nav-wrap {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background: color-mix(in srgb, var(--bg) 88%, transparent);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--border);
-      }
-      .nav-inner {
-        max-width: 1150px;
-        margin: 0 auto;
-        padding: 1rem 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .nav-brand {
-        color: var(--text);
-        font-weight: 700;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        font-size: 1rem;
-      }
-      .nav-brand .led {
-        width: 9px; height: 9px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 10px var(--accent);
-        animation: pulse 2.4s ease infinite;
-      }
-      @keyframes pulse { 50% { opacity: 0.35; } }
-      .nav-brand span.dim { color: var(--text-muted); font-weight: 400; }
-      .nav-links { display: flex; align-items: center; gap: 1.6rem; }
-      .nav-links a { color: var(--text-muted); font-size: 0.85rem; transition: color 0.2s ease; }
-      .nav-links a .tilde { color: var(--accent); opacity: 0.7; }
-      .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-      .theme-toggle {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        color: var(--text);
-        width: 38px; height: 38px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.95rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: border-color 0.2s ease, color 0.2s ease;
-      }
-      .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-      .nav-burger { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; }
-
-      /* ---------- Hero ---------- */
-      .hero { padding: 5.5rem 0 5rem; }
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1.15fr 1fr;
-        gap: 3.5rem;
-        align-items: center;
-      }
-      .status-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        border: 1px solid var(--border);
-        background: var(--surface);
-        border-radius: 999px;
-        padding: 0.45rem 1.1rem;
-        font-size: 0.78rem;
-        letter-spacing: 0.06em;
-        color: var(--text-muted);
-        margin-bottom: 2.2rem;
-      }
-      .status-chip .led {
-        width: 8px; height: 8px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 8px var(--accent);
-        animation: pulse 2s ease infinite;
-      }
-      .hero h1 {
-        font-size: clamp(2.1rem, 5.2vw, 3.6rem);
-        font-weight: 700;
-        line-height: 1.15;
-        margin: 0 0 1.2rem;
-        letter-spacing: -0.02em;
-        min-height: 2.4em;
-      }
-      .hero h1 .prompt { color: var(--text-muted); font-weight: 400; }
-      .hero h1 .typed { color: var(--accent); }
-      .typing-caret {
-        display: inline-block;
-        width: 0.55em;
-        height: 1.05em;
-        background: var(--accent);
-        margin-left: 4px;
-        animation: blockblink 0.9s step-end infinite;
-        vertical-align: -0.12em;
-      }
-      @keyframes blockblink { 50% { opacity: 0; } }
-      .hero-sub {
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        line-height: 1.8;
-        margin: 0 0 2.4rem;
-      }
-      .hero-sub .hl { color: var(--text); }
-      .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
-      .btn {
-        display: inline-block;
-        font-family: inherit;
-        padding: 0.85rem 1.9rem;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        border: 1px solid transparent;
-      }
-      .btn:hover { transform: translateY(-3px); }
-      .btn-accent { background: var(--accent); color: #06231f; }
-      .btn-accent:hover { box-shadow: 0 6px 24px var(--accent-dim), 0 0 0 1px var(--accent); }
-      .btn-ghost { background: var(--surface); border-color: var(--border); color: var(--text); }
-      .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-      .btn .dollar { color: inherit; opacity: 0.55; margin-right: 0.4rem; }
-
-      /* Terminal window frame (reused for hero photo + about photos) */
-      .term-window {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-      }
-      .term-titlebar {
-        display: flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.6rem 0.9rem;
-        border-bottom: 1px solid var(--border);
-        background: var(--surface-2);
-        font-size: 0.72rem;
-        color: var(--text-muted);
-      }
-      .term-titlebar .dots { display: flex; gap: 0.35rem; }
-      .term-titlebar .dots i {
-        width: 10px; height: 10px;
-        border-radius: 50%;
-        background: var(--border);
-        display: block;
-      }
-      .term-titlebar .dots i:nth-child(3) { background: var(--accent); }
-      .term-titlebar .title { margin: 0 auto; }
-      .hero-photo img { display: block; width: 100%; }
-      .hero-photo .term-body { padding: 1rem; background: var(--surface); }
-
-      /* ---------- Sections ---------- */
-      section { padding: 4.5rem 0; }
-      .sec-head {
-        display: flex;
-        align-items: baseline;
-        gap: 1rem;
-        margin-bottom: 2.75rem;
-        font-size: 0.9rem;
-      }
-      .sec-head .cmd { color: var(--text-muted); }
-      .sec-head .cmd .dollar { color: var(--accent); }
-      .sec-head h2 {
-        font-size: clamp(1.5rem, 3.4vw, 2.2rem);
-        margin: 0;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-      }
-      .sec-head .line { flex: 1; border-top: 1px dashed var(--border); align-self: center; }
-
-      /* ---------- About ---------- */
-      .about-grid {
-        display: grid;
-        grid-template-columns: 1fr 1.25fr;
-        gap: 2.75rem;
-        align-items: start;
-      }
-      .about-photos { position: relative; max-width: 380px; margin: 0 auto; }
-      .about-photos .term-body { position: relative; aspect-ratio: 3 / 4; }
-      .about-photos img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-      .about-photos img.active { opacity: 1; }
-      .about-photos .term-statusbar {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5rem 0.9rem;
-        border-top: 1px solid var(--border);
-        background: var(--surface-2);
-        font-size: 0.7rem;
-        color: var(--text-muted);
-      }
-      .about-photos .nav-keys button {
-        background: none;
-        border: 1px solid var(--border);
-        color: var(--text-muted);
-        border-radius: 5px;
-        font-family: inherit;
-        font-size: 0.7rem;
-        cursor: pointer;
-        padding: 0.1rem 0.5rem;
-        margin-left: 0.35rem;
-        transition: color 0.2s ease, border-color 0.2s ease;
-      }
-      .about-photos .nav-keys button:hover { color: var(--accent); border-color: var(--accent); }
-
-      .about-body .comment { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.4rem; }
-      .about-body .comment .slashes { color: var(--accent); }
-      .kv-list { margin: 0 0 1.75rem; padding: 0; list-style: none; font-size: 0.9rem; }
-      .kv-list li {
-        display: flex;
-        gap: 0.75rem;
-        padding: 0.55rem 0;
-        border-bottom: 1px dashed var(--border);
-        position: relative;
-        flex-wrap: wrap;
-      }
-      .kv-list .k { color: var(--text-muted); min-width: 9.5em; }
-      .kv-list .v { color: var(--text); }
-      .kv-list .v .note { color: var(--text-muted); font-size: 0.8em; }
-      .about-body p.bio {
-        color: var(--text-muted);
-        font-size: 0.92rem;
-        line-height: 1.9;
-        margin: 0 0 1.9rem;
-      }
-      .about-body p.bio .hl { color: var(--text); }
-      .about-social { display: flex; gap: 0.9rem; }
-      .about-social a {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        border: 1px solid var(--border);
-        background: var(--surface);
-        border-radius: 8px;
-        padding: 0.55rem 1.1rem;
-        font-size: 0.82rem;
-        color: var(--text);
-        transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-      }
-      .about-social a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
-
-      /* ---------- Skills ---------- */
-      .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-      }
-      .skill-row {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 1rem;
-        align-items: center;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 1.1rem 1.3rem;
-        transition: border-color 0.25s ease, transform 0.25s ease;
-      }
-      .skill-row:hover { border-color: var(--accent); transform: translateX(4px); }
-      .skill-row img { width: 2.2rem; height: 2.2rem; }
-      .skill-row h5 { margin: 0 0 0.2rem; font-size: 0.92rem; font-weight: 700; }
-      .skill-row .desc { color: var(--text-muted); font-size: 0.76rem; line-height: 1.5; margin: 0 0 0.5rem; }
-      .skill-row .bar {
-        font-size: 0.78rem;
-        color: var(--accent);
-        letter-spacing: 0.06em;
-        white-space: nowrap;
-        overflow: hidden;
-      }
-      .skill-row .bar .pct { color: var(--text-muted); margin-left: 0.6rem; }
-
-      /* ---------- Projects ---------- */
-      .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.4rem;
-      }
-      .project-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-      }
-      .project-card:hover {
-        border-color: var(--accent);
-        transform: translateY(-6px);
-        box-shadow: 0 10px 30px var(--accent-dim);
-      }
-      .project-card img { width: 100%; height: 210px; object-fit: cover; display: block; border-bottom: 1px solid var(--border); }
-      .project-body { padding: 1.3rem; display: flex; flex-direction: column; flex: 1; }
-      .project-body .idx { color: var(--accent); font-size: 0.75rem; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-      .project-body h5 { margin: 0 0 0.5rem; font-size: 1rem; font-weight: 700; }
-      .project-body p { color: var(--text-muted); font-size: 0.8rem; line-height: 1.65; margin: 0 0 1rem; }
-      .tech-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
-      .tech-badge {
-        border: 1px solid var(--border);
-        color: var(--text-muted);
-        padding: 0.18rem 0.6rem;
-        border-radius: 5px;
-        font-size: 0.68rem;
-      }
-      .project-link { margin-top: auto; font-size: 0.82rem; font-weight: 700; }
-      .project-link .arrow { transition: transform 0.2s ease; display: inline-block; }
-      .project-link:hover .arrow { transform: translateX(4px); }
-      .projects-footer { margin-top: 2.75rem; display: flex; align-items: center; gap: 1.25rem; }
-      .projects-footer .cmd { color: var(--text-muted); font-size: 0.85rem; }
-      .projects-footer .cmd .dollar { color: var(--accent); }
-      .projects-footer .line { flex: 1; border-top: 1px dashed var(--border); }
-
-      /* ---------- Footer ---------- */
-      footer {
-        border-top: 1px solid var(--border);
-        padding: 2.25rem 0;
-        color: var(--text-muted);
-        font-size: 0.78rem;
-      }
-      footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
-      footer .exit { color: var(--accent); }
-
-      /* Scroll reveal */
-      .fade-in-up { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-      .fade-in-up.reveal { opacity: 1; transform: translateY(0); }
-
-      /* ---------- Responsive ---------- */
-      @media (max-width: 991px) {
-        .hero-grid { grid-template-columns: 1fr; }
-        .about-grid { grid-template-columns: 1fr; }
-        .skills-grid { grid-template-columns: 1fr; }
-        .projects-grid { grid-template-columns: 1fr; }
-        .nav-links {
-          display: none;
-          position: absolute;
-          top: 100%;
-          left: 0; right: 0;
-          flex-direction: column;
-          align-items: flex-start;
-          background: var(--bg);
-          border-bottom: 1px solid var(--border);
-          padding: 1.25rem 2rem;
-          gap: 1rem;
-        }
-        .nav-links.open { display: flex; }
-        .nav-burger { display: block; }
-      }
-      @media (max-width: 600px) {
-        .container { padding: 0 1.25rem; }
-        .nav-inner { padding: 1rem 1.25rem; }
-        .hero { padding-top: 3.5rem; }
-        .kv-list .k { min-width: 100%; }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-      }
+      @keyframes text-shine { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
   </head>
-  <body>
-    <canvas id="gridCanvas"></canvas>
+  <body class="d-flex flex-column h-100">
+    <canvas id="constellation"></canvas>
+    <div class="scroll-progress" id="scrollProgress"></div>
 
-    <div class="page">
-      <div class="nav-wrap">
-        <nav class="nav-inner">
-          <a class="nav-brand" href="index3.html"><span class="led"></span>jake<span class="dim">@golden</span></a>
-          <div style="display:flex; align-items:center; gap:1rem;">
-            <div class="nav-links" id="navLinks">
-              <a href="index3.html" class="active"><span class="tilde">~/</span>home</a>
-              <a href="engineering.html"><span class="tilde">~/</span>engineering</a>
-              <a href="photography.html"><span class="tilde">~/</span>photography</a>
-              <a href="resume.html"><span class="tilde">~/</span>resume</a>
-              <a href="contact.html"><span class="tilde">~/</span>contact</a>
-            </div>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme"><i class="bi bi-sun-fill"></i></button>
-            <button class="nav-burger" id="navBurger" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
-          </div>
-        </nav>
-      </div>
+    <div id="navbar-placeholder"></div>
+    <script src="js/projects-data.js"></script>
+    <script src="js/navbar.js"></script>
 
+    <div id="home">
       <header class="hero">
         <div class="container">
-          <div class="hero-grid">
+          <div class="hero-inner">
             <div>
-              <div class="status-chip"><span class="led"></span> STATUS: DUKE ENGINEERING · CLASS OF 2027</div>
-              <h1><span class="prompt">$&nbsp;</span><span class="typed" id="typedName"></span><span class="typing-caret"></span></h1>
-              <p class="hero-sub">
-                Electrical &amp; Biomedical Engineering | NJ → Durham<br /><br />
-                I design and build <span class="hl">circuits, embedded systems, and signal-processing pipelines</span> — with a focus on <span class="hl">medical device design</span>. This site is the lab notebook.
-              </p>
+              <div class="typing-text" data-text="Welcome to my portfolio!"></div>
+              <h1><span class="text-gradient">Jake Golden</span></h1>
               <div class="hero-cta">
-                <a class="btn btn-accent" href="engineering.html"><span class="dollar">$</span>ls experience/</a>
-                <a class="btn btn-ghost" href="resume.html"><span class="dollar">$</span>cat resume.pdf</a>
+                <a class="btn btn-gradient" href="engineering.html">Experience</a>
+                <a class="btn btn-outline" href="resume.html">Resume</a>
               </div>
             </div>
-            <div class="term-window hero-photo">
-              <div class="term-titlebar">
-                <span class="dots"><i></i><i></i><i></i></span>
-                <span class="title">~/jake.webp</span>
-              </div>
-              <div class="term-body">
+            <div class="hero-photo">
+              <div class="hero-photo-frame glow-hover">
                 <picture>
                   <source srcset="assets/profile.webp" type="image/webp" />
                   <img src="assets/profile.jpg" alt="Profile photo of Jake Golden" />
@@ -499,237 +70,356 @@
       <!-- About -->
       <section class="fade-in-up" id="about">
         <div class="container">
-          <div class="sec-head">
-            <span class="cmd"><span class="dollar">$</span> whoami</span>
-            <h2>// about</h2>
-            <span class="line"></span>
-          </div>
           <div class="about-grid">
-            <div class="term-window about-photos" id="aboutPhotos">
-              <div class="term-titlebar">
-                <span class="dots"><i></i><i></i><i></i></span>
-                <span class="title" id="photoTitle">~/aboutme/hiking.webp</span>
+            <div class="about-carousel-wrap">
+              <button class="carousel-btn prev" aria-label="Previous photo"><i class="bi bi-chevron-left"></i></button>
+              <div class="about-carousel glow-hover" id="aboutCarousel">
+                <div class="carousel-track">
+                  <img src="assets/aboutme/hiking.webp" alt="Hiking" />
+                  <img src="assets/aboutme/knicks.webp" alt="Knicks Game" />
+                  <img src="assets/aboutme/photography.webp" alt="Photography" />
+                  <img src="assets/aboutme/brother.webp" alt="Family" />
+                  <img src="assets/aboutme/skiing.webp" alt="Skiing" />
+                  <img src="assets/aboutme/danieljones.webp" alt="Giants Game" />
+                </div>
+                <div class="carousel-dots"></div>
               </div>
-              <div class="term-body">
-                <img src="assets/aboutme/hiking.webp" data-name="hiking" alt="Hiking" class="active" />
-                <img src="assets/aboutme/knicks.webp" data-name="knicks" alt="Knicks Game" />
-                <img src="assets/aboutme/photography.webp" data-name="photography" alt="Photography" />
-                <img src="assets/aboutme/brother.webp" data-name="brother" alt="Family" />
-                <img src="assets/aboutme/skiing.webp" data-name="skiing" alt="Skiing" />
-                <img src="assets/aboutme/danieljones.webp" data-name="danieljones" alt="Giants Game" />
-              </div>
-              <div class="term-statusbar">
-                <span id="photoCounter">1 / 6</span>
-                <span class="nav-keys">
-                  <button id="photoPrev" aria-label="Previous photo">←</button>
-                  <button id="photoNext" aria-label="Next photo">→</button>
-                </span>
-              </div>
+              <button class="carousel-btn next" aria-label="Next photo"><i class="bi bi-chevron-right"></i></button>
             </div>
-            <div class="about-body">
-              <div class="comment"><span class="slashes">//</span> the human behind the hardware</div>
-              <ul class="kv-list">
-                <li><span class="k">school</span><span class="v">Duke University · Class of 2027 <span class="note">(Pratt School of Engineering)</span></span></li>
-                <li><span class="k">major_1</span><span class="v">Electrical Engineering <span class="note">(solid-state devices &amp; ICs)</span></span></li>
-                <li><span class="k">major_2</span><span class="v">Biomedical Engineering <span class="note">(imaging &amp; measurement systems)</span></span></li>
-                <li><span class="k">interest</span><span class="v">signal processing for medical device design</span></li>
-              </ul>
-              <p class="bio">
-                Thanks for checking out my portfolio! My name is <span class="hl">Jake</span> and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard <span class="hl">Knicks and Giants</span> fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
+            <div class="about-box glow-hover">
+              <h2>About Me</h2>
+              <div>
+                <div class="school-box">
+                  <i class="bi bi-mortarboard-fill" style="color:#8a90d9;"></i>
+                  Duke University&ensp;·&ensp;Class of 2027
+                  <span class="school-box-tooltip">Pratt School of Engineering</span>
+                </div>
+                <div class="school-box">
+                  <i class="bi bi-lightning-fill" style="color:#4da3b3;"></i>
+                  Electrical Engineering
+                  <span class="school-box-tooltip">Focus: Solid-State Devices and ICs</span>
+                </div>
+                <div class="school-box">
+                  <i class="bi bi-heart-pulse-fill" style="color:#e76f51;"></i>
+                  Biomedical Engineering
+                  <span class="school-box-tooltip">Focus: Imaging and Measurement Systems</span>
+                </div>
+                <div class="school-box">
+                  <i class="bi bi-lightbulb-fill" style="color:#ffb500;"></i>
+                  Interest: signal processing for medical device design
+                </div>
+              </div>
+              <p class="lead">
+                Thanks for checking out my portfolio! My name is Jake and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard Knicks and Giants fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
               </p>
               <div class="about-social">
-                <a href="https://www.linkedin.com/in/jakegolden22/" target="_blank"><i class="bi bi-linkedin"></i> linkedin</a>
-                <a href="mailto:jakegolden9001@gmail.com"><i class="bi bi-envelope-fill"></i> email</a>
+                <a class="text-gradient" href="https://www.linkedin.com/in/jakegolden22/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                <a class="text-gradient" href="mailto:jakegolden9001@gmail.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="section-divider"></div>
 
       <!-- Skills -->
       <section class="fade-in-up" id="skills">
         <div class="container">
           <div class="sec-head">
-            <span class="cmd"><span class="dollar">$</span> ls -la skills/</span>
-            <h2>// skills &amp; expertise</h2>
+            <h2><span class="text-gradient">Skills &amp; Expertise</span></h2>
             <span class="line"></span>
           </div>
+          <p class="section-sub"></p>
           <div class="skills-grid">
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/code-slash.svg" alt="Programming icon" />
-              <div>
-                <h5>Programming</h5>
-                <p class="desc">MATLAB, Python, Java, C, Bash, LabVIEW</p>
-                <div class="bar" data-progress="95"></div>
-              </div>
+              <h5>Programming</h5>
+              <p>MATLAB, Python, Java, C, Bash, LabVIEW</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="95"></div></div>
             </div>
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/lightning.svg" alt="Circuit & PCB Design icon" />
-              <div>
-                <h5>Circuit &amp; PCB Design</h5>
-                <p class="desc">Analog/digital circuit analysis, KiCAD, EasyEDA</p>
-                <div class="bar" data-progress="90"></div>
-              </div>
+              <h5>Circuit &amp; PCB Design</h5>
+              <p>Analog/digital circuit analysis, KiCAD, EasyEDA</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="90"></div></div>
             </div>
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/graph-up.svg" alt="Signal Processing icon" />
-              <div>
-                <h5>Signal Processing</h5>
-                <p class="desc">Analog/digital filtering, FFT, sampling, feature extraction</p>
-                <div class="bar" data-progress="75"></div>
-              </div>
+              <h5>Signal Processing</h5>
+              <p>Analog/digital filtering, FFT, sampling, feature extraction</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="75"></div></div>
             </div>
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/motherboard.svg" alt="Embedded Systems icon" />
-              <div>
-                <h5>Embedded Systems</h5>
-                <p class="desc">Arduino, MCU integration, I2C, serial communication</p>
-                <div class="bar" data-progress="75"></div>
-              </div>
+              <h5>Embedded Systems</h5>
+              <p>Arduino, MCU integration, I2C, serial communication</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="75"></div></div>
             </div>
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/diagram-3.svg" alt="Control Systems icon" />
-              <div>
-                <h5>Control Systems</h5>
-                <p class="desc">Controller design, stability, system characterization</p>
-                <div class="bar" data-progress="85"></div>
-              </div>
+              <h5>Control Systems</h5>
+              <p>Controller design, stability, system characterization</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="85"></div></div>
             </div>
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/gear-wide-connected.svg" alt="CAD & Prototyping icon" />
-              <div>
-                <h5>CAD &amp; Prototyping</h5>
-                <p class="desc">SOLIDWORKS, Creo, 3D printing, breadboarding</p>
-                <div class="bar" data-progress="95"></div>
-              </div>
+              <h5>CAD &amp; Prototyping</h5>
+              <p>SOLIDWORKS, Creo, 3D printing, breadboarding</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="95"></div></div>
             </div>
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/activity.svg" alt="Measurement Tools icon" />
-              <div>
-                <h5>Measurement Tools</h5>
-                <p class="desc">Oscilloscopes, multimeters, logic analyzers, spectrum analyzers</p>
-                <div class="bar" data-progress="80"></div>
-              </div>
+              <h5>Measurement Tools</h5>
+              <p>Oscilloscopes, multimeters, logic analyzers, spectrum analyzers</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="80"></div></div>
             </div>
-            <div class="skill-row">
+            <div class="skill-card glow-hover">
               <img src="assets/icons/broadcast.svg" alt="Electromagnetics icon" />
-              <div>
-                <h5>Electromagnetics</h5>
-                <p class="desc">EM waves, RF principles, telecommunication systems</p>
-                <div class="bar" data-progress="50"></div>
-              </div>
+              <h5>Electro&shy;magnetics</h5>
+              <p>EM waves, RF principles, telecommunication systems</p>
+              <div class="skill-progress"><div class="skill-progress-bar" data-progress="50"></div></div>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="section-divider"></div>
 
       <!-- Featured Projects -->
       <section class="fade-in-up" id="projects">
         <div class="container">
           <div class="sec-head">
-            <span class="cmd"><span class="dollar">$</span> git log --featured</span>
-            <h2>// featured projects</h2>
+            <h2><span class="text-gradient">Featured Projects</span></h2>
             <span class="line"></span>
           </div>
+          <p class="section-sub">Check out my experience page for more!</p>
           <div class="projects-grid">
-            <div class="project-card">
+            <div class="project-card glow-hover">
               <img src="assets/engineering/pulse-oximeter/pulse_ox_ambient.gif" alt="Pulse Oximeter" />
               <div class="project-body">
-                <div class="idx">[01]</div>
                 <h5>MATLAB Pulse Oximeter</h5>
                 <p>Real-time SpO₂ monitoring system with custom hardware and DSP pipeline</p>
-                <div class="tech-badges">
+                <div>
                   <span class="tech-badge">Embedded Firmware</span>
                   <span class="tech-badge">DSP</span>
                   <span class="tech-badge">GUI Design</span>
                 </div>
-                <a href="pulse-oximeter.html" class="project-link">view details <span class="arrow">→</span></a>
+                <a href="pulse-oximeter.html" class="project-link">View Details →</a>
               </div>
             </div>
-            <div class="project-card">
+            <div class="project-card glow-hover">
               <img src="assets/engineering/self-balancing-robot/self_balancing_robot_demo.gif" alt="Self Balancing Robot" />
               <div class="project-body">
-                <div class="idx">[02]</div>
                 <h5>Self-Balancing Robot</h5>
                 <p>PID-controlled two-wheel balancing robot with IMU feedback</p>
-                <div class="tech-badges">
+                <div>
                   <span class="tech-badge">PCB Design</span>
                   <span class="tech-badge">PID Control</span>
                   <span class="tech-badge">I2C</span>
                 </div>
-                <a href="self-balancing-robot.html" class="project-link">view details <span class="arrow">→</span></a>
+                <a href="self-balancing-robot.html" class="project-link">View Details →</a>
               </div>
             </div>
-            <div class="project-card">
+            <div class="project-card glow-hover">
               <img src="assets/engineering/steel-ball-dispenser/steel-ball-dispenser-demo.gif" alt="Steel Ball Dispenser" />
               <div class="project-body">
-                <div class="idx">[03]</div>
                 <h5>Steel Ball Dispenser</h5>
                 <p>Automated dispensing system with precision control</p>
-                <div class="tech-badges">
+                <div>
                   <span class="tech-badge">Arduino</span>
                   <span class="tech-badge">Product Development</span>
                   <span class="tech-badge">V&amp;V</span>
                 </div>
-                <a href="steel-ball-dispenser.html" class="project-link">view details <span class="arrow">→</span></a>
+                <a href="steel-ball-dispenser.html" class="project-link">View Details →</a>
               </div>
             </div>
           </div>
           <div class="projects-footer">
-            <span class="cmd"><span class="dollar">$</span> ls -al /projects <span style="opacity:0.5;">// list all projects</span></span>
-            <span class="line"></span>
-            <a class="btn btn-ghost" href="engineering.html"><span class="dollar">$</span>view all</a>
+            <a href="engineering.html" class="btn btn-gradient">View All Projects →</a>
           </div>
         </div>
       </section>
-
-      <footer>
-        <div class="container">
-          <span>© 2025 Jake Golden. All rights reserved.</span>
-          <span class="exit">[process exited with code 0]</span>
-        </div>
-      </footer>
     </div>
 
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-content" id="footerContent">
+          <div class="footer-contact">
+            <a href="https://www.linkedin.com/in/jakegolden22/" target="_blank" class="footer-icon-link" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="mailto:jakegolden9001@gmail.com" class="footer-icon-link" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+          <p class="footer-copyright">&copy; 2025 Jake Golden. All rights reserved.</p>
+          <p class="footer-fun-message">Every gear here turns for a reason. Mostly coffee.</p>
+        </div>
+      </div>
+      <div class="footer-robot-stage" id="footerRobotStage" aria-hidden="true">
+        <div class="footer-gear" id="footerGear"><i class="bi bi-gear-fill"></i></div>
+      </div>
+    </footer>
     <script>
-      // ----- Theme toggle -----
       (function () {
-        const btn = document.getElementById("themeToggle");
-        const icon = btn.querySelector("i");
-        function syncIcon() {
-          const light = document.documentElement.getAttribute("data-theme") === "light";
-          icon.className = light ? "bi bi-moon-fill" : "bi bi-sun-fill";
-        }
-        btn.addEventListener("click", function () {
-          const light = document.documentElement.getAttribute("data-theme") === "light";
-          if (light) {
-            document.documentElement.removeAttribute("data-theme");
-            localStorage.setItem("theme", "dark");
-          } else {
-            document.documentElement.setAttribute("data-theme", "light");
-            localStorage.setItem("theme", "light");
-          }
-          syncIcon();
-        });
-        syncIcon();
-      })();
+        var footerEl = document.querySelector('footer');
+        var content = document.getElementById('footerContent');
+        var gear = document.getElementById('footerGear');
+        var message = document.querySelector('.footer-fun-message');
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function vh() { return window.innerHeight || document.documentElement.clientHeight || 800; }
 
-      // ----- Mobile nav -----
-      document.getElementById("navBurger").addEventListener("click", function () {
-        document.getElementById("navLinks").classList.toggle("open");
+        // ----- scroll reveal (text) -----
+        var revealed = false;
+        function revealCheck() {
+          if (revealed) return;
+          var rect = content.getBoundingClientRect();
+          if (rect.top < vh() * 0.92 && rect.bottom > 0) { content.classList.add('reveal'); revealed = true; }
+        }
+        window.addEventListener('scroll', function () { requestAnimationFrame(revealCheck); }, { passive: true });
+        window.addEventListener('resize', revealCheck);
+        revealCheck();
+
+        if (reduced) return; // motion is this feature's entire point — bail out entirely
+
+        // ----- instant peek-on-view gear (no dwell timer — different trigger condition than prototypes 1/2) -----
+        var wasInView = false;
+        function inView() {
+          var rect = footerEl.getBoundingClientRect();
+          return rect.top < vh() * 0.85 && rect.bottom > 0;
+        }
+        function trigger() {
+          gear.classList.add('peek', 'spin');
+          message.classList.remove('shine');
+          void message.offsetWidth; // restart animation
+          message.classList.add('shine');
+        }
+        function untrigger() {
+          gear.classList.remove('peek', 'spin');
+        }
+        function check() {
+          var v = inView();
+          if (v && !wasInView) trigger();
+          if (!v && wasInView) untrigger();
+          wasInView = v;
+        }
+        setInterval(check, 400);
+        window.addEventListener('scroll', function () { requestAnimationFrame(check); }, { passive: true });
+        window.addEventListener('resize', check);
+        check();
+      })();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script>
+      // Viewport size with fallbacks: some embedded/preview browsers report
+      // window.innerWidth/innerHeight (and even clientWidth/Height) as 0,
+      // which silently breaks any scroll math.
+      function viewportW() {
+        return window.innerWidth || document.documentElement.clientWidth || (window.screen && screen.width) || 1280;
+      }
+      function viewportH() {
+        return window.innerHeight || document.documentElement.clientHeight || (window.screen && screen.height) || 800;
+      }
+
+      // ----- Scroll progress -----
+      window.addEventListener("scroll", function () {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - viewportH();
+        document.getElementById("scrollProgress").style.width = (winScroll / height) * 100 + "%";
       });
 
-      // ----- Dot grid that illuminates near the cursor (mouse-tracking) -----
+      // ----- Scroll reveal + skill bars -----
+      // Plain scroll-position check instead of IntersectionObserver (IO never
+      // fires in some embedded browsers), plus a low-frequency interval as a
+      // safety net in case scroll events are unreliable too: content must
+      // never be able to stay permanently invisible.
       (function () {
-        const canvas = document.getElementById("gridCanvas");
+        const pending = new Set(document.querySelectorAll(".fade-in-up"));
+        function reveal(el) {
+          el.classList.add("reveal");
+          el.querySelectorAll(".skill-progress-bar").forEach((bar) => {
+            setTimeout(() => { bar.style.width = bar.dataset.progress + "%"; }, 100);
+          });
+          pending.delete(el);
+        }
+        const interval = setInterval(check, 400);
+        function check() {
+          if (!pending.size) { clearInterval(interval); return; }
+          const vh = viewportH();
+          pending.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            // Reveal once any part of the element is within ~85% of the viewport
+            if (rect.top < vh * 0.85 && rect.bottom > 0) reveal(el);
+          });
+        }
+        let ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => { check(); ticking = false; });
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        check();
+      })();
+
+      // ----- Typing animation -----
+      (function () {
+        const el = document.querySelector(".typing-text");
+        const text = el.dataset.text;
+        const caret = document.createElement("span");
+        caret.className = "typing-caret";
+        el.appendChild(caret);
+        let i = 0;
+        function typeNext() {
+          if (i < text.length) {
+            el.insertBefore(document.createTextNode(text[i]), caret);
+            i++;
+            setTimeout(typeNext, 60);
+          } else {
+            setTimeout(() => { caret.style.borderRightColor = "transparent"; }, 1200);
+          }
+        }
+        setTimeout(typeNext, 800);
+      })();
+
+      // ----- About photo carousel (sliding track, matches the site's other carousels) -----
+      (function () {
+        const wrap = document.querySelector(".about-carousel-wrap");
+        const root = document.getElementById("aboutCarousel");
+        const track = root.querySelector(".carousel-track");
+        const imgs = Array.from(track.querySelectorAll("img"));
+        const dotsWrap = root.querySelector(".carousel-dots");
+        let index = 0;
+        let timer;
+        imgs.forEach((_, i) => {
+          const dot = document.createElement("span");
+          if (i === 0) dot.classList.add("active");
+          dotsWrap.appendChild(dot);
+        });
+        const dots = Array.from(dotsWrap.children);
+        function show(i) {
+          index = (i + imgs.length) % imgs.length;
+          track.style.transform = `translateX(-${index * 100}%)`;
+          dots.forEach((d, j) => d.classList.toggle("active", j === index));
+        }
+        function restartTimer() {
+          clearInterval(timer);
+          timer = setInterval(() => show(index + 1), 4000);
+        }
+        wrap.querySelector(".prev").addEventListener("click", () => { show(index - 1); restartTimer(); });
+        wrap.querySelector(".next").addEventListener("click", () => { show(index + 1); restartTimer(); });
+        restartTimer();
+      })();
+
+      // ----- Full-page golden-spiral constellation (mouse-tracking) -----
+      (function () {
+        const canvas = document.getElementById("constellation");
         const ctx = canvas.getContext("2d");
-        const SPACING = 26;
-        const GLOW_RADIUS = 190;
         let width, height, dpr;
         function resize() {
           dpr = window.devicePixelRatio || 1;
-          width = window.innerWidth;
-          height = window.innerHeight;
+          width = viewportW();
+          height = viewportH();
           canvas.width = width * dpr;
           canvas.height = height * dpr;
           canvas.style.width = width + "px";
@@ -738,135 +428,157 @@
         }
         resize();
         window.addEventListener("resize", resize);
+        // Fallback for environments where the viewport size settles late and
+        // no resize event fires
+        setInterval(() => {
+          if (viewportW() !== width || viewportH() !== height) resize();
+        }, 1000);
 
-        const mouse = { x: -9999, y: -9999 };
-        let ease = { x: -9999, y: -9999 };
-        document.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-        document.addEventListener("mouseleave", () => { mouse.x = -9999; mouse.y = -9999; });
+        const mouse = { x: null, y: null };
+        let holding = false; // mouse button held down = golden-spiral mode
+        document.addEventListener("mousemove", (e) => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        });
+        document.addEventListener("mouseleave", () => { mouse.x = null; mouse.y = null; stopHolding(); });
 
-        function cssVar(name) {
-          return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        const TEAL = [77, 163, 179];
+        const PURPLE = [156, 140, 212];
+        const BASE_SPEED = 0.16;      // px/frame wandering speed (slow drift)
+        const MAX_DIST = 140;         // node-to-node link distance
+        const REPEL_RADIUS = 160;     // hover repel radius
+        const REPEL_STRENGTH = 0.55;  // hover repel force
+        const SPIRAL_RADIUS = 220;    // capture radius around the cursor while held
+        const SPIRAL_MIN = 34;        // inner orbit band — nodes won't collapse in
+        const SPIRAL_SPEED_MIN = 0.7; // slow, calm orbit speed
+        const SPIRAL_SPEED_MAX = 1.3;
+        // Golden (logarithmic) spiral: r = a·e^(bθ) with b = ln(φ)/(π/2).
+        // The constant pitch angle atan(b) ≈ 17° is what we steer nodes along.
+        const PITCH = Math.atan(Math.log((1 + Math.sqrt(5)) / 2) / (Math.PI / 2));
+
+        class Node {
+          constructor(x, y, vx, vy) {
+            this.x = x !== undefined ? x : Math.random() * width;
+            this.y = y !== undefined ? y : Math.random() * height;
+            const ang = Math.random() * Math.PI * 2;
+            this.vx = vx !== undefined ? vx : Math.cos(ang) * BASE_SPEED;
+            this.vy = vy !== undefined ? vy : Math.sin(ang) * BASE_SPEED;
+            this.radius = 2.5;
+            this.mix = Math.random(); // teal↔purple blend
+          }
+          color(alpha) {
+            const r = Math.round(TEAL[0] + (PURPLE[0] - TEAL[0]) * this.mix);
+            const g = Math.round(TEAL[1] + (PURPLE[1] - TEAL[1]) * this.mix);
+            const b = Math.round(TEAL[2] + (PURPLE[2] - TEAL[2]) * this.mix);
+            return `rgba(${r},${g},${b},${alpha})`;
+          }
+          update() {
+            if (mouse.x !== null) {
+              const dx = this.x - mouse.x;
+              const dy = this.y - mouse.y;
+              const dist = Math.hypot(dx, dy);
+              if (holding && dist < SPIRAL_RADIUS && dist > 0.01) {
+                // Outward radial unit vector and its counterclockwise tangent
+                const rx = dx / dist, ry = dy / dist;
+                const tx = -ry, ty = rx;
+                // Steer along the golden-spiral pitch: mostly tangential,
+                // with an inward pull that fades to zero at the inner band
+                // so nodes orbit instead of collapsing onto the cursor.
+                const inward = Math.sin(PITCH) * Math.max(0, (dist - SPIRAL_MIN) / (SPIRAL_RADIUS - SPIRAL_MIN));
+                const speed = SPIRAL_SPEED_MIN + (SPIRAL_SPEED_MAX - SPIRAL_SPEED_MIN) * (1 - dist / SPIRAL_RADIUS);
+                const desiredX = (tx * Math.cos(PITCH) - rx * inward) * speed;
+                const desiredY = (ty * Math.cos(PITCH) - ry * inward) * speed;
+                // Steering strength ramps up the closer the node is
+                const grip = 0.1 + 0.12 * (1 - dist / SPIRAL_RADIUS);
+                this.vx += (desiredX - this.vx) * grip;
+                this.vy += (desiredY - this.vy) * grip;
+              } else if (!holding && dist < REPEL_RADIUS && dist > 0.01) {
+                // Gentle push directly away from the cursor
+                const rx = dx / dist, ry = dy / dist;
+                const force = (1 - dist / REPEL_RADIUS) * REPEL_STRENGTH;
+                this.vx += rx * force;
+                this.vy += ry * force;
+              }
+            }
+            // Relax back toward calm wandering speed when free
+            const speed = Math.hypot(this.vx, this.vy);
+            const relaxTarget = holding ? SPIRAL_SPEED_MIN : BASE_SPEED;
+            if (speed > relaxTarget) {
+              const relax = 0.97;
+              this.vx *= relax;
+              this.vy *= relax;
+            }
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+            this.x = Math.max(0, Math.min(width, this.x));
+            this.y = Math.max(0, Math.min(height, this.y));
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color(0.45);
+            ctx.fill();
+          }
         }
-        function parseAccent() {
-          // --accent is a hex like #2de0c8
-          const hex = cssVar("--accent").replace("#", "");
-          return [
-            parseInt(hex.slice(0, 2), 16),
-            parseInt(hex.slice(2, 4), 16),
-            parseInt(hex.slice(4, 6), 16),
-          ];
-        }
-        let accent = parseAccent();
-        let baseDot = cssVar("--dot");
-        // Re-read theme colors when the toggle is used
-        new MutationObserver(() => { accent = parseAccent(); baseDot = cssVar("--dot"); })
-          .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
-        function draw() {
-          ease.x += (mouse.x - ease.x) * 0.14;
-          ease.y += (mouse.y - ease.y) * 0.14;
-          ctx.clearRect(0, 0, width, height);
-          const offX = (width % SPACING) / 2;
-          const offY = (height % SPACING) / 2;
-          for (let x = offX; x <= width; x += SPACING) {
-            for (let y = offY; y <= height; y += SPACING) {
-              const dist = Math.hypot(x - ease.x, y - ease.y);
-              if (dist < GLOW_RADIUS) {
-                // Near the cursor: dots brighten, grow, and shift to the accent color
-                const t = 1 - dist / GLOW_RADIUS;
-                const r = 1 + t * 1.8;
+        const nodes = [];
+        // Scale node density with viewport area, within sane bounds
+        const initialCount = Math.max(60, Math.min(100, Math.round((width * height) / 16000)));
+        for (let i = 0; i < initialCount; i++) nodes.push(new Node());
+
+        // Press and hold on the page background = a "source": existing nodes
+        // near the cursor spiral around it for as long as the button is held.
+        // No new nodes are spawned — holding never changes the total node count.
+        function startHolding() { holding = true; }
+        function stopHolding() { holding = false; }
+        document.addEventListener("mousedown", (e) => {
+          if (e.button !== 0) return;
+          if (e.target.closest("a, button, input, .about-box, .about-carousel, .skill-card, .project-card, .nav-wrap, img, picture")) return;
+          startHolding();
+        });
+        document.addEventListener("mouseup", stopHolding);
+        window.addEventListener("blur", stopHolding);
+
+        function drawConnections() {
+          for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+              const dx = nodes[i].x - nodes[j].x;
+              const dy = nodes[i].y - nodes[j].y;
+              const distance = Math.hypot(dx, dy);
+              if (distance < MAX_DIST) {
                 ctx.beginPath();
-                ctx.arc(x, y, r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${0.15 + t * 0.75})`;
-                ctx.fill();
-              } else {
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(nodes[j].x, nodes[j].y);
+                ctx.strokeStyle = nodes[i].color(0.26 * (1 - distance / MAX_DIST));
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+            if (holding && mouse.x !== null) {
+              const dx = nodes[i].x - mouse.x;
+              const dy = nodes[i].y - mouse.y;
+              const distance = Math.hypot(dx, dy);
+              if (distance < SPIRAL_RADIUS) {
                 ctx.beginPath();
-                ctx.arc(x, y, 1, 0, Math.PI * 2);
-                ctx.fillStyle = baseDot;
-                ctx.fill();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.strokeStyle = nodes[i].color(0.34 * (1 - distance / SPIRAL_RADIUS));
+                ctx.lineWidth = 1;
+                ctx.stroke();
               }
             }
           }
-          requestAnimationFrame(draw);
         }
-        draw();
-      })();
 
-      // ----- Typed hero name -----
-      (function () {
-        const el = document.getElementById("typedName");
-        const text = "hi, i'm jake golden";
-        let i = 0;
-        function typeNext() {
-          if (i < text.length) {
-            el.textContent += text[i];
-            i++;
-            setTimeout(typeNext, 75);
-          }
+        function animate() {
+          ctx.clearRect(0, 0, width, height);
+          drawConnections();
+          nodes.forEach((n) => { n.update(); n.draw(); });
+          requestAnimationFrame(animate);
         }
-        setTimeout(typeNext, 700);
-      })();
-
-      // ----- ASCII skill bars, animated on reveal -----
-      function fillBar(bar) {
-        const target = parseInt(bar.dataset.progress, 10);
-        const totalBlocks = 20;
-        let current = 0;
-        const timer = setInterval(() => {
-          current += 5;
-          if (current > target) current = target;
-          const filled = Math.round((current / 100) * totalBlocks);
-          bar.innerHTML =
-            "[" + "█".repeat(filled) + "░".repeat(totalBlocks - filled) + "]" +
-            '<span class="pct">' + current + "%</span>";
-          if (current >= target) clearInterval(timer);
-        }, 40);
-      }
-
-      // ----- Scroll reveal -----
-      const observer = new IntersectionObserver(function (entries) {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("reveal");
-            entry.target.querySelectorAll(".bar[data-progress]:not(.filled)").forEach((bar) => {
-              bar.classList.add("filled");
-              fillBar(bar);
-            });
-          }
-        });
-      }, { threshold: 0.08, rootMargin: "0px 0px -60px 0px" });
-      document.querySelectorAll(".fade-in-up").forEach((el) => observer.observe(el));
-      // Pre-render empty bars so layout doesn't jump
-      document.querySelectorAll(".bar[data-progress]").forEach((bar) => {
-        bar.innerHTML = "[" + "░".repeat(20) + "]" + '<span class="pct">0%</span>';
-      });
-
-      // ----- About photo slideshow (terminal window) -----
-      (function () {
-        const root = document.getElementById("aboutPhotos");
-        const imgs = Array.from(root.querySelectorAll("img"));
-        const title = document.getElementById("photoTitle");
-        const counter = document.getElementById("photoCounter");
-        let index = 0;
-        let timer;
-        function show(i) {
-          index = (i + imgs.length) % imgs.length;
-          imgs.forEach((img, j) => img.classList.toggle("active", j === index));
-          title.textContent = "~/aboutme/" + imgs[index].dataset.name + ".webp";
-          counter.textContent = (index + 1) + " / " + imgs.length;
-        }
-        function restartTimer() {
-          clearInterval(timer);
-          timer = setInterval(() => show(index + 1), 4000);
-        }
-        document.getElementById("photoPrev").addEventListener("click", () => { show(index - 1); restartTimer(); });
-        document.getElementById("photoNext").addEventListener("click", () => { show(index + 1); restartTimer(); });
-        const io = new IntersectionObserver((entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) { restartTimer(); obs.disconnect(); }
-          });
-        }, { threshold: 0.5 });
-        io.observe(root);
+        animate();
       })();
     </script>
   </body>

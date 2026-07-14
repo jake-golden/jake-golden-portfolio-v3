@@ -213,27 +213,59 @@
   .nav-inner { padding: 1rem 1.25rem; }
 }
 
-/* Site footer (shared, all pages). Injected by js/footer.js.
+/* Site footer (shared, all pages). Markup injected by js/footer.js; the
+   ambient dwell robot is added by js/footer-robot.js (per-page opt-in).
    position+z-index here matter on the homepage: a non-positioned element
    paints *below* the fixed z-index:0 constellation canvas in stacking
    order regardless of DOM position, so without this the canvas shows
    through the footer. */
 footer {
-  position: relative;
-  z-index: 1;
+  position: relative;   /* robot stage is absolutely positioned within */
+  z-index: 1;           /* sits above the homepage constellation canvas (z-index:0) */
   /* Push to the bottom of the viewport on short pages — restores the
      old .mt-auto behavior lost when the footer markup dropped Bootstrap
      classes; relies on body being display:flex;flex-direction:column
      (from the shared d-flex flex-column body class on every page) and
      the site-wide `body, html { height: 100%; }` rule. */
   margin-top: auto;
+  padding: 40px 28px;
   border-top: 1px solid var(--border);
-  padding: 2rem 0;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.9rem;
   background: var(--bg-elevated);
 }
+
+/* Dwell robot (design: assets/robot/*.png) — wanders the full footer width
+   (edge to edge, ignoring footer's own padding, since absolutely-positioned
+   children measure against the padding-box's outer edge) along the top
+   separator line of the footer, on top of everything else. Resize by changing
+   both --footer-robot-size here and SIZE in js/footer-robot.js. */
+.footer-robot-stage { position: absolute; left: 0; right: 0; top: 6px; height: 0; pointer-events: none; z-index: 5; }
+.footer-robot-wrap { position: absolute; bottom: 0; left: 0; width: var(--footer-robot-size, 58px); height: var(--footer-robot-size, 58px); }
+.footer-robot-sprite { width: 100%; height: 100%; display: block; image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges; }
+.footer-robot-sprite.facing-right { transform: scaleX(-1); }
+
+/* Footer content column — scroll-linked scale+fade reveal driven by js/footer.js */
+.footer-cols { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; transform: scale(0.9); opacity: 0; transform-origin: center bottom; }
+@media (prefers-reduced-motion: reduce) { .footer-cols { opacity: 1; transform: scale(1); } }
+.footer-top-btn { background: none; border: none; color: var(--text-muted); font-size: 0.75rem; font-weight: 600; font-family: inherit; padding: 6px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s ease; }
+.footer-top-btn:hover { color: var(--teal); }
+.footer-top-btn.bob { animation: footer-btn-bob 3s ease-out 1; }
+@keyframes footer-btn-bob {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(-6px); }
+  20% { transform: translateY(0); }
+  32% { transform: translateY(-3.5px); }
+  44% { transform: translateY(0); }
+  56% { transform: translateY(-1.75px); }
+  68% { transform: translateY(0); }
+  80% { transform: translateY(-0.75px); }
+  92% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+.footer-contact-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.footer-questions { color: var(--text); font-size: 1.4rem; font-weight: 600; }
+.footer-contact-btn { display: inline-block; background: var(--gradient); color: #fff; font-weight: 700; font-size: 1rem; padding: 11px 24px; border-radius: 8px; text-decoration: none; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.footer-contact-btn:hover { transform: translateY(-4px); box-shadow: var(--shadow); color: #fff; }
+.footer-copyright { margin: 0; color: var(--text-muted); font-size: 0.75rem; }
 
 /* Page canvas — dark by default, light via [data-theme="light"]. Cards,
    tables, and other components keep their current hardcoded colors for
