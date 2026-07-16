@@ -982,6 +982,15 @@ html {
   z-index: 0;
   pointer-events: none;
 }
+
+/* Non-homepage pages that opt into the constellation background (see
+   js/constellation.js) aren't wrapped in #home, so give their <main>
+   its own stacking context the same way #home does above — otherwise
+   the fixed z-index:0 canvas paints over the in-flow page content. */
+body.has-constellation-bg > main {
+  position: relative;
+  z-index: 1;
+}
 .scroll-progress {
   position: fixed;
   top: 0; left: 0;
