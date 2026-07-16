@@ -213,7 +213,8 @@
           <div class="hardware-right d-flex flex-column flex-fill" style="width:65%; min-width:320px; max-width:100%;">
             <div class="content-box h-100 d-flex flex-column align-items-start" style="overflow:hidden; min-height:200px; max-height:100%;">
               <h4 class="fw-bold mb-2">PID Controller</h4>
-              <p>The controller is responsible for processing sensor data and adjusting the motor outputs to maintain balance. It uses PID control, which aims to minimize the error between the desired and actual positions of the robot based on proportional, integral, and derivative terms.</p>
+              <p><span class="text-highlighted">The Challenge</span>: The self-balancing robot behaves like an inverted pendulum: <strong>inherently unstable</strong> and <strong>highly sensitive</strong> to small control errors. Any small angular displacement grows quickly if not corrected immediately. </p>
+              <p><span class="text-highlighted">The Controller</span>: I implemented a <strong>PID controller</strong> for processing sensor data and adjusting the motor outputs to maintain balance. This type of controller minimizes error between the desired and actual positions of the robot based on proportional, integral, and derivative terms.</p>
               <picture>
                 <source data-light-srcset="assets/engineering/self-balancing-robot/PID_block_diagram-light.webp"
                         data-dark-srcset="assets/engineering/self-balancing-robot/PID_block_diagram-dark.webp"
@@ -225,12 +226,43 @@
                      data-caption="PID control block diagram."
                      style="max-width:100%; height:auto; display:block;">
               </picture>
-              <p>A large part of the project was dedicated to <strong>tuning PID constants</strong>. Tuning PID constants precisely is critical for a self-balancing robot because the system behaves like an inverted pendulum: <strong>inherently unstable</strong> and <strong>highly sensitive</strong> to small control errors. The robot is always on the edge of tipping over; even a tiny deviation grows quickly if not corrected immediately. Slightly off PID constants can mean the robot either reacts too slowly (falls) or too aggressively (oscillates and falls).</p>
-              <ul>
-                <li><strong>Proportional (P)</strong>: Reacts to the current tilt angle; provides an immediate correcting force proportional to how far the robot is leaning.</li>
-                <li><strong>Integral (I)</strong>: Corrects long-term bias or small steady-state errors by accumulating past error. I was actually able to set this term to (essentially) 0 because the system's fast dynamics and sensor noise made integration unnecessary and potentially destabilizing.</li>
-                <li><strong>Derivative (D)</strong>: Predicts motion by responding to the rate of change of tilt — effectively adds damping, preventing overshoot and helping smooth out rapid corrections.</li>
-              </ul>
+              <p>A large part of the project was dedicated to <strong>tuning PID constants</strong>. Slightly off PID constants can mean the robot either reacts too slowly (falls) or too aggressively (oscillates and falls).</p>
+              <div class="row g-3 mt-1 mb-2 w-100">
+                <div class="col-md-4">
+                  <div class="card shadow expandable-card h-100 text-center">
+                    <div class="card-body">
+                      <div class="text-highlighted" style="font-size:2.75rem; line-height:1;">P</div>
+                      <p class="text-muted mt-2 mb-0"><span class="expand-hint">Click to expand</span></p>
+                      <div class="expandable-content text-start px-0">
+                        <span class="text-highlighted">Proportional</span>: Reacts to the current tilt angle; provides an immediate correcting force proportional to how far the robot is leaning.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="card shadow expandable-card h-100 text-center">
+                    <div class="card-body">
+                      <div class="text-highlighted" style="font-size:2.75rem; line-height:1;">I</div>
+                      <p class="text-muted mt-2 mb-0"><span class="expand-hint">Click to expand</span></p>
+                      <div class="expandable-content text-start px-0">
+                        <span class="text-highlighted">Integral</span>: Corrects long-term bias or small steady-state errors by accumulating past error.
+                        <span class="text-muted d-block mt-2" style="font-size:0.9em;">Note: I was actually able to set this term to (essentially) 0 because the system's fast dynamics and sensor noise made integration unnecessary and potentially destabilizing.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="card shadow expandable-card h-100 text-center">
+                    <div class="card-body">
+                      <div class="text-highlighted" style="font-size:2.75rem; line-height:1;">D</div>
+                      <p class="text-muted mt-2 mb-0"><span class="expand-hint">Click to expand</span></p>
+                      <div class="expandable-content text-start px-0">
+                        <span class="text-highlighted">Derivative</span>: Predicts motion by responding to the rate of change of tilt — effectively adds damping, preventing overshoot and helping smooth out rapid corrections.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <!-- PID Photo/Video Carousel -->
               <div id="pidCarousel" class="carousel slide media-carousel mt-4 mb-2" data-bs-ride="false" style="max-width:600px; width:100%; margin:auto;">
@@ -257,7 +289,7 @@
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                   </button>
-                  <div id="desc-pidCarousel" class="carousel-descriptions w-100 text-center mt-2" style="max-width:480px; margin:auto;">
+                  <div id="desc-pidCarousel" class="carousel-descriptions w-100 text-center" style="max-width:480px; margin-left:auto; margin-right:auto;">
                     <div class="desc-slide desc-slide-0" style="background:rgba(24,26,27,0.07); border-radius:8px; padding:0.5rem 1rem;">
                       <small>Poorly-tuned PID constants. Notice the rapid oscillations - this is due to a large $K_p$ relative to $K_d$!</small>
                     </div>
@@ -410,6 +442,34 @@
         .final-left, .final-right { width: 100% !important; margin-bottom: 2rem; }
       }
       .content-box { margin-bottom: 2rem; }
+      /* PID carousel caption: stack both slide captions in a single grid cell so
+         the container always reserves the height of the tallest (2-line) caption.
+         The inactive slide keeps its box (visibility:hidden) instead of being
+         removed (display:none), so toggling slides no longer changes the content
+         box height. Also keeps the prev/next arrows vertically centered on the
+         caption. */
+      #desc-pidCarousel {
+        display: grid;
+        align-items: center;
+      }
+      #desc-pidCarousel .desc-slide {
+        grid-area: 1 / 1;
+        visibility: hidden;
+      }
+      #desc-pidCarousel .desc-slide.d-none {
+        display: block !important; /* override Bootstrap .d-none so it still reserves space */
+      }
+      #desc-pidCarousel .desc-slide:not(.d-none) {
+        visibility: visible;
+      }
+      /* This carousel's prev/next buttons sit inline in a flex row (position:static)
+         rather than overlaid on the image, so the shared translateY(-50%) meant for
+         absolutely-positioned buttons just shifts them 18px above the caption. Undo it
+         here so the arrows stay centered on the caption. */
+      #pidCarousel .carousel-control-prev,
+      #pidCarousel .carousel-control-next {
+        transform: none;
+      }
     </style>
   </body>
 </html>
