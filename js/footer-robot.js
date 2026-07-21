@@ -24,9 +24,22 @@
   var present = false;
 
   function vh() { return window.innerHeight || document.documentElement.clientHeight || 800; }
+  // Strict "is the footer on screen at all" check — used only to arm the
+  // spawn dwell timer, unchanged from before.
   function footerInView() {
     var rect = footerEl.getBoundingClientRect();
     return rect.top < vh() && rect.bottom > 0;
+  }
+  // Looser check used only once the robot is already present: without this,
+  // despawn fired the instant the footer was nominally 0px out of view (e.g.
+  // scrolling back up away from the page bottom), which could pop the robot
+  // out while it was still visibly on screen near the edge. Now it stays
+  // until the viewport has scrolled a further 2 robot-heights past that
+  // point on either edge.
+  var EXIT_MARGIN = SIZE * 2;
+  function footerWithinExitBuffer() {
+    var rect = footerEl.getBoundingClientRect();
+    return rect.top < vh() + EXIT_MARGIN && rect.bottom > -EXIT_MARGIN;
   }
   function stageWidth() { return footerEl.getBoundingClientRect().width || 300; }
 
@@ -107,16 +120,20 @@
   }
 
   function checkVisibility() {
+    if (present) {
+      if (!footerWithinExitBuffer()) despawn();
+      return;
+    }
     if (footerInView()) {
-      if (!present && !dwellTimer) {
+      if (!dwellTimer) {
         dwellTimer = setTimeout(function () {
           dwellTimer = null;
           if (footerInView()) spawn();
         }, TRIGGER_DELAY);
       }
-    } else {
-      if (dwellTimer) { clearTimeout(dwellTimer); dwellTimer = null; }
-      if (present) despawn();
+    } else if (dwellTimer) {
+      clearTimeout(dwellTimer);
+      dwellTimer = null;
     }
   }
 

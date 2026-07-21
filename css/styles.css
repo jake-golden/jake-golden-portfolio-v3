@@ -1631,6 +1631,9 @@ body.has-constellation-bg > main {
      overflowing the frame horizontally at narrow widths instead of wrapping. */
   min-width: 0;
 }
+/* Light mode only: same treatment as Core Values cards — pure white instead
+   of the usual --chip-bg tint. Dark mode untouched. */
+[data-theme="light"] #home .interest-card { background: #ffffff; }
 #home .interest-card:hover {
   transform: scale(1.05);
   border-color: color-mix(in srgb, var(--purple) 55%, transparent);
@@ -1644,6 +1647,16 @@ body.has-constellation-bg > main {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+/* Weightlifting/Running use inline Tabler SVGs (no Bootstrap Icons glyph
+   exists for either) instead of an <i> glyph — same 2.2rem box size as the
+   other icons; their gradient comes from an in-SVG <linearGradient> (see
+   index.html) rather than this background-clip:text trick, since that only
+   works on text/font glyphs, not arbitrary vector shapes. */
+#home .interest-card .interest-svg-icon {
+  flex-shrink: 0;
+  width: 2.2rem;
+  height: 2.2rem;
 }
 /* min-width:0 for the same reason as the card itself above — as a flex child
    the <span> also defaults to min-width:auto and would render text past its
