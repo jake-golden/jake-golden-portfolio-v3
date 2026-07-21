@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="About Jake Golden — interests, hobbies, and more" />
+    <meta name="author" content="Jake Golden" />
+    <title>About Me - Jake Golden</title>
+    <script src="js/head.js"></script>
+    <style>
+      /* ==========================================================
+         PROTOTYPE PAGE — about-me.html
+         Freeform playground for About Me content boxes. Everything
+         here is page-local (.am- prefix) and theme-reactive via the
+         shared CSS variables. Nothing leaks into styles.css.
+         ========================================================== */
+      #aboutme { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+      /* ---- page header ---- */
+      .am-header { text-align: center; padding: 2.5rem 0 1rem; }
+      .am-header h1 { font-weight: 800; letter-spacing: -0.02em; font-size: clamp(2.2rem, 5vw, 3.2rem); }
+      .am-header p { color: var(--text-muted); max-width: 560px; margin: 0.75rem auto 0; }
+      .am-proto-tag {
+        display: inline-block; margin-bottom: 0.9rem; padding: 0.3rem 0.9rem;
+        font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        color: var(--text-muted); background: var(--chip-bg);
+        border: 1px dashed var(--border); border-radius: 999px;
+      }
+
+      /* ---- generic prototype tile ---- */
+      .am-tile {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 1.75rem;
+        margin-top: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .am-tile-label {
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+        color: var(--text-muted); margin-bottom: 0.35rem;
+      }
+      .am-tile h2 { font-weight: 800; font-size: 1.5rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+      .am-tile h2 i { margin-right: 0.5rem; }
+      .am-muted { color: var(--text-muted); }
+
+      /* two-up grid for smaller tiles */
+      .am-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+      .am-row .am-tile { margin-top: 0; }
+      @media (max-width: 800px) { .am-row { grid-template-columns: 1fr; } }
+
+      /* ==========================================================
+         1) Ported "About Me" box (content copied from index.html)
+         ========================================================== */
+      .am-school-box {
+        display: flex; align-items: center; gap: 0.6rem;
+        background: var(--chip-bg); border: 1px solid var(--border);
+        border-radius: 12px; padding: 0.6rem 0.9rem; margin-bottom: 0.6rem;
+        font-weight: 600; font-size: 0.95rem; position: relative;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .am-school-box:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+      .am-about-lead { color: var(--text-muted); line-height: 1.7; margin: 1.1rem 0 0; }
+      .am-about-social { margin-top: 1rem; display: flex; gap: 1rem; font-size: 1.5rem; }
+      .am-about-social a { text-decoration: none; }
+
+      /* ==========================================================
+         2) Marquees — "On Rotation" (albums) + movies
+         Pure CSS: track duplicated once in markup, translateX -50%.
+         Pauses on hover; disabled under prefers-reduced-motion.
+         ========================================================== */
+      .am-marquee { overflow: hidden; margin: 0 -1.75rem; padding: 0.5rem 0; position: relative; }
+      .am-marquee::before, .am-marquee::after {
+        content: ""; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; pointer-events: none;
+      }
+      .am-marquee::before { left: 0; background: linear-gradient(90deg, var(--bg-elevated), transparent); }
+      .am-marquee::after { right: 0; background: linear-gradient(270deg, var(--bg-elevated), transparent); }
+      .am-marquee-track { display: flex; gap: 1.1rem; width: max-content; animation: am-scroll 40s linear infinite; }
+      .am-marquee-track.reverse { animation-direction: reverse; }
+      .am-marquee:hover .am-marquee-track { animation-play-state: paused; }
+      @keyframes am-scroll { to { transform: translateX(-50%); } }
+      @media (prefers-reduced-motion: reduce) {
+        .am-marquee-track { animation: none; }
+        .am-marquee { overflow-x: auto; }
+      }
+
+      /* album card */
+      .am-album { width: 150px; flex-shrink: 0; }
+      .am-album-art {
+        width: 150px; height: 150px; border-radius: 12px; position: relative;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2.4rem; color: rgba(255,255,255,0.85);
+        box-shadow: var(--shadow); border: 1px solid var(--border);
+        transition: transform 0.25s ease;
+      }
+      .am-album:hover .am-album-art { transform: translateY(-5px) rotate(-2deg); }
+      /* vinyl peeking out */
+      .am-album-art::after {
+        content: ""; position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
+        width: 120px; height: 120px; border-radius: 50%; z-index: -1;
+        background: radial-gradient(circle at center, var(--text) 8%, #111 9%, #111 30%, #1d1d1d 31%, #111 45%, #1d1d1d 46%, #111 60%, #1d1d1d 61%, #111 100%);
+      }
+      .am-album-title { font-weight: 700; font-size: 0.85rem; margin-top: 0.9rem; line-height: 1.2; }
+      .am-album-artist { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.15rem; }
+
+      /* movie poster card (2:3) */
+      .am-poster { width: 130px; flex-shrink: 0; }
+      .am-poster-art {
+        width: 130px; height: 195px; border-radius: 10px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+        color: rgba(255,255,255,0.9); font-size: 2rem; text-align: center; padding: 0.75rem;
+        box-shadow: var(--shadow); border: 1px solid var(--border);
+        transition: transform 0.25s ease;
+      }
+      .am-poster:hover .am-poster-art { transform: translateY(-5px) scale(1.03); }
+      .am-poster-art span { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85; }
+      .am-poster-title { font-weight: 700; font-size: 0.85rem; margin-top: 0.9rem; line-height: 1.2; }
+      .am-poster-year { color: var(--text-muted); font-size: 0.78rem; }
+
+      /* placeholder gradients for art tiles */
+      .g1 { background: linear-gradient(135deg, #4da3b3, #1d4e5a); }
+      .g2 { background: linear-gradient(135deg, #9c8cd4, #4a3f78); }
+      .g3 { background: linear-gradient(135deg, #e76f51, #7a2e1d); }
+      .g4 { background: linear-gradient(135deg, #ffb500, #8a5a00); }
+      .g5 { background: linear-gradient(135deg, #5f8f6a, #24402c); }
+      .g6 { background: linear-gradient(135deg, #b35f7c, #5c2438); }
+      .g7 { background: linear-gradient(135deg, #5a7dbd, #23345c); }
+      .g8 { background: linear-gradient(135deg, #8b8b8b, #3a3a3a); }
+
+      /* ==========================================================
+         3) Where I'm from — NJ map
+         ========================================================== */
+      .am-map-wrap { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+      .am-map { flex: 0 0 auto; }
+      .am-map svg { display: block; width: 200px; height: auto; }
+      .am-map .nj-outline { fill: var(--chip-bg); stroke: var(--text-muted); stroke-width: 2.5; stroke-linejoin: round; }
+      .am-map .bergen { fill: var(--teal); stroke: var(--text); stroke-width: 1.5; }
+      .am-map .pin { animation: am-pin-bob 2.2s ease-in-out infinite; transform-origin: center; }
+      @keyframes am-pin-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+      @media (prefers-reduced-motion: reduce) { .am-map .pin { animation: none; } }
+      .am-map-text { flex: 1; min-width: 220px; }
+      .am-map-text h3 { font-weight: 800; font-size: 1.3rem; }
+      .am-map-text p { color: var(--text-muted); line-height: 1.7; margin-top: 0.5rem; }
+
+      /* ==========================================================
+         4) Foods / likes-dislikes / hobbies / values / etc.
+         ========================================================== */
+      .am-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+      .am-chip {
+        display: inline-flex; align-items: center; gap: 0.45rem;
+        background: var(--chip-bg); border: 1px solid var(--border);
+        border-radius: 999px; padding: 0.45rem 0.95rem; font-weight: 600; font-size: 0.9rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .am-chip:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+      .am-chip .emoji { font-size: 1.1rem; }
+
+      .am-ld-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+      @media (max-width: 640px) { .am-ld-cols { grid-template-columns: 1fr; } }
+      .am-ld-cols h3 { font-size: 1rem; font-weight: 800; margin-bottom: 0.75rem; }
+      .am-ld-cols ul { list-style: none; padding: 0; margin: 0; }
+      .am-ld-cols li {
+        display: flex; align-items: center; gap: 0.6rem;
+        padding: 0.5rem 0.75rem; border-radius: 10px; margin-bottom: 0.4rem;
+        background: var(--chip-bg); border: 1px solid var(--border); font-size: 0.92rem;
+      }
+      .am-like i { color: #5f9f6a; }
+      .am-dislike i { color: #c96a6a; }
+
+      .am-hobby-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+      .am-hobby {
+        background: var(--chip-bg); border: 1px solid var(--border); border-radius: 14px;
+        padding: 1.25rem 1rem; text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .am-hobby:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+      .am-hobby i { font-size: 1.7rem; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .am-hobby h4 { font-size: 0.95rem; font-weight: 700; margin: 0.6rem 0 0.2rem; }
+      .am-hobby p { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
+
+      .am-values { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+      .am-value { background: var(--chip-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
+      .am-value .num {
+        font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em;
+        background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .am-value h4 { font-size: 1.05rem; font-weight: 800; margin: 0.4rem 0; }
+      .am-value p { font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.6; }
+
+      /* "Currently" list */
+      .am-currently { list-style: none; padding: 0; margin: 0; }
+      .am-currently li { display: flex; gap: 0.85rem; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px solid var(--border); }
+      .am-currently li:last-child { border-bottom: none; }
+      .am-currently .k { flex: 0 0 105px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); }
+      .am-currently .v { font-weight: 600; font-size: 0.95rem; }
+
+      /* by-the-numbers stat pills */
+      .am-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+      .am-stat { text-align: center; background: var(--chip-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 0.75rem; }
+      .am-stat .n { font-size: 1.7rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .am-stat .l { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 0.2rem; }
+
+      /* rapid fire Q&A */
+      .am-rapid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1.5rem; }
+      @media (max-width: 640px) { .am-rapid { grid-template-columns: 1fr; } }
+      .am-rapid div { padding: 0.6rem 0.85rem; background: var(--chip-bg); border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; }
+      .am-rapid .q { display: block; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.15rem; }
+
+      /* sports corner */
+      .am-teams { display: flex; gap: 1rem; flex-wrap: wrap; }
+      .am-team {
+        flex: 1; min-width: 200px; border-radius: 14px; padding: 1.25rem;
+        color: #fff; display: flex; align-items: center; gap: 1rem;
+        border: 1px solid var(--border); box-shadow: var(--shadow);
+      }
+      .am-team i { font-size: 1.9rem; opacity: 0.9; }
+      .am-team h4 { margin: 0; font-weight: 800; font-size: 1.05rem; }
+      .am-team p { margin: 0.1rem 0 0; font-size: 0.8rem; opacity: 0.85; }
+      .knicks { background: linear-gradient(135deg, #006bb6, #f58426); }
+      .giants { background: linear-gradient(135deg, #0b2265, #a71930); }
+    </style>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <div id="navbar-placeholder"></div>
+    <script src="js/projects-data.js"></script>
+    <script src="js/navbar.js"></script>
+
+    <main id="aboutme">
+      <!-- Page header -->
+      <div class="am-header">
+        <span class="am-proto-tag">Prototype playground — not linked from nav</span>
+        <h1><span class="text-gradient">About Me</span></h1>
+        <p>A grab-bag of content-box ideas to expand the homepage About section. Each tile below is a standalone concept — keep, remix, or toss.</p>
+      </div>
+
+      <!-- 1) Current About box, ported from index.html -->
+      <section class="am-tile">
+        <div class="am-tile-label">Concept 0 — current homepage box (baseline)</div>
+        <h2>About Me</h2>
+        <div>
+          <div class="am-school-box">
+            <i class="bi bi-mortarboard-fill" style="color:#8a90d9;"></i>
+            Duke University&ensp;·&ensp;Class of 2027
+          </div>
+          <div class="am-school-box">
+            <i class="bi bi-lightning-fill" style="color:#4da3b3;"></i>
+            Electrical Engineering
+          </div>
+          <div class="am-school-box">
+            <i class="bi bi-heart-pulse-fill" style="color:#e76f51;"></i>
+            Biomedical Engineering
+          </div>
+          <div class="am-school-box">
+            <i class="bi bi-lightbulb-fill" style="color:#ffb500;"></i>
+            Interest: signal processing for medical device design
+          </div>
+        </div>
+        <p class="am-about-lead">
+          Thanks for checking out my portfolio! My name is Jake and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard Knicks and Giants fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
+        </p>
+        <div class="am-about-social">
+          <a class="text-gradient" href="https://www.linkedin.com/in/jakegolden22/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          <a class="text-gradient" href="mailto:jakegolden9001@gmail.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+        </div>
+      </section>
+
+      <!-- 2) On Rotation — scrolling album art -->
+      <section class="am-tile">
+        <div class="am-tile-label">Concept 1 — auto-scrolling marquee, pauses on hover · placeholder art (swap in real covers)</div>
+        <h2><i class="bi bi-vinyl-fill"></i>On Rotation</h2>
+        <div class="am-marquee">
+          <div class="am-marquee-track">
+            <!-- set A -->
+            <div class="am-album"><div class="am-album-art g1"><i class="bi bi-music-note-beamed"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g2"><i class="bi bi-boombox"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g3"><i class="bi bi-cassette"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g4"><i class="bi bi-disc"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g5"><i class="bi bi-headphones"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g6"><i class="bi bi-music-player"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g7"><i class="bi bi-speaker"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g8"><i class="bi bi-soundwave"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <!-- set B (exact duplicate for seamless loop) -->
+            <div class="am-album"><div class="am-album-art g1"><i class="bi bi-music-note-beamed"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g2"><i class="bi bi-boombox"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g3"><i class="bi bi-cassette"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g4"><i class="bi bi-disc"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g5"><i class="bi bi-headphones"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g6"><i class="bi bi-music-player"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g7"><i class="bi bi-speaker"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+            <div class="am-album"><div class="am-album-art g8"><i class="bi bi-soundwave"></i></div><div class="am-album-title">Album Title</div><div class="am-album-artist">Artist Name</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) Movie shelf — scrolling posters (reverse direction) -->
+      <section class="am-tile">
+        <div class="am-tile-label">Concept 2 — same marquee, 2:3 posters, scrolls the other way · placeholder art</div>
+        <h2><i class="bi bi-film"></i>Movie Shelf</h2>
+        <div class="am-marquee">
+          <div class="am-marquee-track reverse">
+            <!-- set A -->
+            <div class="am-poster"><div class="am-poster-art g7"><i class="bi bi-camera-reels"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g3"><i class="bi bi-stars"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g5"><i class="bi bi-badge-hd"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g2"><i class="bi bi-ticket-perforated"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g4"><i class="bi bi-emoji-sunglasses"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g6"><i class="bi bi-projector"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g1"><i class="bi bi-film"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <!-- set B (duplicate) -->
+            <div class="am-poster"><div class="am-poster-art g7"><i class="bi bi-camera-reels"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g3"><i class="bi bi-stars"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g5"><i class="bi bi-badge-hd"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g2"><i class="bi bi-ticket-perforated"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g4"><i class="bi bi-emoji-sunglasses"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g6"><i class="bi bi-projector"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+            <div class="am-poster"><div class="am-poster-art g1"><i class="bi bi-film"></i><span>Poster</span></div><div class="am-poster-title">Movie Title</div><div class="am-poster-year">Year</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4) Where I'm from + Hobbies, side by side -->
+      <div class="am-row">
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 3 — stylized SVG map, bobbing pin</div>
+          <h2><i class="bi bi-geo-alt-fill"></i>Where I'm From</h2>
+          <div class="am-map-wrap">
+            <div class="am-map">
+              <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stylized map of New Jersey with Bergen County highlighted">
+                <!-- stylized NJ outline (simplified, not survey-grade) -->
+                <path class="nj-outline" d="M62 30 L110 42 L152 38 L146 62 L128 78 L142 82 L150 96 L146 140 Q142 180 124 218 L118 244 L128 268 L106 282 L92 262 L98 246 L76 226 Q56 204 54 182 L44 168 Q38 150 46 136 L40 118 Q36 98 48 84 L44 62 Z" />
+                <!-- Bergen County: NE corner -->
+                <path class="bergen" d="M110 42 L152 38 L146 62 L128 78 L116 66 Z" />
+                <!-- pin over Bergen -->
+                <g class="pin">
+                  <path d="M132 26 c-8 0 -13 6 -13 13 c0 9 13 21 13 21 s13 -12 13 -21 c0 -7 -5 -13 -13 -13 z" fill="var(--purple)" stroke="var(--text)" stroke-width="1.5"/>
+                  <circle cx="132" cy="39" r="4.5" fill="var(--bg-elevated)"/>
+                </g>
+              </svg>
+            </div>
+            <div class="am-map-text">
+              <h3>Bergen County, NJ</h3>
+              <p>Born and raised in North Jersey — right across the river from NYC. Bagels are non-negotiable, and yes, it's "Taylor ham."</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 4 — icon card grid</div>
+          <h2><i class="bi bi-controller"></i>Interests &amp; Hobbies</h2>
+          <div class="am-hobby-grid">
+            <div class="am-hobby"><i class="bi bi-music-note-list"></i><h4>Piano</h4><p>Placeholder blurb</p></div>
+            <div class="am-hobby"><i class="bi bi-snow2"></i><h4>Skiing</h4><p>Placeholder blurb</p></div>
+            <div class="am-hobby"><i class="bi bi-heart-pulse"></i><h4>Lifting</h4><p>Placeholder blurb</p></div>
+            <div class="am-hobby"><i class="bi bi-camera"></i><h4>Photography</h4><p>Placeholder blurb</p></div>
+            <div class="am-hobby"><i class="bi bi-signpost-2"></i><h4>Hiking</h4><p>Placeholder blurb</p></div>
+            <div class="am-hobby"><i class="bi bi-trophy"></i><h4>Sports Fan</h4><p>Placeholder blurb</p></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 5) Foods + Likes/Dislikes -->
+      <div class="am-row">
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 5 — emoji chip cloud</div>
+          <h2><i class="bi bi-egg-fried"></i>Favorite Foods</h2>
+          <div class="am-chips">
+            <span class="am-chip"><span class="emoji">🥯</span>NJ Bagels</span>
+            <span class="am-chip"><span class="emoji">🍕</span>Pizza</span>
+            <span class="am-chip"><span class="emoji">🥩</span>Steak</span>
+            <span class="am-chip"><span class="emoji">🍣</span>Sushi</span>
+            <span class="am-chip"><span class="emoji">🥓</span>Taylor Ham, Egg &amp; Cheese</span>
+            <span class="am-chip"><span class="emoji">🍦</span>Ice Cream</span>
+            <span class="am-chip"><span class="emoji">🌮</span>Tacos</span>
+            <span class="am-chip"><span class="emoji">🍝</span>Pasta</span>
+          </div>
+        </section>
+
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 6 — two-column likes / dislikes</div>
+          <h2><i class="bi bi-hand-thumbs-up"></i>Likes &amp; Dislikes</h2>
+          <div class="am-ld-cols">
+            <div>
+              <h3>Likes</h3>
+              <ul>
+                <li class="am-like"><i class="bi bi-check-circle-fill"></i>Placeholder like</li>
+                <li class="am-like"><i class="bi bi-check-circle-fill"></i>Placeholder like</li>
+                <li class="am-like"><i class="bi bi-check-circle-fill"></i>Placeholder like</li>
+                <li class="am-like"><i class="bi bi-check-circle-fill"></i>Placeholder like</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Dislikes</h3>
+              <ul>
+                <li class="am-dislike"><i class="bi bi-x-circle-fill"></i>Placeholder dislike</li>
+                <li class="am-dislike"><i class="bi bi-x-circle-fill"></i>Placeholder dislike</li>
+                <li class="am-dislike"><i class="bi bi-x-circle-fill"></i>Placeholder dislike</li>
+                <li class="am-dislike"><i class="bi bi-x-circle-fill"></i>Placeholder dislike</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 6) Core values -->
+      <section class="am-tile">
+        <div class="am-tile-label">Concept 7 — numbered value cards</div>
+        <h2><i class="bi bi-compass"></i>Core Values</h2>
+        <div class="am-values">
+          <div class="am-value"><div class="num">01</div><h4>Curiosity</h4><p>Placeholder — a sentence on why this matters to you.</p></div>
+          <div class="am-value"><div class="num">02</div><h4>Craftsmanship</h4><p>Placeholder — a sentence on why this matters to you.</p></div>
+          <div class="am-value"><div class="num">03</div><h4>Discipline</h4><p>Placeholder — a sentence on why this matters to you.</p></div>
+          <div class="am-value"><div class="num">04</div><h4>Family</h4><p>Placeholder — a sentence on why this matters to you.</p></div>
+        </div>
+      </section>
+
+      <!-- 7) Currently + By the numbers -->
+      <div class="am-row">
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 8 — "currently" ticker (my suggestion)</div>
+          <h2><i class="bi bi-hourglass-split"></i>Currently…</h2>
+          <ul class="am-currently">
+            <li><span class="k">Listening to</span><span class="v">Placeholder album/artist</span></li>
+            <li><span class="k">Watching</span><span class="v">Placeholder show/movie</span></li>
+            <li><span class="k">Reading</span><span class="v">Placeholder book</span></li>
+            <li><span class="k">Building</span><span class="v">Placeholder project</span></li>
+            <li><span class="k">Learning</span><span class="v">Placeholder skill</span></li>
+          </ul>
+        </section>
+
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 9 — fun stat pills (my suggestion)</div>
+          <h2><i class="bi bi-123"></i>By the Numbers</h2>
+          <div class="am-stats">
+            <div class="am-stat"><div class="n">17</div><div class="l">Years playing piano</div></div>
+            <div class="am-stat"><div class="n">41</div><div class="l">Photos in my gallery</div></div>
+            <div class="am-stat"><div class="n">9</div><div class="l">Engineering projects</div></div>
+            <div class="am-stat"><div class="n">∞</div><div class="l">Knicks heartbreaks</div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 8) Rapid fire + teams -->
+      <div class="am-row">
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 10 — rapid-fire Q&amp;A (my suggestion)</div>
+          <h2><i class="bi bi-lightning-charge"></i>Rapid Fire</h2>
+          <div class="am-rapid">
+            <div><span class="q">Coffee or tea?</span>Placeholder</div>
+            <div><span class="q">Early bird or night owl?</span>Placeholder</div>
+            <div><span class="q">Mountains or beach?</span>Placeholder</div>
+            <div><span class="q">Dream concert?</span>Placeholder</div>
+            <div><span class="q">Go-to karaoke song?</span>Placeholder</div>
+            <div><span class="q">Most-used app?</span>Placeholder</div>
+          </div>
+        </section>
+
+        <section class="am-tile">
+          <div class="am-tile-label">Concept 11 — team-color banner cards (my suggestion)</div>
+          <h2><i class="bi bi-trophy-fill"></i>My Teams</h2>
+          <div class="am-teams">
+            <div class="am-team knicks"><i class="bi bi-dribbble"></i><div><h4>New York Knicks</h4><p>Diehard. Through everything.</p></div></div>
+            <div class="am-team giants"><i class="bi bi-shield-fill"></i><div><h4>New York Giants</h4><p>Big Blue faithful.</p></div></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/footer.js"></script>
+    <script src="js/footer-robot.js"></script>
+  </body>
+</html>

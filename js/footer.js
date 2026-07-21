@@ -5,7 +5,7 @@
         '<button type="button" class="footer-top-btn" id="footerToTop"><i class="bi bi-arrow-up"></i> Back to top</button>' +
         '<div class="footer-contact-row">' +
           '<span class="footer-questions">Questions?</span>' +
-          '<a href="contact.html" class="footer-contact-btn">Contact Me!</a>' +
+          '<a href="contact.html" class="footer-contact-btn">Let\'s Talk!</a>' +
         '</div>' +
         '<p class="footer-copyright">&copy; 2026 Jake Golden &ensp;|&ensp; Built with Care.</p>' +
       '</div>' +

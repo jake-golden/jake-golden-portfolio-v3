@@ -1005,6 +1005,11 @@ body.has-constellation-bg > main {
   margin: 0 auto;
   padding: 0 2rem;
 }
+/* Full screen: pull the page in ~2% on each side for a little breathing room.
+   Percentage padding resolves against the viewport-width containing block. */
+@media (min-width: 992px) {
+  #home .container { padding-left: 2%; padding-right: 2%; }
+}
 
 #home .hero {
   position: relative;
@@ -1119,7 +1124,10 @@ body.has-constellation-bg > main {
 #home .glow-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-#home .glow-hover:hover {
+/* Driven by the .is-hover class (set in js/inline hover-lift guard) rather than
+   :hover, to prevent the box translating out from under a bottom-edge cursor
+   and flickering. The animation itself is unchanged. */
+#home .glow-hover.is-hover {
   transform: translateY(-7px);
   border-color: color-mix(in srgb, var(--purple) 55%, transparent);
   box-shadow: 0 14px 44px var(--glow-purple);
@@ -1127,9 +1135,12 @@ body.has-constellation-bg > main {
 
 #home .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  /* text box (left, wider) + highlight stack (right, narrower) */
+  grid-template-columns: 1.2fr 1fr;
   gap: 3rem;
-  align-items: center;
+  /* stretch (not center) so the text box matches the height of the
+     three stacked highlight boxes beside it */
+  align-items: stretch;
 }
 #home .about-carousel-wrap {
   display: flex;
@@ -1161,7 +1172,8 @@ body.has-constellation-bg > main {
   height: 100%;
   object-fit: cover;
 }
-#home .carousel-btn {
+#home .carousel-btn,
+#home .content-btn {
   /* Reset positioning from the shared (gallery-strip) .carousel-btn rule —
      this button is a flex child here, not absolutely overlaid on an image.
      transform: none is required too, not just position/top/left/right —
@@ -1189,7 +1201,14 @@ body.has-constellation-bg > main {
   transform-origin: center;
   transition: background 0.2s ease, transform 0.2s ease;
 }
-#home .carousel-btn:hover { background: var(--carousel-btn-bg-hover); transform: scale(1.08); }
+#home .carousel-btn:hover,
+#home .content-btn:hover { background: var(--carousel-btn-bg-hover); transform: scale(1.08); }
+/* Light mode only: the default white pills barely read against the light box,
+   so darken them slightly for visibility. Dark mode is untouched. */
+[data-theme="light"] #home .carousel-btn,
+[data-theme="light"] #home .content-btn { background: #e2e7ee; }
+[data-theme="light"] #home .carousel-btn:hover,
+[data-theme="light"] #home .content-btn:hover { background: #d4dbe4; }
 #home .carousel-dots {
   position: absolute;
   bottom: 12px;
@@ -1212,12 +1231,56 @@ body.has-constellation-bg > main {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
 }
-#home .about-box h2 {
-  font-size: 2rem;
+/* text fills the space above the social links and centers itself there;
+   the social row stays pinned to the bottom of the box */
+#home .about-text {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#home .highlight-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#home .highlight-box {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* grow to share the stack's stretched height so the three boxes together
+     fill the same vertical height as the text box beside them (content stays
+     centered via align-items). No effect when stacked in one column (no extra
+     height to distribute). */
+  flex: 1 1 auto;
+}
+#home .highlight-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+#home .highlight-text h5 {
   font-weight: 800;
-  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  margin: 0 0 0.3rem;
 }
+#home .highlight-text p {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0;
+}
+/* Tag row inside a highlight box (Favorites in EE) — reuses .tech-badge; the
+   negative bottom margin absorbs the badges' own 0.4rem bottom margin so the
+   box padding stays even. */
+#home .highlight-tags { margin-top: 0.7rem; margin-bottom: -0.4rem; }
 #home .school-box {
   display: inline-flex;
   align-items: center;
@@ -1261,7 +1324,7 @@ body.has-constellation-bg > main {
   font-size: 1.08rem;
   line-height: 1.7;
   color: var(--text-muted);
-  margin: 0.75rem 0 0;
+  margin: 0;
 }
 #home .about-social {
   display: flex;
@@ -1392,14 +1455,354 @@ body.has-constellation-bg > main {
 }
 #home .fade-in-up.reveal { opacity: 1; transform: translateY(0); }
 
+/* ==========================================================
+   About Me (personal showcase section, below Featured Projects)
+   35% photo gallery + 65% content carousel, matched heights.
+   ========================================================== */
+#home .showcase-grid {
+  display: grid;
+  grid-template-columns: 35fr 65fr;
+  gap: 2rem;
+  align-items: start;
+}
+#home .showcase-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Photo gallery: full-width within its column (was a flex-basis box) */
+#home .showcase-col .about-carousel {
+  flex: none;
+  width: 100%;
+}
+
+/* Shared control bar (chevrons) beneath each carousel, right-justified */
+#home .carousel-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+/* Content carousel: matches the photo's height via a derived aspect ratio.
+   Photo is 3:4 at 35fr; 65fr / 35fr = 13/7 wider, so 39/28 (= 65*3 / 35*4)
+   yields the identical rendered height regardless of gap. */
+#home .content-carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 39 / 28;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* Light mode only: swap this one box's background with Core Values'/the NJ
+   map's fill (below) instead of the usual pure-white --bg-elevated, so the
+   About Me content carousel reads as a distinct shade from the rest. Every
+   other box keeps #ffffff. Dark mode is untouched. */
+[data-theme="light"] #home .content-carousel { background: var(--chip-bg); }
+#home .content-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+#home .content-frame {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+}
+#home .content-frame h3 {
+  flex-shrink: 0;
+  font-weight: 800;
+  font-size: 1.35rem;
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.01em;
+}
+#home .content-frame h3 i { margin-right: 0.5rem; }
+/* Center each frame body vertically in the leftover space under the heading.
+   (.map-wrap and .value-grid instead grow to fill and center their own
+   contents — see their rules below — so they stay reliably centered.) */
+#home .content-frame .teams-grid,
+#home .content-frame .poster-marquee {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Carousel dots — shared fade behavior. Hidden by default; JS adds
+   .dots-visible on reveal / slide change, then removes it after ~2s. */
+#home .carousel-dots,
+#home .content-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+#home .carousel-dots.dots-visible,
+#home .content-dots.dots-visible { opacity: 1; }
+/* content dots sit over an elevated (theme-colored) surface, not a photo */
+#home .content-dots span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--text-muted) 55%, transparent);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+#home .content-dots span.active { background: var(--text); transform: scale(1.25); }
+
+/* Core Values */
+#home .value-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  /* Grow to fill the space under the heading and center the 2x2 rows within
+     it, so the values stay vertically centered at any frame height. */
+  flex: 1 1 auto;
+  min-height: 0;
+  align-content: center;
+}
+#home .value-card {
+  background: var(--chip-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+/* Light mode only: swapped with the content carousel's background above —
+   Core Values cards get pure white instead of the usual --chip-bg tint. */
+[data-theme="light"] #home .value-card { background: #ffffff; }
+/* Hover: purple highlight + slight expand (scale() so no hover oscillation) */
+#home .value-card:hover {
+  transform: scale(1.05);
+  border-color: color-mix(in srgb, var(--purple) 55%, transparent);
+  box-shadow: 0 8px 24px var(--glow-purple);
+  z-index: 1;
+}
+#home .value-card .num {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+#home .value-card h4 { font-size: 1rem; font-weight: 800; margin: 0.35rem 0; }
+#home .value-card p { font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.55; }
+
+/* Where I'm From */
+/* Fill the space under the heading; the row stretches to that full height and
+   the SVG fills it (up to 360px), scaling its width to match — so the graphic
+   is vertically centered and never overflows at smaller desktop widths. */
+#home .content-frame .map-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+}
+#home .nj-map { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; min-height: 0; margin-left: 1.5rem; }
+#home .nj-map svg { display: block; width: auto; height: 100%; max-height: 300px; }
+#home .map-text { align-self: center; }
+#home .nj-map .nj-outline { fill: var(--chip-bg); stroke: var(--text-muted); stroke-width: 2.5; stroke-linejoin: round; transition: stroke 0.25s ease, fill 0.25s ease; }
+/* Light mode only: swapped with the content carousel's background above —
+   the NJ outline fills pure white instead of the usual --chip-bg tint. */
+[data-theme="light"] #home .nj-map .nj-outline { fill: #ffffff; }
+#home .nj-map .bergen-county { fill: var(--teal); stroke: var(--text); stroke-width: 1.5; }
+/* Hover: purple highlight only (no expand) — the state outline turns purple,
+   its fill picks up a faint purple tint, and the whole graphic gets a soft
+   purple glow. */
+#home .nj-map svg { transition: filter 0.25s ease; }
+#home .nj-map svg:hover { filter: drop-shadow(0 0 7px var(--glow-purple)); }
+#home .nj-map svg:hover .nj-outline { stroke: var(--purple); fill: color-mix(in srgb, var(--purple) 14%, var(--chip-bg)); }
+/* Light mode only: mix the purple hover tint into white (the swapped resting
+   fill above) instead of --chip-bg, so hover stays consistent with rest. */
+[data-theme="light"] #home .nj-map svg:hover .nj-outline { fill: color-mix(in srgb, var(--purple) 14%, #ffffff); }
+#home .nj-map .map-pin { animation: home-pin-bob 2.2s ease-in-out infinite; transform-origin: center; }
+@keyframes home-pin-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+#home .map-text { flex: 1; min-width: 200px; margin-inline: 1.5rem; }
+#home .map-text h4 { font-weight: 800; font-size: 1.3rem; margin: 0 0 0.5rem; }
+#home .map-text p { color: var(--text-muted); font-size: 1rem; line-height: 1.65; margin: 0; }
+/* Below this width the map (fixed width, scaled from its own height) plus the
+   text's 200px floor no longer both fit side by side, so stack them instead —
+   otherwise the text got clipped and required horizontal scrolling to read. */
+@media (max-width: 540px) {
+  #home .content-frame .map-wrap { flex-direction: column; justify-content: center; gap: 1rem; }
+  #home .nj-map { margin-left: 0; }   /* stacked/centered — drop the desktop right-shift */
+  #home .nj-map svg { max-height: 170px; }
+  #home .map-text { min-width: 0; text-align: center; margin-inline: 0; }
+}
+
+/* My Teams — three poster cards, side by side.
+   Vertical mode: card matches the posters' ~2:3 aspect and shows the full
+   image (object-fit:contain, no crop); the icon+title overlay is hidden.
+   Horizontal mode (<=949px, below) turns each into a banner with the poster
+   as background and the icon+title overlaid. */
+#home .teams-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+#home .team-card {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  color: #fff;
+}
+#home .team-poster { display: block; width: 100%; height: 100%; }
+#home .team-poster img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* Neutral backing (matches the content box) rather than a team-color gradient:
+   the bright team colors were bleeding through the hairline letterbox (contain)
+   and sub-pixel edge gaps (cover) as faint red/orange outlines. bg-elevated
+   blends into those slivers invisibly. */
+#home .team-card { background: var(--bg-elevated); }
+/* Hover: purple highlight (border + glow) and a slight expand. scale() grows
+   the card around the cursor, so no hover oscillation — plain :hover is safe. */
+#home .team-card { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+#home .team-card:hover {
+  transform: scale(1.04);
+  border-color: color-mix(in srgb, var(--purple) 60%, transparent);
+  box-shadow: 0 10px 30px var(--glow-purple);
+  z-index: 1;
+}
+
+/* Movie Shelf */
+/* .poster-marquee is now just the vertically-centered flex-item wrapper (see
+   the shared margin-top/bottom:auto rule above). The bleed, scroll-clipping,
+   AND fade all live together on .poster-scroll below — previously the fade
+   was two separate absolutely-positioned overlay elements sitting on
+   .poster-marquee while the actual scrollable/clipped content was a level
+   deeper on .poster-scroll. Those are two independently-rounded boxes, and a
+   subpixel mismatch between them (worse right after a hover-triggered
+   transform on an ancestor .glow-hover promotes this to its own compositing
+   layer, changing how the browser snaps fractional widths to device pixels)
+   could leave a hairline sliver of un-faded background exposed right at the
+   cutoff edge. Using mask-image instead fades the exact same box that does
+   the clipping, so there's no second box to drift out of alignment with. */
+#home .poster-marquee { position: relative; }
+/* Horizontally scrollable strip: JS auto-scrolls it rightward, and the user
+   can drag / wheel / swipe to move it (scrollbar hidden). Bleeds to the
+   frame's edge (matching its 2rem padding) and fades its own edges via mask
+   rather than an overlay gradient. */
+#home .poster-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;         /* Firefox */
+  cursor: grab;
+  margin: 0 -2rem;
+  width: calc(100% + 4rem);
+  /* Top padding must clear the hover lift: .poster-card:hover scales the
+     poster 1.03x (~4px of vertical overshoot on a 270px-tall poster) AND
+     translates it up 5px, so the top edge needs ~9-10px of headroom or
+     overflow-y:hidden clips the top of the bezel on hover. Bottom only needs
+     enough for the scale overshoot, not the lift. */
+  padding: 12px 0 4px;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent);
+}
+#home .poster-scroll::-webkit-scrollbar { display: none; }  /* WebKit */
+#home .poster-scroll.dragging { cursor: grabbing; }
+#home .poster-marquee-track {
+  display: flex;
+  gap: 1.1rem;
+  width: max-content;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#home .poster-card { width: 180px; flex-shrink: 0; }
+/* .poster-art is a <picture> now (real poster art, all sourced at a true 2:3
+   ratio matching this box, so object-fit:cover crops nothing meaningful) */
+#home .poster-art {
+  display: block;
+  width: 180px;
+  height: 270px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.25s ease;
+}
+#home .poster-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+#home .poster-card:hover .poster-art { transform: translateY(-5px) scale(1.03); }
+#home .poster-title { font-weight: 700; font-size: 0.85rem; margin-top: 0.9rem; line-height: 1.2; }
+#home .poster-director { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.15rem; }
+#home .poster-year { color: var(--text-muted); font-size: 0.78rem; }
+
+/* Movie Shelf only: the poster block (180x270 + title/director/year) is fixed-
+   size, but the frame's own height is fluid (aspect-ratio above 991px, a flat
+   440px at/below it) — at some widths that fixed block is taller than the
+   available space, forcing vertical scrolling. Turn the frame into a CSS size
+   container and size the poster + its text off the container's own height
+   (cqh), so everything scales down together and always fits with no scroll.
+   clamp()'s max is the original fixed size, so nothing changes until a frame
+   actually gets too short to fit it. */
+#home .movie-frame { container-type: size; container-name: movie-frame; }
+/* Card gets an explicit width (derived from the same height*2/3 as the art
+   below) rather than width:auto. Without a definite width here, the card had
+   no containing-block width to wrap title text against, so an unwrapped
+   title's natural text width became the flex item's intrinsic size — the
+   longest title (e.g. a 2-word wrap) stretched its card wider than its own
+   poster image and shoved every later card to the right. Giving the card a
+   real width restores wrapping and keeps every card the same width again. */
+#home .movie-frame .poster-card { width: calc(min(270px, 58cqh) * 2 / 3); }
+#home .movie-frame .poster-art { width: 100%; height: min(270px, 58cqh); }
+#home .movie-frame .poster-title { font-size: clamp(0.6rem, 4.4cqh, 0.85rem); margin-top: clamp(0.35rem, 3cqh, 0.9rem); }
+#home .movie-frame .poster-director,
+#home .movie-frame .poster-year { font-size: clamp(0.56rem, 3.6cqh, 0.78rem); }
+#home .movie-frame .poster-director { margin-top: clamp(0.05rem, 1cqh, 0.15rem); }
+
 @media (max-width: 991px) {
   #home .hero-inner { grid-template-columns: 1fr; text-align: center; }
   #home .hero-cta { justify-content: center; }
   #home .skills-grid { grid-template-columns: repeat(2, 1fr); }
   #home .projects-grid { grid-template-columns: 1fr; }
   #home .about-grid { grid-template-columns: 1fr; }
+  #home .showcase-grid { grid-template-columns: 1fr; }
+  /* Square/tablet range: content has collapsed to one column, so keep a
+     meaningful side margin so it doesn't span the full width. Removed near
+     mobile below. */
+  #home .container { padding-left: 14%; padding-right: 14%; }
+  /* Stacked full-width: the derived height match no longer applies, so give
+     each carousel a definite standalone height. It must be a real height (not
+     min-height) so the frames fill it and their bodies can center vertically —
+     e.g. the horizontal team cards sit centered between the heading and the
+     bottom of the box. */
+  #home .content-carousel { aspect-ratio: auto; height: 440px; }
   /* Re-reset the shared .project-card responsive sizing at this breakpoint too */
   #home .project-card { min-height: 0; max-height: none; aspect-ratio: auto; }
+}
+/* 991px -> 601px: linearly "eat away" the extra tablet-range side margin as
+   the window narrows, so Featured Projects / About Me don't jump from a wide
+   margin straight to a narrow one. At 991px this equals the 14% margin above;
+   at 601px it tapers down to 32px, matching the margin the <=600px rules
+   below already produce at that width, so the transition is seamless in both
+   directions. clamp() just guards the endpoints against any subpixel/rounding
+   mismatch at the media-query boundaries. */
+@media (min-width: 601px) and (max-width: 991px) {
+  #home .container {
+    padding-left: clamp(32px, calc(32px + 0.2737 * (100vw - 601px)), 138.74px);
+    padding-right: clamp(32px, calc(32px + 0.2737 * (100vw - 601px)), 138.74px);
+  }
+  /* Featured Projects / About Me: extra inward inset on top of the base ramp
+     above, but for the CONTENT only — not the "Featured Projects"/"About Me"
+     heading or the section-sub line, which stay flush with every other
+     section's heading. Applied as margin (not padding) on just the content
+     grids, so .sec-head/.section-sub are untouched. Ramps from 100px at 991px
+     down to 0px at 601px (slope 0.2564 = 100/390). */
+  #home #projects .projects-grid,
+  #home #projects .projects-footer,
+  #home #about-personal .showcase-grid {
+    margin-left: clamp(0px, calc(0.2564 * (100vw - 601px)), 100px);
+    margin-right: clamp(0px, calc(0.2564 * (100vw - 601px)), 100px);
+  }
 }
 @media (max-width: 600px) {
   #home .skills-grid { grid-template-columns: 1fr; }
@@ -1407,6 +1810,36 @@ body.has-constellation-bg > main {
   #home .container { padding: 0 1.25rem; }
   #home .sec-head h2 { white-space: normal; }
 }
+/* Large phones: a very slight side margin (~2% on top of the base gutter) so
+   content isn't quite edge-to-edge. Drops back to the base gutter below 440. */
+@media (min-width: 440px) and (max-width: 600px) {
+  #home .container { padding-left: calc(1.25rem + 2%); padding-right: calc(1.25rem + 2%); }
+}
+/* Below this width the three vertical team posters get too cramped side by
+   side, so lay them out as full-width horizontal cards (natural height, no
+   aspect ratio) that fill the content box. */
+@media (max-width: 991px) {
+  /* Horizontal banners: the grid fills the space under the heading and the
+     three cards split it evenly, so all three fit with no scrolling. The
+     more-specific selector overrides the shared centering margins. */
+  #home .content-frame .teams-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0;
+  }
+  #home .team-card { aspect-ratio: auto; flex: 1 1 0; min-height: 0; }
+  /* poster fills the banner (crop is fine here — this is the banner mode) */
+  #home .team-poster img { object-fit: cover; }
+}
+/* Small phones: let Core Values fill more of the frame's vertical space. */
+@media (max-width: 460px) {
+  #home .value-grid { grid-template-rows: 1fr 1fr; align-content: stretch; }
+  #home .value-card { display: flex; flex-direction: column; justify-content: center; }
+}
 @media (prefers-reduced-motion: reduce) {
   #home *, #home *::before, #home *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  #home .nj-map .map-pin { animation: none; }
 }

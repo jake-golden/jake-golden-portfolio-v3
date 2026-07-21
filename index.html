@@ -40,54 +40,59 @@
         </div>
       </header>
 
-      <!-- About -->
+      <!-- Who am I? -->
       <section class="fade-in-up" id="about">
         <div class="container">
+          <div class="sec-head">
+            <h2><span class="text-gradient">Who am I?</span></h2>
+            <span class="line"></span>
+          </div>
+          <p class="section-sub"></p>
           <div class="about-grid">
-            <div class="about-carousel-wrap">
-              <button class="carousel-btn prev" aria-label="Previous photo"><i class="bi bi-chevron-left"></i></button>
-              <div class="about-carousel glow-hover" id="aboutCarousel">
-                <div class="carousel-track">
-                  <img src="assets/aboutme/hiking.webp" alt="Hiking" />
-                  <img src="assets/aboutme/knicks.webp" alt="Knicks Game" />
-                  <img src="assets/aboutme/photography.webp" alt="Photography" />
-                  <img src="assets/aboutme/brother.webp" alt="Family" />
-                  <img src="assets/aboutme/skiing.webp" alt="Skiing" />
-                  <img src="assets/aboutme/danieljones.webp" alt="Giants Game" />
-                </div>
-                <div class="carousel-dots"></div>
-              </div>
-              <button class="carousel-btn next" aria-label="Next photo"><i class="bi bi-chevron-right"></i></button>
-            </div>
             <div class="about-box glow-hover">
-              <h2>About Me</h2>
-              <div>
-                <div class="school-box">
-                  <i class="bi bi-mortarboard-fill" style="color:#8a90d9;"></i>
-                  Duke University&ensp;·&ensp;Class of 2027
-                  <span class="school-box-tooltip">Pratt School of Engineering</span>
-                </div>
-                <div class="school-box">
-                  <i class="bi bi-lightning-fill" style="color:#4da3b3;"></i>
-                  Electrical Engineering
-                  <span class="school-box-tooltip">Focus: Solid-State Devices and ICs</span>
-                </div>
-                <div class="school-box">
-                  <i class="bi bi-heart-pulse-fill" style="color:#e76f51;"></i>
-                  Biomedical Engineering
-                  <span class="school-box-tooltip">Focus: Imaging and Measurement Systems</span>
-                </div>
-                <div class="school-box">
-                  <i class="bi bi-lightbulb-fill" style="color:#ffb500;"></i>
-                  Interest: signal processing for medical device design
-                </div>
+              <div class="about-text">
+                <p class="lead">
+                  <strong>Hi! I'm Jake, and I design and build hardware, especially in the biomedical space. Right now that means analog board design and testing at National Instruments, plus personal projects spanning instrumentation, signal processing, and controls. Long-term, I'm chasing an R&D role building hardware for medical devices: wearables, diagnostic imaging, implantables, neural interfaces, surgical robotics.</strong>
+                </p>
+                <p></p>
+                <p class="lead">
+                  <strong>On here you'll find some of my favorite personal projects and internship experiences &mdash; take a look around!</strong>
+                </p>
               </div>
-              <p class="lead">
-                Thanks for checking out my portfolio! My name is Jake and I'm from NJ. I'm currently at Duke University studying engineering. Outside of school, you'll find me watching sports (diehard Knicks and Giants fan), lifting, skiing, or playing the piano. Feel free to reach out through the contact page if you'd like to connect!
-              </p>
               <div class="about-social">
                 <a class="text-gradient" href="https://www.linkedin.com/in/jakegolden22/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
                 <a class="text-gradient" href="mailto:jakegolden9001@gmail.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+              </div>
+            </div>
+            <div class="highlight-stack">
+              <div class="highlight-box glow-hover">
+                <i class="bi bi-mortarboard-fill highlight-icon" style="color:#8a90d9;"></i>
+                <div class="highlight-text">
+                  <h5>Biomedical & Electrical Engineering (BSE)</h5>
+                  <p>Duke University &nbsp; &middot; &nbsp; Pratt School of Engineering</p>
+                  <p>2023 &mdash; 2027</p>
+                </div>
+              </div>
+              <div class="highlight-box glow-hover">
+                <i class="bi bi-lightbulb-fill highlight-icon" style="color:#ffb500;"></i>
+                <div class="highlight-text">
+                  <h5>Interest: Medical Device Hardware</h5>
+                  <p>Targeting R&D roles especially in <strong>wearables</strong>/<strong>remote patient monitoring</strong> and <strong>robotics</strong></p>
+                </div>
+              </div>
+              <div class="highlight-box glow-hover">
+                <i class="bi bi-star-fill highlight-icon" style="color:#4da3b3;"></i>
+                <div class="highlight-text">
+                  <h5>Favorite EE Topics</h5>
+                  <div class="highlight-tags">
+                    <span class="tech-badge">Filter Design</span>
+                    <span class="tech-badge">Op-Amp Circuits</span>
+                    <span class="tech-badge">Nyquist &amp; Bode Plots</span>
+                    <span class="tech-badge">Impedance Matching</span>
+                    <span class="tech-badge">CMOS Circuits</span>
+                    <span class="tech-badge">PCB Layout</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -108,13 +113,13 @@
             <div class="skill-card glow-hover">
               <img src="assets/icons/code-slash.svg" alt="Programming icon" />
               <h5>Programming</h5>
-              <p>MATLAB, Python, Java, C, Bash, LabVIEW</p>
+              <p>MATLAB, Python, Java, Bash, LabVIEW</p>
               <div class="skill-progress"><div class="skill-progress-bar" data-progress="95"></div></div>
             </div>
             <div class="skill-card glow-hover">
               <img src="assets/icons/lightning.svg" alt="Circuit & PCB Design icon" />
               <h5>Circuit &amp; PCB Design</h5>
-              <p>Analog/digital circuit analysis, KiCAD, EasyEDA</p>
+              <p>Analog/digital circuit analysis, KiCAD, Siemens Xpedition</p>
               <div class="skill-progress"><div class="skill-progress-bar" data-progress="90"></div></div>
             </div>
             <div class="skill-card glow-hover">
@@ -126,13 +131,13 @@
             <div class="skill-card glow-hover">
               <img src="assets/icons/motherboard.svg" alt="Embedded Systems icon" />
               <h5>Embedded Systems</h5>
-              <p>Arduino, MCU integration, I2C, serial communication</p>
+              <p>Arduino, C, microarchitecture, communication protocols</p>
               <div class="skill-progress"><div class="skill-progress-bar" data-progress="75"></div></div>
             </div>
             <div class="skill-card glow-hover">
               <img src="assets/icons/diagram-3.svg" alt="Control Systems icon" />
               <h5>Control Systems</h5>
-              <p>Controller design, stability, system characterization</p>
+              <p>Controller design, stability, time/frequency-domain analysis</p>
               <div class="skill-progress"><div class="skill-progress-bar" data-progress="85"></div></div>
             </div>
             <div class="skill-card glow-hover">
@@ -144,7 +149,7 @@
             <div class="skill-card glow-hover">
               <img src="assets/icons/activity.svg" alt="Measurement Tools icon" />
               <h5>Measurement Tools</h5>
-              <p>Oscilloscopes, multimeters, logic analyzers, spectrum analyzers</p>
+              <p>Oscilloscopes, multimeters, signal generators, DAQ</p>
               <div class="skill-progress"><div class="skill-progress-bar" data-progress="80"></div></div>
             </div>
             <div class="skill-card glow-hover">
@@ -210,6 +215,314 @@
           </div>
           <div class="projects-footer">
             <a href="engineering.html" class="btn btn-gradient">View All Projects →</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- About Me -->
+      <section class="fade-in-up" id="about-personal">
+        <div class="container">
+          <div class="sec-head">
+            <h2><span class="text-gradient">About Me</span></h2>
+            <span class="line"></span>
+          </div>
+          <p class="section-sub"></p>
+
+          <div class="showcase-grid">
+            <!-- Photo gallery (35%) -->
+            <div class="showcase-col">
+              <div class="about-carousel glow-hover" id="aboutCarousel">
+                <div class="carousel-track">
+                  <img src="assets/aboutme/hiking.webp" alt="Hiking" />
+                  <img src="assets/aboutme/knicks.webp" alt="Knicks Game" />
+                  <img src="assets/aboutme/photography.webp" alt="Photography" />
+                  <img src="assets/aboutme/brother.webp" alt="Family" />
+                  <img src="assets/aboutme/skiing.webp" alt="Skiing" />
+                  <img src="assets/aboutme/danieljones.webp" alt="Giants Game" />
+                </div>
+                <div class="carousel-dots"></div>
+              </div>
+              <div class="carousel-controls">
+                <button class="carousel-btn prev" aria-label="Previous photo"><i class="bi bi-chevron-left"></i></button>
+                <button class="carousel-btn next" aria-label="Next photo"><i class="bi bi-chevron-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Content carousel (65%) -->
+            <div class="showcase-col">
+              <div class="content-carousel glow-hover" id="contentCarousel">
+                <div class="content-track">
+                  <!-- Frame 1: Where I'm From -->
+                  <div class="content-frame">
+                    <h3><i class="bi bi-geo-alt-fill"></i>Where I'm From</h3>
+                    <div class="map-wrap">
+                      <div class="nj-map">
+                        <svg viewBox="0 0 163 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of New Jersey with Bergen County highlighted">
+                          <!-- Accurate outlines generated from US Census geodata (see scripts/gen-nj-map.mjs). -->
+                          <path class="nj-outline" d="M19.3,190.1L24.9,185.6L32.8,184.6L38,182.7L44.6,180L45.6,171.7L51.8,167.8L59.7,161L70.1,157L74.1,151.8L77.3,152.7L82.5,149.1L78.3,141.5L71.8,137.3L69.6,132L62.8,126.4L60.6,119.5L52.5,117.5L51.2,112.9L51.9,103.2L48.7,99.5L43.2,99.9L40.6,96.6L40,94.6L39.7,90L42,87L39.5,84.7L42.4,74.6L46,75.1L53.5,63.6L49.3,57.3L47.4,52L46.2,49.5L55.8,43.6L61,37.1L58.8,37.4L65.2,31.9L68.7,26.9L73.3,14.3L80.3,7.3L85.4,6L114.5,24.2L126.4,31.5L128.7,32.6L156,48.5L157,48.6L155.1,58L153.5,62.3L149.1,72.1L146.9,76.2L145.6,82.8L143.7,85.1L141.4,88.5L133.4,90.5L129.5,92.2L129.5,96.6L128.2,100.7L125.3,102.4L124.4,107.4L124.4,111.8L127.6,113.2L135.7,112.8L143.5,117.3L148.1,118.1L149.3,113.7L150.7,122.8L149.8,133.7L145.3,152.3L145.3,154.9L141.2,177.5L139.7,195.1L126.7,219.7L120.1,226.3L121.1,228.8L117.8,234.4L106.6,244.7L99.1,250L90.2,259.3L83.2,271.4L75.9,286.5L69.3,292.6L63,294L59.3,292.6L61.4,283.6L66.4,273.7L67.4,266.7L64.8,264.5L54.5,262.5L52.6,259.9L46.6,260.2L44.3,263.8L41.3,261.4L40.7,256.6L34.8,252.8L33.9,249.7L30.6,250.9L25.7,243.9L23.4,244.7L19.8,239.9L17.5,238.7L14.3,233L8.1,230.4L10.2,216.1L6.3,213.1L6,210.3L10.7,203.7L13.6,200.5L15.4,194.3L19.6,191Z" />
+                          <path class="bergen-county" d="M128.7,32.6L156,48.5L157,48.6L155.1,58L153.5,62.3L149.1,72.1L146.2,69.3L138.8,74.9L134.6,73.7L135.9,69.7L136.8,65.1L134.8,52.3L125.2,49.4L123.3,45.9Z" />
+                          <!-- Positioning group (outer) keeps the pin tip on Bergen's centroid
+                               and scales the pin to 85%; the translate is derived so the tip
+                               (local 132,60) still lands at the centroid (140.9,53.1) after the
+                               scale. The inner .map-pin keeps its own bob animation transform. -->
+                          <g transform="translate(28.7,2.1) scale(0.85)">
+                            <g class="map-pin">
+                              <path d="M132 26 c-8 0 -13 6 -13 13 c0 9 13 21 13 21 s13 -12 13 -21 c0 -7 -5 -13 -13 -13 z" fill="var(--purple)" stroke="var(--text)" stroke-width="1.5"/>
+                              <circle cx="132" cy="39" r="4.5" fill="var(--bg-elevated)"/>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="map-text">
+                        <h4>Bergen County, NJ</h4>
+                        <p>Born and raised in North Jersey — right across the George Washington Bridge from NYC.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Frame 2: My Teams -->
+                  <div class="content-frame">
+                    <h3><i class="bi bi-trophy-fill"></i>My Teams</h3>
+                    <div class="teams-grid">
+                      <div class="team-card giants">
+                        <picture class="team-poster">
+                          <source media="(max-width: 991px)" srcset="assets/aboutme/team_posters/NYG-horizontal.webp" type="image/webp" />
+                          <source media="(max-width: 991px)" srcset="assets/aboutme/team_posters/NYG-horizontal.jpg" />
+                          <source srcset="assets/aboutme/team_posters/NYG.webp" type="image/webp" />
+                          <img src="assets/aboutme/team_posters/NYG.jpg" alt="New York Giants" />
+                        </picture>
+                      </div>
+                      <div class="team-card knicks">
+                        <picture class="team-poster">
+                          <source media="(max-width: 991px)" srcset="assets/aboutme/team_posters/NYK-horizontal.webp" type="image/webp" />
+                          <source media="(max-width: 991px)" srcset="assets/aboutme/team_posters/NYK-horizontal.jpg" />
+                          <source srcset="assets/aboutme/team_posters/NYK.webp" type="image/webp" />
+                          <img src="assets/aboutme/team_posters/NYK.jpg" alt="New York Knicks" />
+                        </picture>
+                      </div>
+                      <div class="team-card duke">
+                        <picture class="team-poster">
+                          <source media="(max-width: 991px)" srcset="assets/aboutme/team_posters/Duke-horizontal.webp" type="image/webp" />
+                          <source media="(max-width: 991px)" srcset="assets/aboutme/team_posters/Duke-horizontal.jpg" />
+                          <source srcset="assets/aboutme/team_posters/Duke.webp" type="image/webp" />
+                          <img src="assets/aboutme/team_posters/Duke.jpg" alt="Duke Blue Devils" />
+                        </picture>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Frame 3: Core Values -->
+                  <div class="content-frame">
+                    <h3><i class="bi bi-compass"></i>Core Values</h3>
+                    <div class="value-grid">
+                      <div class="value-card"><div class="num">01</div><h4>Curiousity</h4><p>Understanding beats knowing. Chase "why" past the point of comfort.</p></div>
+                      <div class="value-card"><div class="num">02</div><h4>Pragmatism</h4><p>Perfection is only an idea, utility is more important.</p></div>
+                      <div class="value-card"><div class="num">03</div><h4>Intellectual Humility</h4><p>Changing your mind isn't weakness, it's evidence you're actually thinking.</p></div>
+                      <div class="value-card"><div class="num">04</div><h4>Collaboration</h4><p>Innovation doesn't happen in a vacuum, but rather at the collision of different minds.</p></div>
+                    </div>
+                  </div>
+
+                  <!-- Frame 4: Movie Shelf -->
+                  <div class="content-frame movie-frame">
+                    <h3><i class="bi bi-film"></i>Movie Shelf</h3>
+                    <div class="poster-marquee" id="movieShelf">
+                      <div class="poster-scroll">
+                       <div class="poster-marquee-track">
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Shutter_Island.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Shutter_Island.png" alt="Shutter Island poster" loading="lazy" /></picture>
+                          <div class="poster-title">Shutter Island</div>
+                          <div class="poster-director">Martin Scorsese</div>
+                          <div class="poster-year">2010</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Knives_Out.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Knives_Out.png" alt="Knives Out poster" loading="lazy" /></picture>
+                          <div class="poster-title">Knives Out</div>
+                          <div class="poster-director">Rian Johnson</div>
+                          <div class="poster-year">2019</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Memento.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Memento.png" alt="Memento poster" loading="lazy" /></picture>
+                          <div class="poster-title">Memento</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2000</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Catch_Me_If_You_Can.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Catch_Me_If_You_Can.png" alt="Catch Me If You Can poster" loading="lazy" /></picture>
+                          <div class="poster-title">Catch Me If You Can</div>
+                          <div class="poster-director">Steven Spielberg</div>
+                          <div class="poster-year">2002</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Arrival.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Arrival.png" alt="Arrival poster" loading="lazy" /></picture>
+                          <div class="poster-title">Arrival</div>
+                          <div class="poster-director">Denis Villeneuve</div>
+                          <div class="poster-year">2016</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Interstellar.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Interstellar.png" alt="Interstellar poster" loading="lazy" /></picture>
+                          <div class="poster-title">Interstellar</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2014</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Gladiator.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Gladiator.png" alt="Gladiator poster" loading="lazy" /></picture>
+                          <div class="poster-title">Gladiator</div>
+                          <div class="poster-director">Ridley Scott</div>
+                          <div class="poster-year">2000</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Whiplash.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Whiplash.png" alt="Whiplash poster" loading="lazy" /></picture>
+                          <div class="poster-title">Whiplash</div>
+                          <div class="poster-director">Damien Chazelle</div>
+                          <div class="poster-year">2014</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Inception.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Inception.png" alt="Inception poster" loading="lazy" /></picture>
+                          <div class="poster-title">Inception</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2010</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Good_Will_Hunting.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Good_Will_Hunting.png" alt="Good Will Hunting poster" loading="lazy" /></picture>
+                          <div class="poster-title">Good Will Hunting</div>
+                          <div class="poster-director">Gus Van Sant</div>
+                          <div class="poster-year">1997</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/WALL-E.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/WALL-E.png" alt="WALL-E poster" loading="lazy" /></picture>
+                          <div class="poster-title">WALL-E</div>
+                          <div class="poster-director">Andrew Stanton</div>
+                          <div class="poster-year">2008</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Tenet.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Tenet.png" alt="Tenet poster" loading="lazy" /></picture>
+                          <div class="poster-title">Tenet</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2020</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/The_Sixth_Sense.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/The_Sixth_Sense.png" alt="The Sixth Sense poster" loading="lazy" /></picture>
+                          <div class="poster-title">The Sixth Sense</div>
+                          <div class="poster-director">M. Night Shyamalan</div>
+                          <div class="poster-year">1999</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/The_Shawshank_Redemption.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/The_Shawshank_Redemption.png" alt="The Shawshank Redemption poster" loading="lazy" /></picture>
+                          <div class="poster-title">Shawshank Redemption</div>
+                          <div class="poster-director">Frank Darabont</div>
+                          <div class="poster-year">1994</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/The_Matrix.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/The_Matrix.png" alt="The Matrix poster" loading="lazy" /></picture>
+                          <div class="poster-title">The Matrix</div>
+                          <div class="poster-director">Lana &amp; Lilly Wachowski</div>
+                          <div class="poster-year">1999</div>
+                        </div>
+                        <!-- duplicate set for seamless loop -->
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Shutter_Island.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Shutter_Island.png" alt="Shutter Island poster" loading="lazy" /></picture>
+                          <div class="poster-title">Shutter Island</div>
+                          <div class="poster-director">Martin Scorsese</div>
+                          <div class="poster-year">2010</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Knives_Out.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Knives_Out.png" alt="Knives Out poster" loading="lazy" /></picture>
+                          <div class="poster-title">Knives Out</div>
+                          <div class="poster-director">Rian Johnson</div>
+                          <div class="poster-year">2019</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Memento.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Memento.png" alt="Memento poster" loading="lazy" /></picture>
+                          <div class="poster-title">Memento</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2000</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Catch_Me_If_You_Can.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Catch_Me_If_You_Can.png" alt="Catch Me If You Can poster" loading="lazy" /></picture>
+                          <div class="poster-title">Catch Me If You Can</div>
+                          <div class="poster-director">Steven Spielberg</div>
+                          <div class="poster-year">2002</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Arrival.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Arrival.png" alt="Arrival poster" loading="lazy" /></picture>
+                          <div class="poster-title">Arrival</div>
+                          <div class="poster-director">Denis Villeneuve</div>
+                          <div class="poster-year">2016</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Interstellar.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Interstellar.png" alt="Interstellar poster" loading="lazy" /></picture>
+                          <div class="poster-title">Interstellar</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2014</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Gladiator.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Gladiator.png" alt="Gladiator poster" loading="lazy" /></picture>
+                          <div class="poster-title">Gladiator</div>
+                          <div class="poster-director">Ridley Scott</div>
+                          <div class="poster-year">2000</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Whiplash.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Whiplash.png" alt="Whiplash poster" loading="lazy" /></picture>
+                          <div class="poster-title">Whiplash</div>
+                          <div class="poster-director">Damien Chazelle</div>
+                          <div class="poster-year">2014</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Inception.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Inception.png" alt="Inception poster" loading="lazy" /></picture>
+                          <div class="poster-title">Inception</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2010</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Good_Will_Hunting.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Good_Will_Hunting.png" alt="Good Will Hunting poster" loading="lazy" /></picture>
+                          <div class="poster-title">Good Will Hunting</div>
+                          <div class="poster-director">Gus Van Sant</div>
+                          <div class="poster-year">1997</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/WALL-E.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/WALL-E.png" alt="WALL-E poster" loading="lazy" /></picture>
+                          <div class="poster-title">WALL-E</div>
+                          <div class="poster-director">Andrew Stanton</div>
+                          <div class="poster-year">2008</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/Tenet.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/Tenet.png" alt="Tenet poster" loading="lazy" /></picture>
+                          <div class="poster-title">Tenet</div>
+                          <div class="poster-director">Christopher Nolan</div>
+                          <div class="poster-year">2020</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/The_Sixth_Sense.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/The_Sixth_Sense.png" alt="The Sixth Sense poster" loading="lazy" /></picture>
+                          <div class="poster-title">The Sixth Sense</div>
+                          <div class="poster-director">M. Night Shyamalan</div>
+                          <div class="poster-year">1999</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/The_Shawshank_Redemption.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/The_Shawshank_Redemption.png" alt="The Shawshank Redemption poster" loading="lazy" /></picture>
+                          <div class="poster-title">Shawshank Redemption</div>
+                          <div class="poster-director">Frank Darabont</div>
+                          <div class="poster-year">1994</div>
+                        </div>
+                        <div class="poster-card">
+                          <picture class="poster-art"><source srcset="assets/aboutme/movie_posters/The_Matrix.webp" type="image/webp" /><img src="assets/aboutme/movie_posters/The_Matrix.png" alt="The Matrix poster" loading="lazy" /></picture>
+                          <div class="poster-title">The Matrix</div>
+                          <div class="poster-director">Lana &amp; Lilly Wachowski</div>
+                          <div class="poster-year">1999</div>
+                        </div>
+                       </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="content-dots"></div>
+              </div>
+              <div class="carousel-controls">
+                <button class="content-btn prev" aria-label="Previous frame"><i class="bi bi-chevron-left"></i></button>
+                <button class="content-btn next" aria-label="Next frame"><i class="bi bi-chevron-right"></i></button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -294,13 +607,27 @@
         setTimeout(typeNext, 800);
       })();
 
-      // ----- About photo carousel (sliding track, matches the site's other carousels) -----
+      // ----- Dot reveal-then-fade helper (shared by both carousels below) -----
+      // Dots flash into view on first paint and on every slide change, then
+      // fade out ~2s later. Returns a flash() to call on each change.
+      function dotFader(dotsWrap) {
+        let hideTimer;
+        function flash() {
+          dotsWrap.classList.add("dots-visible");
+          clearTimeout(hideTimer);
+          hideTimer = setTimeout(() => dotsWrap.classList.remove("dots-visible"), 2000);
+        }
+        return flash;
+      }
+
+      // ----- About photo carousel (auto-advancing, sliding track) -----
       (function () {
-        const wrap = document.querySelector(".about-carousel-wrap");
         const root = document.getElementById("aboutCarousel");
+        const col = root.closest(".showcase-col");
         const track = root.querySelector(".carousel-track");
         const imgs = Array.from(track.querySelectorAll("img"));
         const dotsWrap = root.querySelector(".carousel-dots");
+        const flashDots = dotFader(dotsWrap);
         let index = 0;
         let timer;
         imgs.forEach((_, i) => {
@@ -313,14 +640,160 @@
           index = (i + imgs.length) % imgs.length;
           track.style.transform = `translateX(-${index * 100}%)`;
           dots.forEach((d, j) => d.classList.toggle("active", j === index));
+          flashDots();
         }
         function restartTimer() {
           clearInterval(timer);
           timer = setInterval(() => show(index + 1), 4000);
         }
-        wrap.querySelector(".prev").addEventListener("click", () => { show(index - 1); restartTimer(); });
-        wrap.querySelector(".next").addEventListener("click", () => { show(index + 1); restartTimer(); });
+        col.querySelector(".prev").addEventListener("click", () => { show(index - 1); restartTimer(); });
+        col.querySelector(".next").addEventListener("click", () => { show(index + 1); restartTimer(); });
+        flashDots();
         restartTimer();
+      })();
+
+      // ----- About content carousel (manual only: Where I'm From, My Teams,
+      //       Core Values, Movie Shelf) -----
+      (function () {
+        const root = document.getElementById("contentCarousel");
+        if (!root) return;
+        const col = root.closest(".showcase-col");
+        const track = root.querySelector(".content-track");
+        const frames = Array.from(track.querySelectorAll(".content-frame"));
+        const dotsWrap = root.querySelector(".content-dots");
+        const flashDots = dotFader(dotsWrap);
+        let index = 0;
+        frames.forEach((_, i) => {
+          const dot = document.createElement("span");
+          if (i === 0) dot.classList.add("active");
+          dotsWrap.appendChild(dot);
+        });
+        const dots = Array.from(dotsWrap.children);
+        function show(i) {
+          index = (i + frames.length) % frames.length;
+          track.style.transform = `translateX(-${index * 100}%)`;
+          dots.forEach((d, j) => d.classList.toggle("active", j === index));
+          flashDots();
+        }
+        col.querySelector(".prev").addEventListener("click", () => show(index - 1));
+        col.querySelector(".next").addEventListener("click", () => show(index + 1));
+        flashDots();
+      })();
+
+      // ----- Movie shelf: drifts right on its own, but the user can drag /
+      //       wheel / swipe to move it; auto-drift resumes when left alone. -----
+      (function () {
+        const scroller = document.querySelector("#movieShelf .poster-scroll");
+        if (!scroller) return;
+        const track = scroller.querySelector(".poster-marquee-track");
+        const kids = track.children;
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // Loop distance = offset of the first duplicate poster (start of set B).
+        // The strip is two identical halves, so wrapping by this is seamless.
+        function loopWidth() {
+          const half = Math.floor(kids.length / 2);
+          if (!kids.length) return 0;
+          return kids[half].getBoundingClientRect().left - kids[0].getBoundingClientRect().left;
+        }
+        let loop = loopWidth();
+        scroller.scrollLeft = loop; // start mid so there's room to drift toward 0
+        window.addEventListener("resize", () => { loop = loopWidth(); });
+
+        let hovering = false, dragging = false, lastInteract = 0, lastX = 0, prev = 0;
+        const IDLE = 1200;                 // ms of no input before auto-drift resumes
+        const speed = () => loop / 40;     // px/s — matches the old 40s marquee
+
+        function paused() {
+          return hovering || dragging || (performance.now() - lastInteract < IDLE);
+        }
+        function wrap() {
+          if (loop <= 0) return;
+          if (scroller.scrollLeft <= 0) scroller.scrollLeft += loop;
+          else if (scroller.scrollLeft >= loop) scroller.scrollLeft -= loop;
+        }
+        function tick(now) {
+          const dt = prev ? (now - prev) / 1000 : 0;
+          prev = now;
+          if (!reduced && !paused()) scroller.scrollLeft -= speed() * dt; // drift right
+          wrap();
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        // Desktop hover pauses the drift (as it did before)
+        scroller.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") hovering = true; });
+        scroller.addEventListener("pointerleave", () => { hovering = false; });
+
+        // Native wheel / touch scrolling counts as interaction
+        scroller.addEventListener("wheel", () => { lastInteract = performance.now(); }, { passive: true });
+        scroller.addEventListener("touchstart", () => { lastInteract = performance.now(); }, { passive: true });
+        scroller.addEventListener("touchmove", () => { lastInteract = performance.now(); }, { passive: true });
+
+        // Mouse click-drag to scroll (touch uses native scrolling)
+        scroller.addEventListener("pointerdown", (e) => {
+          if (e.pointerType !== "mouse") return;
+          dragging = true;
+          lastX = e.clientX;
+          scroller.classList.add("dragging");
+          scroller.setPointerCapture(e.pointerId);
+        });
+        scroller.addEventListener("pointermove", (e) => {
+          if (!dragging) return;
+          const dx = e.clientX - lastX;
+          lastX = e.clientX;
+          scroller.scrollLeft -= dx;
+        });
+        function endDrag(e) {
+          if (!dragging) return;
+          dragging = false;
+          lastInteract = performance.now();
+          scroller.classList.remove("dragging");
+          try { scroller.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
+        scroller.addEventListener("pointerup", endDrag);
+        scroller.addEventListener("pointercancel", endDrag);
+      })();
+
+      // ----- Hover-lift oscillation guard (all .glow-hover boxes) -----
+      // These boxes translate up 7px on hover. If the pointer sits at the very
+      // bottom edge, the lift moves the box's hit-area out from under it, which
+      // drops the hover, drops the box, re-enters the pointer, and flickers.
+      // Fix: drive the lift with an .is-hover class and keep it active while the
+      // pointer stays within the box's RESTING footprint (captured before the
+      // lift). The stable footprint can't shrink away from the cursor, so no
+      // oscillation — and it works even for overflow:hidden boxes (no pseudo).
+      (function () {
+        var boxes = document.querySelectorAll("#home .glow-hover");
+        boxes.forEach(function (el) {
+          var rest = null;
+          function onMove(e) {
+            if (!rest) return;
+            if (
+              e.pageX < rest.left || e.pageX > rest.right ||
+              e.pageY < rest.top || e.pageY > rest.bottom
+            ) {
+              el.classList.remove("is-hover");
+              rest = null;
+              document.removeEventListener("pointermove", onMove);
+            }
+          }
+          el.addEventListener("pointerenter", function (e) {
+            if (e.pointerType === "touch") return; // hover is a mouse/pen concept
+            if (rest) return;
+            // Read the rect BEFORE adding the class, so it's the un-lifted
+            // resting position. Store in page coords so scrolling stays correct.
+            var r = el.getBoundingClientRect();
+            rest = {
+              left: r.left + window.scrollX,
+              top: r.top + window.scrollY,
+              right: r.right + window.scrollX,
+              bottom: r.bottom + window.scrollY,
+            };
+            el.classList.add("is-hover");
+            document.addEventListener("pointermove", onMove, { passive: true });
+          });
+        });
       })();
 
       // ----- Full-page golden-spiral constellation (mouse-tracking) -----

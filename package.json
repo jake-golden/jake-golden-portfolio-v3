@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "thumbs": "node scripts/thumbs.mjs",
-    "to-webp": "node scripts/to-webp.mjs"
+    "to-webp": "node scripts/to-webp.mjs",
+    "to-png": "node scripts/to-png.mjs"
   },
   "dependencies": {
     "sharp": "^0.33.3"
