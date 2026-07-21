@@ -1600,6 +1600,56 @@ body.has-constellation-bg > main {
 #home .value-card h4 { font-size: 1rem; font-weight: 800; margin: 0.35rem 0; }
 #home .value-card p { font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.55; }
 
+/* Interests & Hobbies — compact pill cards (in the spirit of .tech-badge on
+   the project cards) but with a large icon so the grid actually fills the
+   content box's height instead of leaving empty space above/below a tiny
+   pill row. Permanently 2 columns x 3 rows at every width (no responsive
+   column-count change). */
+#home .interest-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.9rem;
+  /* Same fill-and-center approach as .value-grid, so this stays vertically
+     centered at any frame height. */
+  flex: 1 1 auto;
+  min-height: 0;
+  align-content: center;
+}
+#home .interest-card {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--chip-bg);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 0.9rem 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  /* Grid items default to min-width:auto, which keeps them at their content's
+     unwrapped width regardless of the 1fr track size — without this, longer
+     labels ("Skiing & Snowboarding") forced their card wider than its track,
+     overflowing the frame horizontally at narrow widths instead of wrapping. */
+  min-width: 0;
+}
+#home .interest-card:hover {
+  transform: scale(1.05);
+  border-color: color-mix(in srgb, var(--purple) 55%, transparent);
+  box-shadow: 0 8px 24px var(--glow-purple);
+  z-index: 1;
+}
+#home .interest-card i {
+  flex-shrink: 0;
+  font-size: 2.2rem;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* min-width:0 for the same reason as the card itself above — as a flex child
+   the <span> also defaults to min-width:auto and would render text past its
+   own box instead of wrapping. flex:1 lets it actually take the shrunk width. */
+#home .interest-card span { font-size: 0.85rem; font-weight: 600; line-height: 1.25; flex: 1 1 auto; min-width: 0; }
+
 /* Where I'm From */
 /* Fill the space under the heading; the row stretches to that full height and
    the SVG fills it (up to 360px), scaling its width to match — so the graphic
