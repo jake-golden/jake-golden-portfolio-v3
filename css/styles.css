@@ -1760,8 +1760,18 @@ body.has-constellation-bg > main {
   overflow-y: hidden;
   scrollbar-width: none;         /* Firefox */
   cursor: grab;
-  margin: 0 -2rem;
-  width: calc(100% + 4rem);
+  /* Bleeds nearly to the frame's edge (its 2rem padding) but stops 4px short
+     on each side. Movie Shelf is the only content-frame whose content reaches
+     the frame's horizontal edges, so it's the only one that can bleed past the
+     carousel's clip: .content-track is transform-composited, and the compositor
+     rounds the frame boundary by a subpixel, exposing ~1px of the neighbouring
+     Movie Shelf's leftmost poster at the carousel's right edge on the Core
+     Values slide. Keeping poster content 4px inside the frame edge means that
+     leaked sliver is always empty (transparent) frame padding, not poster art,
+     so it blends into the carousel background invisibly. The 4px is hidden
+     under the 60px mask fade below, so the full-bleed look is unchanged. */
+  margin: 0 calc(-2rem + 4px);
+  width: calc(100% + 4rem - 8px);
   /* Top padding must clear the hover lift: .poster-card:hover scales the
      poster 1.03x (~4px of vertical overshoot on a 270px-tall poster) AND
      translates it up 5px, so the top edge needs ~9-10px of headroom or
